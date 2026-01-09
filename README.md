@@ -3,4 +3,4 @@
 1. Phạm Đắc Lương - 2221050521
 2. Vũ Tuấn Anh - 2221050417
 3. Phạm Quốc Hùng -2221050689
-4. Phạm Quốc Huy - 2221050395
+4. Nguyến Quốc Huy - 2221050395

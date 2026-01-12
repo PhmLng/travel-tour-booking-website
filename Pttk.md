@@ -153,6 +153,12 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Đặc tả Usecase
 
+![1768203464823](image/Pttk/1768203464823.png)
+
+![1768203493373](image/Pttk/1768203493373.png)
+
+![1768203525617](image/Pttk/1768203525617.png)
+
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

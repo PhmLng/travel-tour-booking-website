@@ -57,7 +57,6 @@ Người dùng nhập các thông tin cơ bản như họ tên, email, mật kh�
 
 Hệ thống kiểm tra dữ liệu hợp lệ và lưu thông tin vào cơ sở dữ liệu.
 
-
 ---
 
 #### Đăng nhập
@@ -151,7 +150,6 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 * Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
 ## Sơ đồ Usecase
-<img src="./image/Pttk/usecase.png" width="1000"/>
 
 ## Đặc tả Usecase
 

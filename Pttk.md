@@ -151,7 +151,7 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 * Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
 ## Sơ đồ Usecase
-<img src="./image/Pttk/usecase.png" width="1000"/>
+<img src="./image/Pttk/usecase.png" width="900"/>
 
 ## Đặc tả Usecase
 

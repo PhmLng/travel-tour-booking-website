@@ -24,13 +24,14 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
-### Đối tượng sử dụng của  website về đặt tour du lịch
+### Đối tượng sử dụng của website về đặt tour du lịch
+
 Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
 
-* **Khách hàng (User):**
+- **Khách hàng (User):**
 
   Là những người có nhu cầu tìm kiếm thông tin các tour du lịch, tham khảo chi tiết và thực hiện đặt tour thông qua hệ thống trực tuyến.
-* **Quản trị viên (Admin):**
+- **Quản trị viên (Admin):**
 
   Là người chịu trách nhiệm quản lý, vận hành hệ thống, bao gồm quản lý tour du lịch, người dùng và các đơn đặt tour.
 
@@ -118,9 +119,9 @@ Hệ thống không xử lý giao dịch thật mà chỉ cập nhật trạng t
 
 Hệ thống quản lý các trạng thái của đơn đặt tour như:
 
-* Chờ thanh toán
-* Đã thanh toán
-* Đã huỷ
+- Chờ thanh toán
+- Đã thanh toán
+- Đã huỷ
 
 Giúp người dùng và quản trị viên theo dõi tình trạng các đơn đặt tour.
 
@@ -130,30 +131,44 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 +) Yêu cầu về hiệu năng:
 
-* Hệ thống phản hồi nhanh với các thao tác tìm kiếm và đặt tour.
-* Đảm bảo hoạt động ổn định khi có nhiều người dùng truy cập đồng thời.
+- Hệ thống phản hồi nhanh với các thao tác tìm kiếm và đặt tour.
+- Đảm bảo hoạt động ổn định khi có nhiều người dùng truy cập đồng thời.
 
 +) Yêu cầu về bảo mật:
 
-* Bảo mật thông tin cá nhân của khách hàng.
-* Phân quyền rõ ràng, đảm bảo người dùng chỉ truy cập các chức năng được cấp phép.
+- Bảo mật thông tin cá nhân của khách hàng.
+- Phân quyền rõ ràng, đảm bảo người dùng chỉ truy cập các chức năng được cấp phép.
 
 +) Yêu cầu về giao diện:
 
-* Giao diện thân thiện, dễ sử dụng.
-* Bố cục rõ ràng, thuận tiện cho người dùng.
+- Giao diện thân thiện, dễ sử dụng.
+- Bố cục rõ ràng, thuận tiện cho người dùng.
 
 +) Yêu cầu về khả năng mở rộng:
 
-* Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
-* Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
+- Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
+- Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
 ## Yêu cầu về công nghệ
 
-* Front-end: HTML, CSS, JS, React.js.
-* Back-end: Spring boot.
-* Database: MySQL.
+- Front-end: HTML, CSS, JS, React.js.
+- Back-end: Spring boot.
+- Database: MySQL.
 
 ## Kết luận
 
 Phần phân tích yêu cầu đã xác định rõ đối tượng sử dụng, các chức năng chính và phạm vi của Website Đặt Tour Du Lịch.
+
+## Các usecase chi tiết của khách hàng
+
+1. Usecase Quản lý tài khoản
+   ![1768201608419](image/Pttk/1768201608419.png)
+2. Usecase Quản lý Tour
+
+   ![1768201659003](image/Pttk/1768201659003.png)
+3. Usecase Thanh toán
+
+   ![1768201689992](image/Pttk/1768201689992.png)
+4. Usecase Theo dõi đơn
+
+   ![1768201716365](image/Pttk/1768201716365.png)

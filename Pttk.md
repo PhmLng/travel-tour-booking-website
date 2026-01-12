@@ -14,8 +14,6 @@ Không chỉ phục vụ khách hàng, website đặt tour du lịch còn là c�
 
 Nhìn chung, việc xác định rõ đối tượng sử dụng giúp website đặt tour du lịch đáp ứng tốt hơn nhu cầu của từng nhóm người dùng, từ đó nâng cao trải nghiệm, tăng mức độ hài lòng của khách hàng và góp phần xây dựng hình ảnh chuyên nghiệp cho doanh nghiệp trong lĩnh vực du lịch.
 
-# Đề Tài: Website đặt tour du lịch
-
 ## Phân tích tổng quan chức năng hệ thống
 
 ### 1. Nhóm chức năng **Tài khoản người dùng**

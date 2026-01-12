@@ -25,6 +25,14 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
 ### Đối tượng sử dụng của  website về đặt tour du lịch
+Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
+
+* **Khách hàng (User):**
+
+  Là những người có nhu cầu tìm kiếm thông tin các tour du lịch, tham khảo chi tiết và thực hiện đặt tour thông qua hệ thống trực tuyến.
+* **Quản trị viên (Admin):**
+
+  Là người chịu trách nhiệm quản lý, vận hành hệ thống, bao gồm quản lý tour du lịch, người dùng và các đơn đặt tour.
 
 Đối tượng sử dụng của website đặt tour du lịch rất đa dạng, bao gồm nhiều nhóm người dùng khác nhau với đặc điểm và nhu cầu riêng biệt. Trước hết là nhóm khách du lịch cá nhân và hộ gia đình. Đây là nhóm người dùng chiếm tỷ lệ lớn, thường có nhu cầu tìm kiếm thông tin về điểm đến, lịch trình tour, chi phí, dịch vụ đi kèm cũng như các chương trình khuyến mãi. Nhóm đối tượng này ưu tiên sự tiện lợi, nhanh chóng trong việc tra cứu thông tin và đặt tour trực tuyến. Do đó, website cần được thiết kế với giao diện trực quan, nội dung trình bày rõ ràng, hình ảnh sinh động và quy trình đặt tour đơn giản, giúp người dùng dễ dàng đưa ra quyết định và hoàn tất giao dịch.
 
@@ -116,27 +124,7 @@ Hệ thống quản lý các trạng thái của đơn đặt tour như:
 
 Giúp người dùng và quản trị viên theo dõi tình trạng các đơn đặt tour.
 
-## 1. Mục tiêu hệ thống
-
-Việc xác định yêu cầu hệ thống nhằm phân tích và làm rõ các chức năng cần có của Website Đặt Tour Du Lịch, đồng thời xác định các yêu cầu về hiệu năng, bảo mật và phạm vi sử dụng. Đây là bước quan trọng giúp quá trình thiết kế và phát triển hệ thống được thực hiện đúng hướng, hạn chế rủi ro phát sinh và đảm bảo hệ thống đáp ứng đúng mục tiêu đề tài.
-
-## 2. Đối tượng sử dụng hệ thống
-
-Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
-
-* **Khách hàng (User):**
-
-  Là những người có nhu cầu tìm kiếm thông tin các tour du lịch, tham khảo chi tiết và thực hiện đặt tour thông qua hệ thống trực tuyến.
-* **Quản trị viên (Admin):**
-
-  Là người chịu trách nhiệm quản lý, vận hành hệ thống, bao gồm quản lý tour du lịch, người dùng và các đơn đặt tour.
-
-## 3. Yêu cầu chức năng
-
-* Nhóm chức năng dành cho người dùng (User): Đăng ký tài khoản, Đăng nhập hệ thống, Đặt tour du lịch,Thanh toán, Xem lịch sử đặt tour.
-* Nhóm chức năng dành cho quản trị viên (Admin): Quản lý tour du lịch, Quản lý đơn đặt tour, Báo cáo thống kê.
-
-## 4. Yêu cầu phi chức năng
+## Yêu cầu phi chức năng
 
 Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các yêu cầu phi chức năng như:
 
@@ -160,12 +148,12 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 * Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
 * Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
-## 5. Yêu cầu về công nghệ
+## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.
 * Back-end: Spring boot.
 * Database: MySQL.
 
-## 6. Kết luận
+## Kết luận
 
 Phần phân tích yêu cầu đã xác định rõ đối tượng sử dụng, các chức năng chính và phạm vi của Website Đặt Tour Du Lịch.

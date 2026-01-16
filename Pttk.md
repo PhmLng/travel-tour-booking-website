@@ -24,7 +24,21 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
+<<<<<<< HEAD
+
 ### Đối tượng sử dụng của website về đặt tour du lịch
+
+=======
+
+### Đối tượng sử dụng của  website về đặt tour du lịch
+
+>>>>>>> origin/main
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 
 Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
 
@@ -149,6 +163,55 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 - Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
 - Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
+## Sơ đồ Usecase
+
+1. Usecase Quản lý tài khoản
+   ![1768201608419](image/Pttk/1768201608419.png)
+2. Usecase Quản  lý đặt Tour
+
+   ![1768201659003](image/Pttk/1768201659003.png)
+3. Usecase Thanh toán
+
+   ![1768201689992](image/Pttk/1768201689992.png)
+4. Usecase Theo dõi đơn
+
+   ![1768201716365](image/Pttk/1768201716365.png)
+5. UUsecase Quản lý khách hàng
+
+   ![1768547586051](image/Pttk/1768547586051.png)
+6. Usecase Quản lý doanh thu
+
+   ![1768547641942](image/Pttk/1768547641942.png)
+
+## Đặc tả Usecase
+
+![1768203410043](image/Pttk/1768203410043.png)
+
+![1768203427419](image/Pttk/1768203427419.png)
+
+![1768203448750](image/Pttk/1768203448750.png)![1768203464369](image/Pttk/1768203464369.png)![1768203492334](image/Pttk/1768203492334.png)![1768203498052](image/Pttk/1768203498052.png)![1768203503469](image/Pttk/1768203503469.png)
+
+![1768546848669](image/Pttk/1768546848669.png)
+
+![1768546863719](image/Pttk/1768546863719.png)
+
+![1768546907286](image/Pttk/1768546907286.png)
+![1768530953453](image/Pttk/1768530953453.png)
+
+![1768530979766](image/Pttk/1768530979766.png)
+
+![1768531004821](image/Pttk/1768531004821.png)
+
+## Sơ đồ tuần tự
+
+# Sơ đồ lớp
+
+## Sơ đồ hoạt động
+
+1. Sơ đồ hoạt động xem doanh thu
+
+   ![1768547704660](image/Pttk/1768547704660.png)
+
 ## Yêu cầu về công nghệ
 
 - Front-end: HTML, CSS, JS, React.js.
@@ -158,17 +221,3 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Kết luận
 
 Phần phân tích yêu cầu đã xác định rõ đối tượng sử dụng, các chức năng chính và phạm vi của Website Đặt Tour Du Lịch.
-
-## Các usecase chi tiết của khách hàng
-
-1. Usecase Quản lý tài khoản
-   ![1768201608419](image/Pttk/1768201608419.png)
-2. Usecase Quản lý Tour
-
-   ![1768201659003](image/Pttk/1768201659003.png)
-3. Usecase Thanh toán
-
-   ![1768201689992](image/Pttk/1768201689992.png)
-4. Usecase Theo dõi đơn
-
-   ![1768201716365](image/Pttk/1768201716365.png)

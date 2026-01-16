@@ -152,7 +152,9 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Sơ đồ Usecase
 
 ## Đặc tả Usecase
-
+## Sơ đồ tuần tự
+# Sơ đồ lớp
+## Sơ đồ hoạt động
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

@@ -151,9 +151,15 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Sơ đồ Usecase Tổng Quát
 
-![1768543777591](image/Pttk/1768543777591.png)
+![1768544968363](image/Pttk/1768544968363.png)
 
-## Đặc tả Usecase
+## Sơ đồ Usecase
+
+## Sơ đồ tuần tự
+
+# Sơ đồ lớp
+
+## Sơ đồ hoạt động
 
 ## Yêu cầu về công nghệ
 

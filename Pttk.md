@@ -149,9 +149,9 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 * Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
 * Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
-## Sơ đồ Usecase
+## Sơ đồ Usecase Tổng Quát
 
-![1768206735934](image/Pttk/1768206735934.png)
+![1768543777591](image/Pttk/1768543777591.png)
 
 ## Đặc tả Usecase
 

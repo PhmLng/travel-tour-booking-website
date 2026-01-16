@@ -172,6 +172,22 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Sơ đồ tuần tự
 
+Sơ đồ tuần tự Đăng ký
+
+![1768547803940](image/Pttk/1768547803940.png)
+
+Đăng nhập
+
+![1768547858134](image/Pttk/1768547858134.png)
+
+Thêm tour
+
+![1768547927821](image/Pttk/1768547927821.png)
+
+Sửa tour
+
+![1768548144680](image/Pttk/1768548144680.png)
+
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động

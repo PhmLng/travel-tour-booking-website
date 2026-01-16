@@ -164,6 +164,11 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ![1768546863719](image/Pttk/1768546863719.png)
 
 ![1768546907286](image/Pttk/1768546907286.png)
+![1768530953453](image/Pttk/1768530953453.png)
+
+![1768530979766](image/Pttk/1768530979766.png)
+
+![1768531004821](image/Pttk/1768531004821.png)
 
 ## Sơ đồ tuần tự
 

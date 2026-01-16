@@ -152,7 +152,6 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Sơ đồ Usecase
 
 ## Đặc tả Usecase
-<<<<<<< HEAD
 
 ![1768530953453](image/Pttk/1768530953453.png)
 
@@ -160,11 +159,12 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ![1768531004821](image/Pttk/1768531004821.png)
 
-=======
 ## Sơ đồ tuần tự
+
 # Sơ đồ lớp
+
 ## Sơ đồ hoạt động
->>>>>>> origin/main
+
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

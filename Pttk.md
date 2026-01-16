@@ -180,6 +180,22 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Sơ đồ hoạt động
 
+Đăng kí
+
+![1768547748130](image/Pttk/1768547748130.png)
+
+Đăng nhập
+
+![1768547774425](image/Pttk/1768547774425.png)
+
+Thêm tour
+
+![1768547798843](image/Pttk/1768547798843.png)
+
+Sửa tour
+
+![1768547823628](image/Pttk/1768547823628.png)
+
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

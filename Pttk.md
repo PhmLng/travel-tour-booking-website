@@ -153,11 +153,11 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Đặc tả Usecase
 
-![1768203464823](image/Pttk/1768203464823.png)
+![1768530953453](image/Pttk/1768530953453.png)
 
-![1768203493373](image/Pttk/1768203493373.png)
+![1768530979766](image/Pttk/1768530979766.png)
 
-![1768203525617](image/Pttk/1768203525617.png)
+![1768531004821](image/Pttk/1768531004821.png)
 
 ## Yêu cầu về công nghệ
 

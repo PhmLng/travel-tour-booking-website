@@ -24,15 +24,9 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
-<<<<<<< HEAD
 
 ### Đối tượng sử dụng của website về đặt tour du lịch
 
-=======
-
-### Đối tượng sử dụng của  website về đặt tour du lịch
-
->>>>>>> origin/main
 >>>>>>>
 >>>>>>
 >>>>>
@@ -163,6 +157,10 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 - Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
 - Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
 
+## Sơ đồ Usecase Tổng Quát
+
+![1768544968363](image/Pttk/1768544968363.png)
+
 ## Sơ đồ Usecase
 
 1. Usecase Quản lý tài khoản
@@ -225,6 +223,41 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 3. Ac_Thanh toán toàn bộ
 
    ![1768806187466](image/Pttk/1768806187466.png)
+Đăng kí
+
+![1768547748130](image/Pttk/1768547748130.png)
+
+Đăng nhập
+
+![1768547774425](image/Pttk/1768547774425.png)
+
+Thêm tour
+
+![1768547798843](image/Pttk/1768547798843.png)
+
+Sửa tour
+
+![1768547823628](image/Pttk/1768547823628.png)
+
+Xóa tour
+
+![1768806224648](image/Pttk/1768806224648.png)
+
+Xem thông tin tour
+
+![1768806262032](image/Pttk/1768806262032.png)
+
+Xem thông tin khách hàng
+
+![1768806419832](image/Pttk/1768806419832.png)
+
+Sửa thông tin khách hàng
+
+![1768806497443](image/Pttk/1768806497443.png)
+
+Xóa khách hàng
+
+![1768806533102](image/Pttk/1768806533102.png)
 
 ## Yêu cầu về công nghệ
 

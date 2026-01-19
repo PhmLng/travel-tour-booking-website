@@ -196,6 +196,26 @@ Sửa tour
 
 ![1768547823628](image/Pttk/1768547823628.png)
 
+Xóa tour
+
+![1768806224648](image/Pttk/1768806224648.png)
+
+Xem thông tin tour
+
+![1768806262032](image/Pttk/1768806262032.png)
+
+Xem thông tin khách hàng
+
+![1768806419832](image/Pttk/1768806419832.png)
+
+Sửa thông tin khách hàng
+
+![1768806497443](image/Pttk/1768806497443.png)
+
+Xóa khách hàng
+
+![1768806533102](image/Pttk/1768806533102.png)
+
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

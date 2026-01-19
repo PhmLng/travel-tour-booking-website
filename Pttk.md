@@ -188,6 +188,38 @@ Sửa tour
 
 ![1768548144680](image/Pttk/1768548144680.png)
 
+Xóa tour
+
+![1768807384284](image/Pttk/1768807384284.png)
+
+Xem Thong tin Tour
+
+![1768807570795](image/Pttk/1768807570795.png)
+
+Xem Thông tin khách
+
+![1768807080521](image/Pttk/1768807080521.png)
+
+Xóa khách hàng
+
+![1768807129768](image/Pttk/1768807129768.png)
+
+Chỉnh sửa thông tin khách
+
+![1768807297181](image/Pttk/1768807297181.png)
+
+Đặt Tour
+
+![1768807410516](image/Pttk/1768807410516.png)
+
+Hủy Tour
+
+![1768807420189](image/Pttk/1768807420189.png)
+
+Xem LS Đặt tour
+
+![1768807432770](image/Pttk/1768807432770.png)
+
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động

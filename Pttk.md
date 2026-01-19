@@ -166,16 +166,16 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Sơ đồ Usecase
 
 1. Usecase Quản lý tài khoản
-   ![1768201608419](image/Pttk/1768201608419.png)
+   ![1768805937118](image/Pttk/1768805937118.png)
 2. Usecase Quản  lý đặt Tour
 
-   ![1768201659003](image/Pttk/1768201659003.png)
+   ![1768805977244](image/Pttk/1768805977244.png)
 3. Usecase Thanh toán
 
-   ![1768201689992](image/Pttk/1768201689992.png)
+   ![1768806008683](image/Pttk/1768806008683.png)
 4. Usecase Theo dõi đơn
 
-   ![1768201716365](image/Pttk/1768201716365.png)
+   ![1768806053818](image/Pttk/1768806053818.png)
 5. UUsecase Quản lý khách hàng
 
    ![1768547586051](image/Pttk/1768547586051.png)
@@ -204,6 +204,14 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Sơ đồ tuần tự
 
+1. SE_Đặt cọc
+
+    ![1768806239899](image/Pttk/1768806239899.png)
+
+2. SE_Thanh toán toàn bộ
+
+   ![1768806308009](image/Pttk/1768806308009.png)
+
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động
@@ -211,6 +219,12 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 1. Sơ đồ hoạt động xem doanh thu
 
    ![1768547704660](image/Pttk/1768547704660.png)
+2. AC_ Đặt cọc
+
+   ![1768806125744](image/Pttk/1768806125744.png)
+3. Ac_Thanh toán toàn bộ
+
+   ![1768806187466](image/Pttk/1768806187466.png)
 
 ## Yêu cầu về công nghệ
 

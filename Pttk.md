@@ -24,15 +24,7 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
-
 ### Đối tượng sử dụng của website về đặt tour du lịch
-
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
 
 Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
 
@@ -204,13 +196,14 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 1. SE_Đặt cọc
 
-    ![1768806239899](image/Pttk/1768806239899.png)
-
+   ![1768806239899](image/Pttk/1768806239899.png)
 2. SE_Thanh toán toàn bộ
 
    ![1768806308009](image/Pttk/1768806308009.png)
 
 # Sơ đồ lớp
+
+![1769154068101](image/Pttk/1769154068101.png)
 
 ## Sơ đồ hoạt động
 
@@ -223,7 +216,7 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 3. Ac_Thanh toán toàn bộ
 
    ![1768806187466](image/Pttk/1768806187466.png)
-Đăng kí
+   Đăng kí
 
 ![1768547748130](image/Pttk/1768547748130.png)
 

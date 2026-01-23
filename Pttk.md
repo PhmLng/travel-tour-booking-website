@@ -216,6 +216,18 @@ Xóa khách hàng
 
 ![1768806533102](image/Pttk/1768806533102.png)
 
+Xem lịch sử đặt tour
+
+![1769155766124](image/Pttk/1769155766124.png)
+
+Đặt tour
+
+![1769155793312](image/Pttk/1769155793312.png)
+
+Hủy tour
+
+![1769155805217](image/Pttk/1769155805217.png)
+
 ## Yêu cầu về công nghệ
 
 * Front-end: HTML, CSS, JS, React.js.

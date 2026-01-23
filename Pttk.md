@@ -182,13 +182,25 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ![1768806066092](image/Pttk/1768806066092.png)
 
-![1768806076189](image/Pttk/1768806076189.png)
+![1769152755735](image/Pttk/1769152755735.png)
 
 ## Sơ đồ tuần tự
 
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động
+
+Sơ đồ hoạt động: Hoàn tiền
+
+![1769166052543](image/Pttk/1769166052543.png)
+
+> Sơ đồ hoạt động: Xuất hóa đơn
+>
+> ![1769166128054](image/Pttk/1769166128054.png)
+>
+> Sơ đồ hoạt động: Thống kê doanh thu
+>
+> ![1769166154685](image/Pttk/1769166154685.png)
 
 ## Yêu cầu về công nghệ
 

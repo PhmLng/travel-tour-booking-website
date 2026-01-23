@@ -220,6 +220,26 @@ Xem LS Đặt tour
 
 ![1768807432770](image/Pttk/1768807432770.png)
 
+đặt cọc
+
+![1769154859275](image/Pttk/1769154859275.png)
+
+Thanh toán
+
+![1769154882833](image/Pttk/1769154882833.png)
+
+Thống kê
+
+![1769154905284](image/Pttk/1769154905284.png)
+
+Xuất báo cáo
+
+![1769154924792](image/Pttk/1769154924792.png)
+
+Hoàn tiền
+
+![1769154945144](image/Pttk/1769154945144.png)
+
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động

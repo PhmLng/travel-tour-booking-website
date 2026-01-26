@@ -192,6 +192,20 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ![1768531004821](image/Pttk/1768531004821.png)
 
+![1768805996587](image/Pttk/1768805996587.png)
+
+![1768806011699](image/Pttk/1768806011699.png)
+
+![1768806024330](image/Pttk/1768806024330.png)
+
+![1768806036876](image/Pttk/1768806036876.png)
+
+![1768806057771](image/Pttk/1768806057771.png)
+
+![1768806066092](image/Pttk/1768806066092.png)
+
+![1769152755735](image/Pttk/1769152755735.png)
+
 ## Sơ đồ tuần tự
 
 Sơ đồ tuần tự Đăng ký
@@ -275,6 +289,17 @@ Hoàn tiền
 
 ## Sơ đồ hoạt động
 
+Sơ đồ hoạt động: Hoàn tiền
+
+![1769166052543](image/Pttk/1769166052543.png)
+
+> Sơ đồ hoạt động: Xuất hóa đơn
+>
+> ![1769166128054](image/Pttk/1769166128054.png)
+>
+> Sơ đồ hoạt động: Thống kê doanh thu
+>
+> ![1769166154685](image/Pttk/1769166154685.png)
 1. Sơ đồ hoạt động xem doanh thu
 
    ![1768547704660](image/Pttk/1768547704660.png)

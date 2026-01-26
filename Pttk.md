@@ -24,14 +24,21 @@ Một trong những mục tiêu quan trọng của hệ thống là đảm bảo
 
 Website không chỉ là công cụ đặt tour mà còn là kênh truyền thông chính thức của doanh nghiệp du lịch. Thông qua việc giới thiệu các tour du lịch, chương trình khuyến mãi, tin tức và hình ảnh hoạt động, website giúp quảng bá hình ảnh thương hiệu đến đông đảo khách hàng. Nhờ đó, doanh nghiệp có thể tiếp cận nhiều đối tượng khách hàng tiềm năng hơn, mở rộng thị trường và nâng cao khả năng cạnh tranh trong lĩnh vực du lịch.
 
-### Đối tượng sử dụng của  website về đặt tour du lịch
+### Đối tượng sử dụng của website về đặt tour du lịch
+
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 
 Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
 
-* **Khách hàng (User):**
+- **Khách hàng (User):**
 
   Là những người có nhu cầu tìm kiếm thông tin các tour du lịch, tham khảo chi tiết và thực hiện đặt tour thông qua hệ thống trực tuyến.
-* **Quản trị viên (Admin):**
+- **Quản trị viên (Admin):**
 
   Là người chịu trách nhiệm quản lý, vận hành hệ thống, bao gồm quản lý tour du lịch, người dùng và các đơn đặt tour.
 
@@ -119,9 +126,9 @@ Hệ thống không xử lý giao dịch thật mà chỉ cập nhật trạng t
 
 Hệ thống quản lý các trạng thái của đơn đặt tour như:
 
-* Chờ thanh toán
-* Đã thanh toán
-* Đã huỷ
+- Chờ thanh toán
+- Đã thanh toán
+- Đã huỷ
 
 Giúp người dùng và quản trị viên theo dõi tình trạng các đơn đặt tour.
 
@@ -131,25 +138,47 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 +) Yêu cầu về hiệu năng:
 
-* Hệ thống phản hồi nhanh với các thao tác tìm kiếm và đặt tour.
-* Đảm bảo hoạt động ổn định khi có nhiều người dùng truy cập đồng thời.
+- Hệ thống phản hồi nhanh với các thao tác tìm kiếm và đặt tour.
+- Đảm bảo hoạt động ổn định khi có nhiều người dùng truy cập đồng thời.
 
 +) Yêu cầu về bảo mật:
 
-* Bảo mật thông tin cá nhân của khách hàng.
-* Phân quyền rõ ràng, đảm bảo người dùng chỉ truy cập các chức năng được cấp phép.
+- Bảo mật thông tin cá nhân của khách hàng.
+- Phân quyền rõ ràng, đảm bảo người dùng chỉ truy cập các chức năng được cấp phép.
 
 +) Yêu cầu về giao diện:
 
-* Giao diện thân thiện, dễ sử dụng.
-* Bố cục rõ ràng, thuận tiện cho người dùng.
+- Giao diện thân thiện, dễ sử dụng.
+- Bố cục rõ ràng, thuận tiện cho người dùng.
 
 +) Yêu cầu về khả năng mở rộng:
 
-* Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
-* Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
+- Dễ dàng nâng cấp và mở rộng chức năng trong tương lai.
+- Có thể tích hợp các dịch vụ khác như thanh toán trực tuyến hoặc ứng dụng di động.
+
+## Sơ đồ Usecase Tổng Quát
+
+![1768544968363](image/Pttk/1768544968363.png)
 
 ## Sơ đồ Usecase
+
+1. Usecase Quản lý tài khoản
+   ![1768805937118](image/Pttk/1768805937118.png)
+2. Usecase Quản  lý đặt Tour
+
+   ![1768805977244](image/Pttk/1768805977244.png)
+3. Usecase Thanh toán
+
+   ![1768806008683](image/Pttk/1768806008683.png)
+4. Usecase Theo dõi đơn
+
+   ![1768806053818](image/Pttk/1768806053818.png)
+5. UUsecase Quản lý khách hàng
+
+   ![1768547586051](image/Pttk/1768547586051.png)
+6. Usecase Quản lý doanh thu
+
+   ![1768547641942](image/Pttk/1768547641942.png)
 
 ## Đặc tả Usecase
 
@@ -240,15 +269,68 @@ Hoàn tiền
 
 ![1769154945144](image/Pttk/1769154945144.png)
 
+1. SE_Đặt cọc
+
+    ![1768806239899](image/Pttk/1768806239899.png)
+
+2. SE_Thanh toán toàn bộ
+
+   ![1768806308009](image/Pttk/1768806308009.png)
+
 # Sơ đồ lớp
 
 ## Sơ đồ hoạt động
 
+1. Sơ đồ hoạt động xem doanh thu
+
+   ![1768547704660](image/Pttk/1768547704660.png)
+2. AC_ Đặt cọc
+
+   ![1768806125744](image/Pttk/1768806125744.png)
+3. Ac_Thanh toán toàn bộ
+
+   ![1768806187466](image/Pttk/1768806187466.png)
+Đăng kí
+
+![1768547748130](image/Pttk/1768547748130.png)
+
+Đăng nhập
+
+![1768547774425](image/Pttk/1768547774425.png)
+
+Thêm tour
+
+![1768547798843](image/Pttk/1768547798843.png)
+
+Sửa tour
+
+![1768547823628](image/Pttk/1768547823628.png)
+
+Xóa tour
+
+![1768806224648](image/Pttk/1768806224648.png)
+
+Xem thông tin tour
+
+![1768806262032](image/Pttk/1768806262032.png)
+
+Xem thông tin khách hàng
+
+![1768806419832](image/Pttk/1768806419832.png)
+
+Sửa thông tin khách hàng
+
+![1768806497443](image/Pttk/1768806497443.png)
+
+Xóa khách hàng
+
+![1768806533102](image/Pttk/1768806533102.png)
+
 ## Yêu cầu về công nghệ
 
-* Front-end: HTML, CSS, JS, React.js.
-* Back-end: Spring boot.
-* Database: MySQL.
+- Front-end: HTML, CSS, JS, React.js.
+- Back-end: Spring boot.
+- Database: MySQL.
 
 ## Kết luận
 

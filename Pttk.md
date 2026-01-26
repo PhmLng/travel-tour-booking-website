@@ -26,13 +26,6 @@ Website không chỉ là công cụ đặt tour mà còn là kênh truyền thô
 
 ### Đối tượng sử dụng của website về đặt tour du lịch
 
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
-
 Website Đặt Tour Du Lịch phục vụ hai nhóm người dùng chính:
 
 - **Khách hàng (User):**
@@ -271,13 +264,14 @@ Hoàn tiền
 
 1. SE_Đặt cọc
 
-    ![1768806239899](image/Pttk/1768806239899.png)
-
+   ![1768806239899](image/Pttk/1768806239899.png)
 2. SE_Thanh toán toàn bộ
 
    ![1768806308009](image/Pttk/1768806308009.png)
 
 # Sơ đồ lớp
+
+![1769154068101](image/Pttk/1769154068101.png)
 
 ## Sơ đồ hoạt động
 
@@ -290,7 +284,7 @@ Hoàn tiền
 3. Ac_Thanh toán toàn bộ
 
    ![1768806187466](image/Pttk/1768806187466.png)
-Đăng kí
+   Đăng kí
 
 ![1768547748130](image/Pttk/1768547748130.png)
 

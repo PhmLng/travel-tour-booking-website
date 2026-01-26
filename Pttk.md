@@ -194,6 +194,74 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 
 ## Sơ đồ tuần tự
 
+Sơ đồ tuần tự Đăng ký
+
+![1768547803940](image/Pttk/1768547803940.png)
+
+Đăng nhập
+
+![1768547858134](image/Pttk/1768547858134.png)
+
+Thêm tour
+
+![1768547927821](image/Pttk/1768547927821.png)
+
+Sửa tour
+
+![1768548144680](image/Pttk/1768548144680.png)
+
+Xóa tour
+
+![1768807384284](image/Pttk/1768807384284.png)
+
+Xem Thong tin Tour
+
+![1768807570795](image/Pttk/1768807570795.png)
+
+Xem Thông tin khách
+
+![1768807080521](image/Pttk/1768807080521.png)
+
+Xóa khách hàng
+
+![1768807129768](image/Pttk/1768807129768.png)
+
+Chỉnh sửa thông tin khách
+
+![1768807297181](image/Pttk/1768807297181.png)
+
+Đặt Tour
+
+![1768807410516](image/Pttk/1768807410516.png)
+
+Hủy Tour
+
+![1768807420189](image/Pttk/1768807420189.png)
+
+Xem LS Đặt tour
+
+![1768807432770](image/Pttk/1768807432770.png)
+
+đặt cọc
+
+![1769154859275](image/Pttk/1769154859275.png)
+
+Thanh toán
+
+![1769154882833](image/Pttk/1769154882833.png)
+
+Thống kê
+
+![1769154905284](image/Pttk/1769154905284.png)
+
+Xuất báo cáo
+
+![1769154924792](image/Pttk/1769154924792.png)
+
+Hoàn tiền
+
+![1769154945144](image/Pttk/1769154945144.png)
+
 1. SE_Đặt cọc
 
    ![1768806239899](image/Pttk/1768806239899.png)

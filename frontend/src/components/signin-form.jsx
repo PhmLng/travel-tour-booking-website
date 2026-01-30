@@ -27,7 +27,7 @@ const signUpSchema = z.object({
   password : z.string().min(6, "PassWord phải có ít nhất 6 kí tự")
 
 })
-export default function SignupForm({
+export default function SigninForm({
   className,
   ...props
 }) {

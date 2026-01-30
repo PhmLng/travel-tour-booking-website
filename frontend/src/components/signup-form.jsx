@@ -27,7 +27,7 @@ const signUpSchema = z.object({
   password : z.string().min(6, "PassWord phải có ít nhất 6 kí tự")
 
 })
-export function SignupForm({
+export default function SignupForm({
   className,
   ...props
 }) {
@@ -40,73 +40,27 @@ export function SignupForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="p-0 overflow-hidden border-border">
-        <CardContent className="grid p-0 md:grid-cols-2">
-           <form
+    <form
             className="p-6 md:p-8"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-6">
               {/* header - logo */}
-              <div className="flex flex-col items-center gap-2 text-center">
+              <div className="flex flex-col items-center text-center gap-2">
                 <a
                   href="/"
-                  className="block mx-auto text-center w-fit"
+                  className="mx-auto block w-fit text-center"
                 >
                   <img
                     src="/logo.svg"
                     alt="logo"
                   />
                 </a>
-                <h1 className="text-2xl font-bold">Tạo tài khoản Moji</h1>
+                <h1 className="text-2xl font-bold">Chào mừng quay lại</h1>
                 <p className="text-muted-foreground text-balance">
-                  Chào mừng bạn! Hãy đăng ký để bắt đầu!
+                  Chào mừng bạn! Hãy đăng nhập để bắt đầu!
                 </p>
               </div>
-
-              {/* họ & tên */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="lastname"
-                    className="block text-sm"
-                  >
-                    Họ
-                  </Label>
-                  <Input
-                    type="text"
-                    id="lastname"
-                  {...register("lastname")}
-                  />
-                  {errors.lastname && (
-                    <p className="text-sm text-destructive">
-                      {errors.lastname.message}
-                    </p>
-                  )}
-              
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="fistname"
-                    className="block text-sm"
-                  >
-                    Tên
-                  </Label>
-                  <Input
-                    type="text"
-                    id="firstname"
-                  {...register("firstname")}
-                  />
-                 {errors.firstname && (
-                    <p className="text-sm text-destructive">
-                      {errors.firstname.message}
-                    </p>
-                  )}
-              
-                </div>
-              </div>
-
               {/* username */}
               <div className="flex flex-col gap-3">
                 <Label
@@ -122,37 +76,12 @@ export function SignupForm({
                  {...register("username")}
                 />
                 {errors.username && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-destructive text-sm">
                       {errors.username.message}
                     </p>
-                  )}
-              
-              
+                  )}           
               </div>
-
-              {/* email */}
-              <div className="flex flex-col gap-3">
-                <Label
-                  htmlFor="email"
-                  className="block text-sm"
-                >
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  id="email"
-                  placeholder="m@gmail.com"
-                  {...register("email")}
-                />
-                {errors.email && (
-                    <p className="text-sm text-destructive">
-                      {errors.email.message}
-                    </p>
-                  )}
-              
-               
-              </div>
-
+           
               {/* password */}
               <div className="flex flex-col gap-3">
                 <Label
@@ -167,7 +96,7 @@ export function SignupForm({
                   {...register("password")}
                 />
                 {errors.password && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-destructive text-sm">
                       {errors.password.message}
                     </p>
                   )}
@@ -175,39 +104,25 @@ export function SignupForm({
               
               </div>
 
-              {/* nút đăng ký */}
+              {/* nút đăng nhập */}
               <Button
                 type="submit"
                 className="w-full"
                 disabled={isSubmitting}
               >
-                Tạo tài khoản
+                Đăng nhập
               </Button>
 
-              <div className="text-sm text-center">
-                Đã có tài khoản?{" "}
+              <div className="text-center text-sm">
+                Chưa có tài khoản?{" "}
                 <a
-                  href="/signin"
+                  href="/signup"
                   className="underline underline-offset-4"
                 >
-                  Đăng nhập
+                  Đăng ký
                 </a>
               </div>
             </div>
           </form>
-          <div className="relative hidden bg-muted md:block">
-            <img
-              src="/placeholderSignUp.png"
-              alt="Image"
-              className="absolute object-cover -translate-y-1/2 top-1/2 "
-            />
-          </div>
-        </CardContent>
-      </Card>
-      <div className="text-xs text-balance px-6 text-center *:[a]:hover:text-primary text-muted-foreground *:[a]:underline *:[a]:underline-offset-4">
-        Bằng cách tiếp tục, bạn đồng ý với <a href="#">Điều khản dịch vụ</a>{" "}
-        và <a href="#">Chính sách bảo mật của chúng tôi</a>.
-      </div>
-    </div>
   );
 }

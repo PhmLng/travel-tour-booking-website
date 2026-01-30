@@ -1,3 +1,6 @@
+import { HomePage } from "./pages/HomePage"
+import { SignInPage } from "./pages/SignInPage"
+import { SignUpPage } from "./pages/SignUpPage"
 
 
 function App() {
@@ -18,7 +21,7 @@ function App() {
         {/* {protected routes} */}
          <Route  
           path='/'
-          element={<ChatApp/>}
+          element={<HomePage/>}
         /> 
       </Routes>
     </BrowserRouter>

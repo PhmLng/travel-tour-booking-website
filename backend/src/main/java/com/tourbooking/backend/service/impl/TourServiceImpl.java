@@ -1,4 +1,7 @@
 package com.tourbooking.backend.service.impl;
 
-public class TourServiceImpl {
+import com.tourbooking.backend.service.TourService;
+
+public class TourServiceImpl implements TourService {
+
 }

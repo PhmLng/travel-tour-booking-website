@@ -1,7 +1,4 @@
-import React from 'react'
-
-export const SignUpPage = () => {
-  return (
-    <SignUpPage/>
-  )
+// src/pages/SignUpPage.jsx
+export default function SignUpPage() {
+  return <h1>Sign Up Page</h1>;
 }

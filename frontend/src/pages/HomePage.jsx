@@ -1,7 +1,4 @@
-import React from 'react'
-
-export const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
+// src/pages/HomePage.jsx
+export default function HomePage() {
+  return <h1>Home Page</h1>;
 }

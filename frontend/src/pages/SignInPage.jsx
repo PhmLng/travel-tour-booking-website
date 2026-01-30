@@ -1,7 +1,4 @@
-import React from 'react'
-
-export const SignInPage = () => {
-  return (
-    <div>SignInPage</div>
-  )
+// src/pages/SignInPage.jsx
+export default function SignInPage() {
+  return <h1>Sign In Page</h1>;
 }

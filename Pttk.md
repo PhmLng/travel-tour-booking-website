@@ -300,6 +300,7 @@ Sơ đồ hoạt động: Hoàn tiền
 > Sơ đồ hoạt động: Thống kê doanh thu
 >
 > ![1769166154685](image/Pttk/1769166154685.png)
+
 1. Sơ đồ hoạt động xem doanh thu
 
    ![1768547704660](image/Pttk/1768547704660.png)

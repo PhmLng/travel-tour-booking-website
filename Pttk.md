@@ -156,22 +156,22 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Sơ đồ Usecase
 
 1. Usecase Quản lý tài khoản
-   ![1768805937118](image/Pttk/1768805937118.png)
+   ![1769483357775](image/Pttk/1769483357775.png)
 2. Usecase Quản  lý đặt Tour
 
-   ![1768805977244](image/Pttk/1768805977244.png)
+   ![1769483400639](image/Pttk/1769483400639.png)
 3. Usecase Thanh toán
 
-   ![1768806008683](image/Pttk/1768806008683.png)
+   ![1769483422860](image/Pttk/1769483422860.png)
 4. Usecase Theo dõi đơn
 
-   ![1768806053818](image/Pttk/1768806053818.png)
+   ![1769483453121](image/Pttk/1769483453121.png)
 5. UUsecase Quản lý khách hàng
 
-   ![1768547586051](image/Pttk/1768547586051.png)
+   ![1769483471030](image/Pttk/1769483471030.png)
 6. Usecase Quản lý doanh thu
 
-   ![1768547641942](image/Pttk/1768547641942.png)
+   ![1769483570311](image/Pttk/1769483570311.png)
 
 ## Đặc tả Usecase
 
@@ -300,6 +300,7 @@ Sơ đồ hoạt động: Hoàn tiền
 > Sơ đồ hoạt động: Thống kê doanh thu
 >
 > ![1769166154685](image/Pttk/1769166154685.png)
+
 1. Sơ đồ hoạt động xem doanh thu
 
    ![1768547704660](image/Pttk/1768547704660.png)

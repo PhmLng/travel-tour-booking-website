@@ -20,13 +20,10 @@ import {useForm} from 'react-hook-form'
 import { zodResolver} from '@hookform/resolvers/zod'
 
 const signUpSchema = z.object({
-  firstname : z.string().min(1, 'Tên bắt buộc phải có'),
-  lastname : z.string().min(1, 'Họ bắt buộc phải có'),
-  username : z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 kí tự'),
-  email: z.email('Email không hợp lệ'),
-  password : z.string().min(6, "PassWord phải có ít nhất 6 kí tự")
-
+  username: z.string().min(1, 'Tên đăng nhập là bắt buộc'),
+  password: z.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
 })
+
 export default function SigninForm({
   className,
   ...props
@@ -36,7 +33,7 @@ export default function SigninForm({
   })
 
   const onSubmit = async (data) =>{
-
+    
   }
 
   return (
@@ -100,7 +97,6 @@ export default function SigninForm({
                       {errors.password.message}
                     </p>
                   )}
-              
               
               </div>
 

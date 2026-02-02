@@ -1,37 +1,158 @@
 .header {
-  border-bottom: 1px solid #eee;
-}
-
-.top-bar {
-  background: #eaf4ff;
-  padding: 6px 20px;
-  font-size: 14px;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
+  /* position: fixed; */
+  top: 0;
+  left: 0;
+  right: 0;
+  /* z-index: 1000; */
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #0a5dd8;
-}
-
-.menu {
   display: flex;
-  list-style: none;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.menu li {
+.logo img {   /* bỏ giới hạn từ cha */
+  display: block;
+  object-fit: contain; /* hoặc 'cover' nếu muốn ảnh phủ đầy */
+}
+
+
+
+.logo p {
+  padding-left: 5px;
+  font-size: 15px;
+  /* kích thước chữ */
+  font-weight: bold;
+  /* in đậm */
+  color: #1a5490;
+}
+
+.phone-icon svg,
+.notification-btn svg,
+.user-btn svg,
+.menu-toggle svg {
+  font-size: 16px;
+}
+
+.notification-btn:hover svg,
+.user-btn:hover svg {
+  color: #2362b0;
+}
+
+
+.header-top {
+  background: #eef6fd;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header-top-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phone-number {
+  color: #d32f2f;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.hours {
+  color: #666;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.notification-btn,
+.user-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.currency {
+  padding: 4px 12px;
+  /* khoảng cách bên trong */
+  border: 1px solid #000;
+  /* viền solid 3px, màu đen */
+  border-radius: 4px;
+  /* bo góc nếu muốn */
+  font-size: 14px;
+  font-weight: bold;
+  /* chữ đậm */
+  display: inline-block;
+  /* để padding và border hiển thị đúng */
+}
+
+
+.header-main {
+  padding: 16px 0;
+  background: white;
+}
+
+.header-main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #452fd3;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
   cursor: pointer;
 }
 
-.actions {
-  display: flex;
-  gap: 12px;
+@media (max-width: 768px) {
+  .main-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
 }

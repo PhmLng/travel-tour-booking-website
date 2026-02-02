@@ -1,29 +1,60 @@
-import "./Header.css";
+import React from 'react';
+import './Header.css';
 
-function Header() {
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faPhone, 
+  faBell, 
+  faUser, 
+  faBars 
+} from '@fortawesome/free-solid-svg-icons';
+
+const Header = () => {
   return (
     <header className="header">
-      <div className="top-bar">
-        <span> 1800 646 888 - Từ 8:00 - 23:00 hàng ngày</span>
+      <div className="header-top">
+        <div className="container">
+          <div className="header-top-content">
+            <div className="hotline">
+              <span className="phone-icon">
+                <FontAwesomeIcon icon={faPhone} />
+              </span>
+              <span className="phone-number">1800 646 888</span>
+              <span className="hours"> - Từ 8:00 - 23:00 hằng ngày</span>
+            </div>
+            <div className="header-actions">
+              <button className="notification-btn">
+                <FontAwesomeIcon icon={faBell} />
+              </button>
+
+              <div className="currency">VND</div>
+
+              <button className="user-btn">
+                <FontAwesomeIcon icon={faUser} />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="nav">
-        <div className="logo">Vietravel</div>
+      <div className="header-main">
+        <div className="container">
+          <div className="header-main-content">
+            <div className="logo">
+              <img src="/Logo_booking_tour_website-removebg-preview.png" alt="Vietravel" />
+              <p>Travel</p>
+            </div>
 
-        <ul className="menu">
-          <li>Điểm đến</li>
-          <li>Vietravel MICE</li>
-          <li>Vietravel Loyalty</li>
-          <li>Liên hệ</li>
-        </ul>
-
-        <div className="actions">
-          <span>🇻🇳 VND</span>
-          <span>X</span>
+            <nav className="main-nav">
+              <a href="#" className="nav-link">Điểm đến</a>
+              <a href="#" className="nav-link">Liên hệ</a>
+            </nav>
+          </div>
         </div>
       </div>
     </header>
   );
-}
+};
 
 export default Header;

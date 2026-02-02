@@ -57,9 +57,13 @@ public class Tour {
     @Column(name = "mainImage",nullable = false)
     private String mainImage;
 
-    @ManyToOne()
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany()
+    @JoinTable(
+            name = "tours_categories",
+            joinColumns = @JoinColumn(name = "tour_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<TourImage> gallery;

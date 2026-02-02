@@ -1,15 +1,27 @@
 package com.tourbooking.backend.dto.tour;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.tourbooking.backend.dto.category.CategoryResponse;
+import com.tourbooking.backend.dto.tour_image.TourImageResponse;
 import com.tourbooking.backend.entity.Category;
-import com.tourbooking.backend.entity.TourImage;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Setter
+@Getter
+@JsonPropertyOrder({
+        "id", "title", "description", "price", "startDate",
+        "duration", "departureLocation", "transport",
+        "maxSlots", "remainingSlots", "status",
+        "mainImage", "categories", "gallery",
+        "itinerary", "policy", "registrationGuide"
+})
 public class TourDetailResponse {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     private String title;
@@ -40,7 +52,7 @@ public class TourDetailResponse {
 
     private String mainImage;
 
-    private Category category;
+    private List<CategoryResponse> categories;
 
-    private List<TourImage> gallery;
+    private List<TourImageResponse> gallery;
 }

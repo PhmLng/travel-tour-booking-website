@@ -16,7 +16,7 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Tour> tours;
 
 }

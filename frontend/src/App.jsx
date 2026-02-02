@@ -1,3 +1,5 @@
+
+import { ContactPage } from "./pages/ContactPage"
 import { HomePage } from "./pages/HomePage"
 import { SignInPage } from "./pages/SignInPage"
 import { SignUpPage } from "./pages/SignUpPage"
@@ -23,6 +25,10 @@ function App() {
          <Route  
           path='/'
           element={<HomePage/>}
+        /> 
+         <Route  
+          path='/contact'
+          element={<ContactPage/>}
         /> 
       </Routes>
     </BrowserRouter>

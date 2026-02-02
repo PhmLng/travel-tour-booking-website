@@ -1,6 +1,7 @@
 import { HomePage } from "./pages/HomePage"
 import { SignInPage } from "./pages/SignInPage"
 import { SignUpPage } from "./pages/SignUpPage"
+import {TourPage} from "./components/TourPage"
 import {BrowserRouter,Routes, Route } from 'react-router'
 
 function App() {
@@ -24,6 +25,10 @@ function App() {
           path='/'
           element={<HomePage/>}
         /> 
+        <Route  
+          path='tourpage'
+          element={<TourPage/>}
+        />
       </Routes>
     </BrowserRouter>
     </div>

@@ -1,18 +1,7 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+import {Card, CardContent,
 } from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import {z} from 'zod'
@@ -20,8 +9,7 @@ import {useForm} from 'react-hook-form'
 import { zodResolver} from '@hookform/resolvers/zod'
 
 const signUpSchema = z.object({
-  firstname : z.string().min(1, 'Tên bắt buộc phải có'),
-  lastname : z.string().min(1, 'Họ bắt buộc phải có'),
+  fullname : z.string().min(1, 'Tên bắt buộc phải có'),
   username : z.string().min(3, 'Tên đăng nhập phải có ít nhất 3 kí tự'),
   email: z.email('Email không hợp lệ'),
   password : z.string().min(6, "PassWord phải có ít nhất 6 kí tự")
@@ -57,55 +45,37 @@ export function SignupForm({
                   <img
                     src="/logo.svg"
                     alt="logo"
+                    className="w-10 h-10"
                   />
                 </a>
-                <h1 className="text-2xl font-bold">Tạo tài khoản Moji</h1>
+                <h1 className="text-2xl font-bold">Tạo tài khoản</h1>
                 <p className="text-muted-foreground text-balance">
                   Chào mừng bạn! Hãy đăng ký để bắt đầu!
                 </p>
               </div>
-
-              {/* họ & tên */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="lastname"
-                    className="block text-sm"
-                  >
-                    Họ
-                  </Label>
-                  <Input
-                    type="text"
-                    id="lastname"
-                  {...register("lastname")}
-                  />
-                  {errors.lastname && (
+            {/* fullname */}
+            <div className="flex flex-col gap-3">
+                <Label
+                  htmlFor="fullname"
+                  className="block text-sm"
+                >
+                  Tên đăng nhập
+                </Label>
+                <Input
+                  type="text"
+                  id="fullname"
+                  placeholder="fullname"
+                 {...register("fullname")}
+                />
+                {errors.fullname && (
                     <p className="text-sm text-destructive">
-                      {errors.lastname.message}
+                      {errors.fullname.message}
                     </p>
                   )}
               
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="fistname"
-                    className="block text-sm"
-                  >
-                    Tên
-                  </Label>
-                  <Input
-                    type="text"
-                    id="firstname"
-                  {...register("firstname")}
-                  />
-                 {errors.firstname && (
-                    <p className="text-sm text-destructive">
-                      {errors.firstname.message}
-                    </p>
-                  )}
               
-                </div>
               </div>
+             
 
               {/* username */}
               <div className="flex flex-col gap-3">
@@ -118,7 +88,7 @@ export function SignupForm({
                 <Input
                   type="text"
                   id="username"
-                  placeholder="moji"
+                  placeholder="username"
                  {...register("username")}
                 />
                 {errors.username && (
@@ -150,7 +120,7 @@ export function SignupForm({
                     </p>
                   )}
               
-               
+          
               </div>
 
               {/* password */}
@@ -164,6 +134,7 @@ export function SignupForm({
                 <Input
                   type="password"
                   id="password"
+                  placeholder="............"
                   {...register("password")}
                 />
                 {errors.password && (
@@ -171,8 +142,6 @@ export function SignupForm({
                       {errors.password.message}
                     </p>
                   )}
-              
-              
               </div>
 
               {/* nút đăng ký */}
@@ -197,7 +166,7 @@ export function SignupForm({
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="/placeholderSignUp.png"
+              src="/anh1.svg"
               alt="Image"
               className="absolute object-cover -translate-y-1/2 top-1/2 "
             />

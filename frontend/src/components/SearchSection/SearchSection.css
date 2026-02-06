@@ -17,7 +17,7 @@
   padding: 8px;
   border-radius: 12px;
   flex-wrap: wrap;
-  justify-content:space-between ;
+  justify-content: space-between;
 }
 
 .tab {
@@ -47,16 +47,16 @@
 
 /* ===== Search Form ===== */
 .search-form {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
   display: grid;
   grid-template-columns: 2fr 1.5fr 1.5fr auto;
   gap: 16px;
-  align-items: end;
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  margin-bottom: 32px;
+  align-items: center;
 }
+
 
 .form-group {
   display: flex;
@@ -86,7 +86,7 @@
 }
 
 .search-btn {
-  background: #1976d2;
+  background: #358de5;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -155,15 +155,68 @@
   text-align: center;
   line-height: 1.4;
 }
+.input-wrapper {
+  position: relative;
+  width: 100%; /* input chiếm full width */
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.animated-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  max-width: calc(100% - 24px); /* tránh vượt ra ngoài input */
+  display: inline-block;
+  
+  /* Typing effect */
+  animation: typing 3s steps(22) infinite;
+}
+
+/* Chữ chạy xong lại quay lại từ đầu */
+@keyframes typing {
+  0% { width: 0; }
+  50% { width: 220px; } /* chiều dài chữ "Nhập địa điểm muốn đến" */
+  100% { width: 0; }
+}
+
+/* Con trỏ nhấp nháy mờ, nếu muốn */
+.animated-placeholder::after {
+  content: '|';
+  margin-left: 2px;
+  color: #999;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
 
 /* ===== Responsive ===== */
+/* Medium screen */
 @media (max-width: 1024px) {
   .search-form {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr auto; /* chia đều, không quá dài */
   }
-  
-  .quick-links {
-    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Small screen */
+@media (max-width: 768px) {
+  .search-form {
+    grid-template-columns: 1fr; /* mới xuống 1 cột */
+    gap: 12px;
   }
 }
 
@@ -173,7 +226,7 @@
     flex-wrap: nowrap;
     gap: 6px;
   }
-  
+
   .quick-links {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;

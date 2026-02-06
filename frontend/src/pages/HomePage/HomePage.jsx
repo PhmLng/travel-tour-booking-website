@@ -15,8 +15,8 @@ const HomePage = () => {
       <HeroBanner />
       {/* <SearchSection /> */}
       <FlashDeals />
-      <PopularDestinations />
-      <BestCombos />
+      {/* <PopularDestinations /> */}
+      {/* <BestCombos /> */}
       <Footer />
     </div>
   );

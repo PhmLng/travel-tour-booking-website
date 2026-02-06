@@ -1,48 +1,35 @@
+/* Header */
 .header {
-  /* position: fixed; */
   top: 0;
   left: 0;
   right: 0;
-  /* z-index: 1000; */
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
 }
 
+/* Logo */
 .logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logo img {   /* bỏ giới hạn từ cha */
+.logo img {
+  height: 60px;
   display: block;
-  object-fit: contain; /* hoặc 'cover' nếu muốn ảnh phủ đầy */
+  object-fit: contain;
 }
-
-
 
 .logo p {
   padding-left: 5px;
   font-size: 15px;
-  /* kích thước chữ */
   font-weight: bold;
-  /* in đậm */
   color: #1a5490;
 }
 
-.phone-icon svg,
-.notification-btn svg,
-.user-btn svg,
-.menu-toggle svg {
-  font-size: 16px;
-}
-
-.notification-btn:hover svg,
-.user-btn:hover svg {
-  color: #2362b0;
-}
-
-
+/* Header Top */
 .header-top {
   background: #eef6fd;
   padding: 8px 0;
@@ -55,12 +42,14 @@
   padding: 0 20px;
 }
 
-.header-top-content {
+.header-top-content,
+.header-main-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* Hotline */
 .hotline {
   display: flex;
   align-items: center;
@@ -77,6 +66,7 @@
   color: #666;
 }
 
+/* Header Actions */
 .header-actions {
   display: flex;
   align-items: center;
@@ -90,40 +80,42 @@
   font-size: 20px;
   cursor: pointer;
   padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.notification-btn:hover svg,
+.user-btn:hover svg {
+  color: #2362b0;
+}
+
+.user-text {
+  font-size: 14px;
 }
 
 .currency {
   padding: 4px 12px;
-  /* khoảng cách bên trong */
   border: 1px solid #000;
-  /* viền solid 3px, màu đen */
   border-radius: 4px;
-  /* bo góc nếu muốn */
   font-size: 14px;
   font-weight: bold;
-  /* chữ đậm */
   display: inline-block;
-  /* để padding và border hiển thị đúng */
 }
 
-
+/* Header Main */
 .header-main {
-  padding: 16px 0;
+  padding: 9px 0;
   background: white;
-}
-
-.header-main-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
+  position: relative;
 }
 
 .main-nav {
   display: flex;
+  align-items: center;
   gap: 32px;
 }
 
@@ -132,6 +124,8 @@
   color: #333;
   font-weight: 500;
   font-size: 16px;
+  display: flex;
+  align-items: center;
   transition: color 0.3s;
 }
 
@@ -139,20 +133,138 @@
   color: #452fd3;
 }
 
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+.nav-item-wrapper {
+  position: relative;
 }
 
-@media (max-width: 768px) {
-  .main-nav {
-    display: none;
-  }
+.destination-menu-wrapper {
+  position: absolute;
+  top: 127px;
+  left: 20%;
+  width: 100vw;
+  background: transparent;
+  z-index: 999;
 
-  .menu-toggle {
-    display: block;
-  }
+  pointer-events: none;
+}
+
+.destination-menu {
+  width: 1000px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  position: relative;
+  border-radius: 10px;
+
+  opacity: 0;
+  transform: translateY(-20px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+}
+
+.destination-menu-wrapper.show {
+  pointer-events: auto;
+}
+
+.destination-menu-wrapper.show .destination-menu {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.destination-menu-container {
+  display: flex;
+}
+
+.destination-sidebar {
+  width: 200px;
+  border-right: 1px solid #eee;
+}
+
+.destination-tab {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.destination-tab.active {
+  background: #f5f5f5;
+  color: #ff6600;
+}
+
+.destination-content {
+  flex: 1;
+  padding-left: 30px;
+}
+
+.destination-columns {
+  display: flex;
+  gap: 40px;
+}
+
+.destination-column h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.destination-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.destination-column li {
+  margin-bottom: 8px;
+}
+
+.destination-column a {
+  text-decoration: none;
+  color: #333;
+}
+
+.destination-column a:hover {
+  color: #ff6600;
+}
+
+.dropdown-icon {
+  transition: 0.3s;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.close-menu-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.close-menu-btn:hover {
+  background: #ff6600;
+  color: white;
+}
+
+
+/* Icons size */
+.phone-icon svg,
+.notification-btn svg,
+.user-btn svg {
+  font-size: 16px;
 }

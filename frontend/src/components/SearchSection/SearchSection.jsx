@@ -18,9 +18,10 @@ import {
 import './SearchSection.css';
 
 const SearchSection = () => {
+  const today = new Date().toISOString().split('T')[0];
   const [activeTab, setActiveTab] = useState('tour');
   const [destination, setDestination] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(today);
   const [priceRange, setPriceRange] = useState('all');
 
   return (
@@ -73,19 +74,28 @@ const SearchSection = () => {
         <div className="search-form">
           <div className="form-group">
             <label>Bạn muốn đi đâu? *</label>
-            <input
-              type="text"
-              placeholder="Ví dụ: Đà Nẵng"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
+            <div className="input-wrapper">
+              <input
+                type="text"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder=""
+              />
+              {!destination && (
+                <span className="animated-placeholder">
+                  Nhập địa điểm muốn đến
+                </span>
+              )}
+            </div>
           </div>
+
 
           <div className="form-group">
             <label>Ngày đi</label>
             <input
               type="date"
               value={date}
+              min={today}
               onChange={(e) => setDate(e.target.value)}
             />
           </div>

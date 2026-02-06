@@ -11,9 +11,9 @@ import java.util.List;
 public interface TourService {
     public List<TourResponse> getAllTours();
     public TourDetailResponse getTourById(Long id);
+    public  List<TourResponse> getAllToursByCategory(Long id);
     public List<TourResponse> SearchTourByTitle(String title);
     public TourDetailResponse createTour(TourCreationRequest tour);
     public TourDetailResponse updateTour(Long id,TourUpdateRequest tourUpdateRequest );
-
     public void deleteTour(Long id);
 }

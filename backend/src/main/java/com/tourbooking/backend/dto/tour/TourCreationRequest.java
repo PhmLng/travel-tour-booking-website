@@ -1,8 +1,7 @@
 package com.tourbooking.backend.dto.tour;
 
-import com.tourbooking.backend.dto.category.CategoryResponse;
-import com.tourbooking.backend.entity.Category;
-import com.tourbooking.backend.entity.TourImage;
+import com.tourbooking.backend.dto.category.CategoryLinkRequest;
+import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,7 +39,7 @@ public class TourCreationRequest {
 
     private String mainImage;
 
-    private List<CategoryResponse> categories;
+    private List<CategoryLinkRequest> categories;
 
-    private List<TourResponse> gallery;
+    private List<TourImageRequest> gallery;
 }

@@ -12,4 +12,5 @@ import java.util.List;
 public interface TourRepository extends JpaRepository<Tour, Long> {
     @Query("select t from Tour t where t.title like %:title%")
     public List<Tour> searchByName(String title);
+    public List<Tour> findByCategories_Id(Long id);
 }

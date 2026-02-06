@@ -1,5 +1,6 @@
 package com.tourbooking.backend.controller;
 
+import com.tourbooking.backend.dto.tour.TourCreationRequest;
 import com.tourbooking.backend.dto.tour.TourDetailResponse;
 import com.tourbooking.backend.dto.tour.TourResponse;
 import com.tourbooking.backend.dto.tour.TourUpdateRequest;
@@ -26,9 +27,17 @@ public class TourController {
     public ResponseEntity<TourDetailResponse> getTourById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.getTourById(id));
     }
+    @GetMapping(params = "categoryId")
+    public ResponseEntity<List<TourResponse>> getToursByCategoryId(@RequestParam("categoryId") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(tourService.getAllToursByCategory(id));
+    }
     @GetMapping("/search")
     public ResponseEntity<List<TourResponse>> searchTourByTitle(@RequestParam String title) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.SearchTourByTitle(title));
+    }
+    @PostMapping("")
+    public ResponseEntity<TourDetailResponse> createTour(@RequestBody TourCreationRequest tourCreationRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createTour(tourCreationRequest));
     }
     @PutMapping("/{id}")
     public ResponseEntity<TourDetailResponse> updateTour(@PathVariable Long id, @RequestBody TourUpdateRequest tourUpdateRequest) {

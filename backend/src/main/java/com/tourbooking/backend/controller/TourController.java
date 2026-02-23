@@ -43,5 +43,9 @@ public class TourController {
     public ResponseEntity<TourDetailResponse> updateTour(@PathVariable Long id, @RequestBody TourUpdateRequest tourUpdateRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.updateTour(id, tourUpdateRequest));
     }
-
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
+        tourService.deleteTour(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
 }

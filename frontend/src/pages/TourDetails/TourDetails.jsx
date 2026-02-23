@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './TourDetails.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,218 +13,111 @@ import {
   faChevronUp,
   faChevronLeft,
   faChevronRight,
-  faPlane,
-  faUtensils
+  faBus,
+  faInfoCircle,
+  faCheckCircle,
+  faTag
 } from '@fortawesome/free-solid-svg-icons';
+
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 const TourDetails = () => {
   const { id } = useParams();
+  const [tourData, setTourData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [activeMonth, setActiveMonth] = useState('2/2026');
   const [expandedDay, setExpandedDay] = useState(null);
   const [expandedNote, setExpandedNote] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Dữ liệu tour (có thể fetch từ API based on id)
-  const tourData = {
-    id: 1,
-    title: 'Đài Loan: Đài Bắc - Công viên Dương Minh Sơn - Đài Trung - Phố cổ Lộc Cảng - Cao Hùng - Phật Quang Sơn I Mừng 1 Tết',
-    breadcrumb: ['Du lịch', 'Nước ngoài', 'Châu Á', 'Đài Loan'],
-    images: [
-      '/tours/taiwan1.jpg',
-      '/tours/taiwan2.jpg',
-      '/tours/taiwan3.jpg',
-      '/tours/taiwan4.jpg',
-      '/tours/taiwan5.jpg'
-    ],
-    oldPrice: '30.990.000',
-    price: '29.490.000',
-    promotion: 'Đặt ngay để nhận được Ưu đãi giờ chót tiết kiệm thêm 1,500K',
-    code: 'NNSGN4581-001-170226VN-D',
-    departure: 'TP. Hồ Chí Minh',
-    departureDate: '17-02-2026',
-    duration: '5N4D',
-    seatsLeft: 9,
-    schedule: {
-      month: '17/02/2026',
-      transport: 'Phương tiện di chuyển',
-      flights: {
-        outbound: {
-          code: 'VN570',
-          departure: { time: '16:50', airport: 'SGN', date: '17/02/2026' },
-          arrival: { time: '21:10', airport: 'TPE' }
-        },
-        return: {
-          code: 'VN581',
-          departure: { time: '07:30', airport: 'KHH', date: '21/02/2026' },
-          arrival: { time: '09:30', airport: 'SGN' }
-        }
-      },
-      prices: {
-        adult: { label: 'Người lớn', price: '30.990.000', note: '(Từ 12 tuổi trở lên)' },
-        child: { label: 'Em bé', price: '9.297.000', note: '(Dưới 2 tuổi)' },
-        childBed: { label: 'Trẻ em', price: '23.242.500', note: '(Từ 2 đến 11 tuổi)' },
-        singleRoom: { label: 'Phụ thu phòng đơn', price: '10.000.000' }
-      },
-      notes: [
-        'CHỈ NHẬN KHÁCH EVISA VÀ GTNN MIỄN VISA.',
-        'CHỈ CÓ 4 TWIN + 2 DBL + 2 TRIP.',
-        'Chưa bao gồm tip 133.000vnd/ngày/ khách (tương đương 5 usd/ngày/ khách), Tour không tách đoàn',
-        'Đã bao gồm 10kg hành lý xách tay và 23kg hành lý ký gửi',
-        'Phòng 3 đang yêu cầu - túy vào tình hình thực tế tại khách sạn'
-      ]
-    },
-    itinerary: {
-      summary: {
-        time: 'Tháng 2',
-        transport: 'Máy bay, Xe du lịch',
-        promotion: 'Đã bao gồm ưu đãi trong giá tour'
-      },
-      days: [
-        {
-          day: 1,
-          title: 'Tp.Hồ Chí Minh - Đài Bắc',
-          meals: [],
-          activities: [
-            'Tập trung tại sân bay Tân Sơn Nhất',
-            'Khởi hành chuyến bay đi Đài Bắc',
-            'Đến sân bay Đào Viên, xe đưa đoàn về khách sạn nghỉ ngơi'
-          ]
-        },
-        {
-          day: 2,
-          title: 'Đài Bắc',
-          meals: ['sáng', 'trưa', 'tối'],
-          activities: [
-            'Tham quan Công viên Dương Minh Sơn',
-            'Phố cổ Cửu Phần',
-            'Thả đèn trời tại Thập Phần',
-            'Chợ đêm Thập Phần'
-          ]
-        },
-        {
-          day: 3,
-          title: 'Đài Bắc - Đài Trung',
-          meals: ['sáng', 'trưa', 'tối'],
-          activities: [
-            'Tham quan Hồ Nhật Nguyệt',
-            'Chùa Văn Vũ',
-            'Làng cổ Lộc Cảng',
-            'Di chuyển về Đài Trung'
-          ]
-        },
-        {
-          day: 4,
-          title: 'Đài Trung - Cao Hùng',
-          meals: ['sáng', 'trưa', 'tối'],
-          activities: [
-            'Tham quan chùa Phật Quang Sơn',
-            'Thành phố cảng Cao Hùng',
-            'Chợ đêm Lục Hợp',
-            'Nghỉ đêm tại Cao Hùng'
-          ]
-        },
-        {
-          day: 5,
-          title: 'Cao Hùng - Tp. Hồ Chí Minh',
-          meals: ['sáng'],
-          activities: [
-            'Ăn sáng tại khách sạn',
-            'Tự do mua sắm',
-            'Ra sân bay về TP.HCM',
-            'Kết thúc chuyến đi'
-          ]
-        }
-      ]
-    },
-    notes: [
-      {
-        title: 'Giá tour bao gồm',
-        items: [
-          'Vé máy bay khứ hồi',
-          'Khách sạn 3-4 sao',
-          'Các bữa ăn theo chương trình',
-          'Vé tham quan các điểm trong chương trình',
-          'Hướng dẫn viên tiếng Việt',
-          'Bảo hiểm du lịch'
-        ]
-      },
-      {
-        title: 'Giá tour không bao gồm',
-        items: [
-          'Chi phí làm hộ chiếu',
-          'Phí tip cho HDV và tài xế',
-          'Chi phí cá nhân',
-          'Phụ thu phòng đơn'
-        ]
-      },
-      {
-        title: 'Lưu ý giá trẻ em',
-        items: [
-          'Trẻ em dưới 2 tuổi: 30% giá tour',
-          'Trẻ em từ 2-11 tuổi: 75% giá tour',
-          'Trẻ em từ 12 tuổi: tính như người lớn'
-        ]
-      },
-      {
-        title: 'Điều kiện thanh toán',
-        items: [
-          'Đặt cọc: 50% tổng giá tour',
-          'Thanh toán còn lại: trước 7 ngày khởi hành',
-          'Hủy tour sau 15 ngày: không hoàn cọc',
-          'Hủy tour sau 7 ngày: không hoàn tiền'
-        ]
-      },
-      {
-        title: 'Điều kiện đăng ký',
-        items: [
-          'Hộ chiếu còn hạn trên 6 tháng',
-          'Chỉ nhận khách có eVisa hoặc miễn visa',
-          'Khách tự túc visa'
-        ]
-      },
-      {
-        title: 'Lưu ý về chuyến hoặc hủy tour',
-        items: [
-          'Tour có thể hoãn/hủy do thiên tai, dịch bệnh',
-          'Công ty sẽ thông báo trước 7 ngày',
-          'Hoàn lại 100% nếu công ty hủy tour'
-        ]
-      },
-      {
-        title: 'Các điều kiện hủy tour đối với ngày thường',
-        items: [
-          'Hủy trước 20 ngày: phí 30%',
-          'Hủy từ 15-20 ngày: phí 50%',
-          'Hủy từ 7-15 ngày: phí 70%',
-          'Hủy dưới 7 ngày: phí 100%'
-        ]
-      },
-      {
-        title: 'Trường hợp bất khả kháng',
-        items: [
-          'Thiên tai, dịch bệnh, chiến tranh',
-          'Hủy chuyến bay do hãng hàng không',
-          'Từ chối nhập cảnh do cơ quan xuất nhập cảnh'
-        ]
-      },
-      {
-        title: 'Liên hệ',
-        items: [
-          'Hotline: 1800 646 888',
-          'Email: support@travel.com',
-          'Website: www.travel.com.vn'
-        ]
-      },
-      {
-        title: 'Thông tin Visa',
-        items: [
-          'Đài Loan yêu cầu eVisa hoặc visa thông thường',
-          'Thời gian xử lý: 5-7 ngày làm việc',
-          'Chi phí visa: Khách tự túc'
-        ]
+  // Fetch tour data (có thể thay bằng API call)
+  useEffect(() => {
+
+    const fetchTourData = async () => {
+      try {
+
+        const demoData = {
+          "id": 1,
+          "title": "Tour Nha Trang: Thiên Đường Biển Đảo",
+          "description": "Trải nghiệm lặn ngắm san hô và thưởng thức hải sản tươi sống tại vịnh biển đẹp nhất Việt Nam.",
+          "price": 3990000.0,
+          "startDate": "2026-05-10",
+          "duration": "3 ngày 2 đêm",
+          "departureLocation": "TP. Hồ Chí Minh",
+          "transport": "Xe du lịch đời mới",
+          "maxSlots": 40,
+          "remainingSlots": 25,
+          "status": "AVAILABLE",
+          "mainImage": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3",
+          "categories": [
+            { "id": 1, "name": "Du lịch Biển" },
+            { "id": 2, "name": "Khám phá Núi" }
+          ],
+          "gallery": [
+            "/tours/tour6.jpg",
+            "/tours/tour6.jpg",
+            "/tours/tour6.jpg",
+            "/tours/tour6.jpg"
+          ],
+          "itinerary": "Ngày 1: Đón khách - VinWonders. Ngày 2: Du ngoạn 4 đảo. Ngày 3: Tháp Bà Ponagar - Tiễn khách.",
+          "policy": "Giá tour bao gồm bảo hiểm. Không bao gồm chi phí cá nhân.",
+          "registrationGuide": "Quý khách đặt cọc 50% ngay sau khi đăng ký tour."
+        };
+
+        // ⭐ Fetch deals giống FlashDeals
+        const response = await fetch('/deals.json');
+        const deals = await response.json();
+
+        // tìm tour đúng theo id
+        const dealData = deals.find(
+          tour => String(tour.id) === String(id)
+        );
+
+        // ⭐ merge data
+        const mergedData = {
+          ...demoData,
+          ...dealData   // field nào trùng sẽ override demoData
+        };
+
+        setTourData(mergedData);
+        setLoading(false);
+
+      } catch (error) {
+        console.error('Error fetching tour data:', error);
+        setLoading(false);
       }
-    ]
+    };
+
+    fetchTourData();
+
+  }, [id]);
+
+  // Parse itinerary từ string sang array
+  const parseItinerary = (itineraryString) => {
+    if (!itineraryString) return [];
+
+    const days = itineraryString.split('.').filter(day => day.trim());
+    return days.map((day, index) => {
+      const parts = day.trim().split(':');
+      return {
+        day: index + 1,
+        title: parts[0]?.replace(/Ngày \d+/, '').trim() || `Ngày ${index + 1}`,
+        activities: parts[1]?.split('-').map(a => a.trim()).filter(a => a) || []
+      };
+    });
+  };
+
+  // Parse policy thành sections
+  const parsePolicy = (policyString) => {
+    if (!policyString) return [];
+
+    const sections = policyString.split('.').filter(s => s.trim());
+    return sections.map((section, index) => ({
+      id: index,
+      title: section.includes('bao gồm') ? 'Giá tour bao gồm' : 'Giá tour không bao gồm',
+      content: section.trim()
+    }));
   };
 
   const toggleDay = (dayIndex) => {
@@ -236,326 +129,452 @@ const TourDetails = () => {
   };
 
   const nextImage = () => {
+    if (!tourData?.gallery) return;
     setCurrentImageIndex((prev) =>
-      prev === tourData.images.length - 1 ? 0 : prev + 1
+      prev === tourData.gallery.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
+    if (!tourData?.gallery) return;
     setCurrentImageIndex((prev) =>
-      prev === 0 ? tourData.images.length - 1 : prev - 1
+      prev === 0 ? tourData.gallery.length - 1 : prev - 1
     );
   };
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN').format(price);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  const getStatusBadge = (status) => {
+    const statusMap = {
+      'AVAILABLE': { text: 'Còn chỗ', color: '#4caf50' },
+      'ALMOST_FULL': { text: 'Sắp đầy', color: '#ff9800' },
+      'FULL': { text: 'Hết chỗ', color: '#f44336' },
+      'CANCELLED': { text: 'Đã hủy', color: '#9e9e9e' }
+    };
+    return statusMap[status] || statusMap['AVAILABLE'];
+  };
+
+  if (loading) {
+    return (
+      <div className="tour-details-loading">
+        <div className="spinner"></div>
+        <p>Đang tải thông tin tour...</p>
+      </div>
+    );
+  }
+
+  if (!tourData) {
+    return (
+      <div className="tour-details-error">
+        <h2>Không tìm thấy tour</h2>
+        <p>Tour bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+        <a href="/" className="btn-primary">Về trang chủ</a>
+      </div>
+    );
+  }
+
+  const itineraryDays = parseItinerary(tourData.itinerary);
+  const policySections = parsePolicy(tourData.policy);
+  const images = tourData.gallery?.length > 0
+    ? tourData.gallery.map(img =>
+      typeof img === 'string'
+        ? { imageUrl: img }
+        : img
+    )
+    : [{ imageUrl: tourData.mainImage }];
+
+  const statusBadge = getStatusBadge(tourData.status);
+
   return (
-    <div className="tour-details">
-      {/* Breadcrumb */}
-      <div className="breadcrumb-container">
-        <div className="container">
-          <div className="breadcrumb">
-            {tourData.breadcrumb.map((item, index) => (
-              <span key={index}>
-                {index > 0 && ' / '}
-                <a href="#">{item}</a>
-              </span>
-            ))}
-            {' / '}
-            <span className="current">{tourData.title}</span>
+    <>
+      <Header />
+      <div className="tour-details">
+        {/* Breadcrumb */}
+        <div className="breadcrumb-container">
+          <div className="container">
+            <div className="breadcrumb">
+              <a href="/">Du lịch</a>
+              {tourData.categories?.map((cat, index) => (
+                <span key={cat.id}>
+                  {' / '}
+                  <a href={`/category/${cat.id}`}>{cat.name}</a>
+                </span>
+              ))}
+              {' / '}
+              <span className="current">{tourData.title}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="tour-details-content">
-          {/* Left Content */}
-          <div className="tour-left">
-            {/* Title */}
-            <h1 className="tour-title">{tourData.title}</h1>
-
-            {/* Image Gallery */}
-            <div className="tour-gallery">
-              <div className="main-image">
-                <img src={tourData.images[currentImageIndex]} alt="Tour" />
-                <button className="gallery-nav prev" onClick={prevImage}>
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-                <button className="gallery-nav next" onClick={nextImage}>
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-              </div>
-              <div className="thumbnail-grid">
-                {tourData.images.slice(0, 4).map((img, index) => (
-                  <div
-                    key={index}
-                    className={`thumbnail ${currentImageIndex === index ? 'active' : ''}`}
-                    onClick={() => setCurrentImageIndex(index)}
+        <div className="container">
+          <div className="tour-details-content">
+            {/* Left Content */}
+            <div className="tour-left">
+              {/* Title & Categories */}
+              <div className="tour-header">
+                <h1 className="tour-title">{tourData.title}</h1>
+                <div className="tour-meta">
+                  {tourData.categories?.map((cat) => (
+                    <span key={cat.id} className="category-badge">
+                      <FontAwesomeIcon icon={faTag} />
+                      {cat.name}
+                    </span>
+                  ))}
+                  <span
+                    className="status-badge"
+                    style={{ backgroundColor: statusBadge.color }}
                   >
-                    <img src={img} alt={`Thumbnail ${index + 1}`} />
-                    {index === 3 && tourData.images.length > 4 && (
-                      <div className="more-images">+{tourData.images.length - 4}</div>
-                    )}
-                  </div>
-                ))}
+                    {statusBadge.text}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Tabs */}
-            <div className="tour-tabs">
-              <button
-                className={`tab ${activeTab === 'overview' ? 'active' : ''}`}
-                onClick={() => setActiveTab('overview')}
-              >
-                Tổng quan
-              </button>
-              <button
-                className={`tab ${activeTab === 'schedule' ? 'active' : ''}`}
-                onClick={() => setActiveTab('schedule')}
-              >
-                Lịch khởi hành
-              </button>
-              <button
-                className={`tab ${activeTab === 'itinerary' ? 'active' : ''}`}
-                onClick={() => setActiveTab('itinerary')}
-              >
-                Lịch trình
-              </button>
-              <button
-                className={`tab ${activeTab === 'notes' ? 'active' : ''}`}
-                onClick={() => setActiveTab('notes')}
-              >
-                Lưu ý
-              </button>
-              <button
-                className={`tab ${activeTab === 'program' ? 'active' : ''}`}
-                onClick={() => setActiveTab('program')}
-              >
-                Chương trình khác
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            <div className="tab-content">
-              {activeTab === 'schedule' && (
-                <div className="schedule-content">
-                  <h2>LỊCH KHỞI HÀNH</h2>
-
-                  <div className="schedule-header">
-                    <button className="month-selector">Chọn tháng<br />{activeMonth}</button>
-                    <div className="schedule-nav">
-                      <button className="nav-btn">
-                        <FontAwesomeIcon icon={faChevronLeft} /> Quay lại
-                      </button>
-                      <div className="current-date">{tourData.schedule.month}</div>
-                    </div>
-                  </div>
-
-                  <div className="flight-info">
-                    <h3>Phương tiện di chuyển</h3>
-
-                    {/* Outbound Flight */}
-                    <div className="flight-row">
-                      <div className="flight-detail">
-                        <div className="flight-label">Ngày đi - {tourData.schedule.flights.outbound.departure.date}</div>
-                        <div className="flight-code">
-                          <FontAwesomeIcon icon={faPlane} /> {tourData.schedule.flights.outbound.code}
-                        </div>
-                      </div>
-                      <div className="flight-route">
-                        <div className="route-point">
-                          <div className="time">{tourData.schedule.flights.outbound.departure.time}</div>
-                          <div className="airport">{tourData.schedule.flights.outbound.departure.airport}</div>
-                        </div>
-                        <div className="route-line"></div>
-                        <div className="route-point">
-                          <div className="time">{tourData.schedule.flights.outbound.arrival.time}</div>
-                          <div className="airport">{tourData.schedule.flights.outbound.arrival.airport}</div>
-                        </div>
-                      </div>
-                      <div className="airline-logo">
-                        <img src="/vietnam-airlines.png" alt="Vietnam Airlines" />
-                      </div>
-                    </div>
-
-                    {/* Return Flight */}
-                    <div className="flight-row">
-                      <div className="flight-detail">
-                        <div className="flight-label">Ngày về - {tourData.schedule.flights.return.departure.date}</div>
-                        <div className="flight-code">
-                          <FontAwesomeIcon icon={faPlane} /> {tourData.schedule.flights.return.code}
-                        </div>
-                      </div>
-                      <div className="flight-route">
-                        <div className="route-point">
-                          <div className="time">{tourData.schedule.flights.return.departure.time}</div>
-                          <div className="airport">{tourData.schedule.flights.return.departure.airport}</div>
-                        </div>
-                        <div className="route-line"></div>
-                        <div className="route-point">
-                          <div className="time">{tourData.schedule.flights.return.arrival.time}</div>
-                          <div className="airport">{tourData.schedule.flights.return.arrival.airport}</div>
-                        </div>
-                      </div>
-                      <div className="airline-logo">
-                        <img src="/vietnam-airlines.png" alt="Vietnam Airlines" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Pricing */}
-                  <div className="pricing-table">
-                    <h3>Giá</h3>
-                    <div className="price-grid">
-                      {Object.entries(tourData.schedule.prices).map(([key, item]) => (
-                        <div key={key} className="price-item">
-                          <div className="price-label">
-                            {item.label}
-                            {item.note && <div className="price-note">{item.note}</div>}
-                          </div>
-                          <div className="price-value">{item.price} đ</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Schedule Notes */}
-                  <div className="schedule-notes">
-                    {tourData.schedule.notes.map((note, index) => (
-                      <div key={index} className="note-item">{note}</div>
-                    ))}
-                  </div>
+              {/* Description */}
+              {tourData.description && (
+                <div className="tour-description">
+                  <p>{tourData.description}</p>
                 </div>
               )}
 
-              {activeTab === 'itinerary' && (
-                <div className="itinerary-content">
-                  <div className="itinerary-summary">
-                    <div className="summary-item">
-                      <strong>Thời gian lý tưởng</strong>
-                      <div>{tourData.itinerary.summary.time}</div>
-                    </div>
-                    <div className="summary-item">
-                      <strong>Phương tiện</strong>
-                      <div>{tourData.itinerary.summary.transport}</div>
-                    </div>
-                    <div className="summary-item">
-                      <strong>Khuyến mại</strong>
-                      <div>{tourData.itinerary.summary.promotion}</div>
-                    </div>
+              {/* Image Gallery */}
+              <div className="tour-gallery">
+                <div className="main-image">
+                  <img
+                    src={images[currentImageIndex]?.imageUrl}
+                    alt={`${tourData.title} - ${currentImageIndex + 1}`}
+                  />
+                  {images.length > 1 && (
+                    <>
+                      <button className="gallery-nav prev" onClick={prevImage}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                      </button>
+                      <button className="gallery-nav next" onClick={nextImage}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                      </button>
+                    </>
+                  )}
+                </div>
+                {images.length > 1 && (
+                  <div className="thumbnail-grid">
+                    {images.slice(0, 4).map((img, index) => (
+                      <div
+                        key={index}
+                        className={`thumbnail ${currentImageIndex === index ? 'active' : ''}`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <img src={img.imageUrl} alt={`Thumbnail ${index + 1}`} />
+                        {index === 3 && images.length > 4 && (
+                          <div className="more-images">+{images.length - 4}</div>
+                        )}
+                      </div>
+                    ))}
                   </div>
+                )}
+              </div>
 
-                  <h2>LỊCH TRÌNH</h2>
+              {/* Tabs */}
+              <div className="tour-tabs">
+                <button
+                  className={`tab ${activeTab === 'overview' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('overview')}
+                >
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  Tổng quan
+                </button>
+                <button
+                  className={`tab ${activeTab === 'itinerary' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('itinerary')}
+                >
+                  <FontAwesomeIcon icon={faCalendar} />
+                  Lịch trình
+                </button>
+                <button
+                  className={`tab ${activeTab === 'policy' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('policy')}
+                >
+                  <FontAwesomeIcon icon={faCheckCircle} />
+                  Chính sách
+                </button>
+              </div>
 
-                  <div className="itinerary-timeline">
-                    {tourData.itinerary.days.map((day, index) => (
-                      <div key={index} className={`day-item ${expandedDay === index ? 'expanded' : ''}`}>
-                        <div className="day-header" onClick={() => toggleDay(index)}>
-                          <div className="day-title">
-                            <h3>Ngày {day.day}: {day.title}</h3>
-                            {day.meals.length > 0 && (
-                              <div className="meals">
-                                <FontAwesomeIcon icon={faUtensils} />
-                                Số bữa ăn: {day.meals.length < 3 ? `0${day.meals.length}` : day.meals.length} bữa ({day.meals.join(', ')})
+              {/* Tab Content */}
+              <div className="tab-content">
+                {/* Overview Tab */}
+                {activeTab === 'overview' && (
+                  <div className="overview-content">
+                    <h2>THÔNG TIN CHUNG</h2>
+
+                    <div className="overview-grid">
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faCalendar} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Ngày khởi hành</div>
+                          <div className="overview-value">{formatDate(tourData.startDate)}</div>
+                        </div>
+                      </div>
+
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faClock} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Thời gian</div>
+                          <div className="overview-value">{tourData.duration}</div>
+                        </div>
+                      </div>
+
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Điểm khởi hành</div>
+                          <div className="overview-value">{tourData.departureLocation}</div>
+                        </div>
+                      </div>
+
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faBus} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Phương tiện</div>
+                          <div className="overview-value">{tourData.transport}</div>
+                        </div>
+                      </div>
+
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faUsers} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Số chỗ</div>
+                          <div className="overview-value">
+                            {tourData.remainingSlots}/{tourData.maxSlots} còn trống
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="overview-item">
+                        <div className="overview-icon">
+                          <FontAwesomeIcon icon={faTicket} />
+                        </div>
+                        <div className="overview-info">
+                          <div className="overview-label">Trạng thái</div>
+                          <div className="overview-value" style={{ color: statusBadge.color }}>
+                            {statusBadge.text}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {tourData.description && (
+                      <div className="description-section">
+                        <h3>Mô tả chi tiết</h3>
+                        <p>{tourData.description}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Itinerary Tab */}
+                {activeTab === 'itinerary' && (
+                  <div className="itinerary-content">
+                    <h2>LỊCH TRÌNH TOUR</h2>
+
+                    {itineraryDays.length > 0 ? (
+                      <div className="itinerary-timeline">
+                        {itineraryDays.map((day, index) => (
+                          <div key={index} className={`day-item ${expandedDay === index ? 'expanded' : ''}`}>
+                            <div className="day-header" onClick={() => toggleDay(index)}>
+                              <div className="day-title">
+                                <div className="day-number">Ngày {day.day}</div>
+                                <h3>{day.title}</h3>
+                              </div>
+                              <FontAwesomeIcon icon={expandedDay === index ? faChevronUp : faChevronDown} />
+                            </div>
+                            {expandedDay === index && day.activities.length > 0 && (
+                              <div className="day-content">
+                                <ul className="activities-list">
+                                  {day.activities.map((activity, idx) => (
+                                    <li key={idx}>{activity}</li>
+                                  ))}
+                                </ul>
                               </div>
                             )}
                           </div>
-                          <FontAwesomeIcon icon={expandedDay === index ? faChevronUp : faChevronDown} />
-                        </div>
-                        {expandedDay === index && (
-                          <div className="day-content">
-                            <ul className="activities-list">
-                              {day.activities.map((activity, idx) => (
-                                <li key={idx}>{activity}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+                        ))}
                       </div>
-                    ))}
+                    ) : (
+                      <div className="no-data">
+                        <p>Thông tin lịch trình đang được cập nhật.</p>
+                      </div>
+                    )}
                   </div>
+                )}
 
-                  <div className="itinerary-footer">
-                    <h3>NHỮNG THÔNG TIN CẦN LƯU Ý</h3>
-                  </div>
-                </div>
-              )}
+                {/* Policy Tab */}
+                {activeTab === 'policy' && (
+                  <div className="policy-content">
+                    <h2>CHÍNH SÁCH & ĐIỀU KIỆN</h2>
 
-              {activeTab === 'notes' && (
-                <div className="notes-content">
-                  <h2>NHỮNG THÔNG TIN CẦN LƯU Ý</h2>
-
-                  <div className="notes-accordion">
-                    {tourData.notes.map((note, index) => (
-                      <div key={index} className={`note-accordion-item ${expandedNote === index ? 'expanded' : ''}`}>
-                        <div className="note-header" onClick={() => toggleNote(index)}>
-                          <h3>{note.title}</h3>
-                          <FontAwesomeIcon icon={expandedNote === index ? faChevronUp : faChevronDown} />
+                    {/* Policy from JSON */}
+                    {tourData.policy && (
+                      <div className="policy-section">
+                        <h3>Chính sách tour</h3>
+                        <div className="policy-text">
+                          {policySections.map((section, index) => (
+                            <div key={index} className="policy-item">
+                              <FontAwesomeIcon icon={faCheckCircle} className="policy-icon" />
+                              <p>{section.content}</p>
+                            </div>
+                          ))}
                         </div>
-                        {expandedNote === index && (
+                      </div>
+                    )}
+
+                    {/* Registration Guide */}
+                    {tourData.registrationGuide && (
+                      <div className="registration-section">
+                        <h3>Hướng dẫn đăng ký</h3>
+                        <div className="registration-box">
+                          <FontAwesomeIcon icon={faInfoCircle} />
+                          <p>{tourData.registrationGuide}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Additional Policies Accordion */}
+                    <div className="notes-accordion">
+                      <div className={`note-accordion-item ${expandedNote === 0 ? 'expanded' : ''}`}>
+                        <div className="note-header" onClick={() => toggleNote(0)}>
+                          <h3>Điều kiện hủy tour</h3>
+                          <FontAwesomeIcon icon={expandedNote === 0 ? faChevronUp : faChevronDown} />
+                        </div>
+                        {expandedNote === 0 && (
                           <div className="note-content">
                             <ul>
-                              {note.items.map((item, idx) => (
-                                <li key={idx}>{item}</li>
-                              ))}
+                              <li>Hủy trước 30 ngày: hoàn lại 100% tiền cọc</li>
+                              <li>Hủy từ 15-30 ngày: hoàn lại 70% tiền cọc</li>
+                              <li>Hủy từ 7-15 ngày: hoàn lại 50% tiền cọc</li>
+                              <li>Hủy dưới 7 ngày: không hoàn tiền</li>
                             </ul>
                           </div>
                         )}
                       </div>
-                    ))}
+
+                      <div className={`note-accordion-item ${expandedNote === 1 ? 'expanded' : ''}`}>
+                        <div className="note-header" onClick={() => toggleNote(1)}>
+                          <h3>Lưu ý quan trọng</h3>
+                          <FontAwesomeIcon icon={expandedNote === 1 ? faChevronUp : faChevronDown} />
+                        </div>
+                        {expandedNote === 1 && (
+                          <div className="note-content">
+                            <ul>
+                              <li>Mang theo giấy tờ tùy thân (CMND/CCCD/Hộ chiếu)</li>
+                              <li>Trẻ em dưới 5 tuổi được miễn phí</li>
+                              <li>Tuân thủ lịch trình và quy định của hướng dẫn viên</li>
+                              <li>Mua bảo hiểm du lịch để đảm bảo an toàn</li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right Sidebar - Booking Info */}
+            <div className="tour-right">
+              <div className="booking-card">
+                <div className="price-section">
+                  <div className="price-label">Giá tour:</div>
+                  <div className="current-price">
+                    {formatPrice(tourData.price)} đ
+                    <span className="price-per"> / Khách</span>
                   </div>
                 </div>
-              )}
-            </div>
-          </div>
 
-          {/* Right Sidebar - Booking Info */}
-          <div className="tour-right">
-            <div className="booking-card">
-              <div className="price-section">
-                <div className="price-label">Giá:</div>
-                <div className="old-price">{tourData.oldPrice} đ / Khách</div>
-                <div className="current-price">{tourData.price} đ <span>/ Khách</span></div>
-              </div>
+                {tourData.remainingSlots < 10 && tourData.remainingSlots > 0 && (
+                  <div className="promotion-box warning">
+                    <FontAwesomeIcon icon={faGift} />
+                    <span>Chỉ còn {tourData.remainingSlots} chỗ trống! Đặt ngay để không bỏ lỡ!</span>
+                  </div>
+                )}
 
-              <div className="promotion-box">
-                <FontAwesomeIcon icon={faGift} />
-                <span>{tourData.promotion}</span>
-              </div>
+                <div className="tour-info-list">
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faTicket} />
+                    <span>Mã tour: <strong>TOUR-{tourData.id}</strong></span>
+                  </div>
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    <span>Khởi hành: <strong>{tourData.departureLocation}</strong></span>
+                  </div>
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faCalendar} />
+                    <span>Ngày đi: <strong>{formatDate(tourData.startDate)}</strong></span>
+                  </div>
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faClock} />
+                    <span>Thời gian: <strong>{tourData.duration}</strong></span>
+                  </div>
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faUsers} />
+                    <span>Số chỗ còn: <strong>{tourData.remainingSlots}/{tourData.maxSlots}</strong></span>
+                  </div>
+                  <div className="info-item">
+                    <FontAwesomeIcon icon={faBus} />
+                    <span>Phương tiện: <strong>{tourData.transport}</strong></span>
+                  </div>
+                </div>
 
-              <div className="tour-info-list">
-                <div className="info-item">
-                  <FontAwesomeIcon icon={faTicket} />
-                  <span>Mã tour: <strong>{tourData.code}</strong></span>
+                <div className="booking-actions">
+                  {tourData.status === 'AVAILABLE' ? (
+                    <>
+                      <button className="btn-secondary">
+                        <FontAwesomeIcon icon={faCalendar} />
+                        Ngày khác
+                      </button>
+                      <button className="btn-primary">
+                        Đặt ngay
+                      </button>
+                    </>
+                  ) : (
+                    <button className="btn-disabled" disabled>
+                      {tourData.status === 'FULL' ? 'Hết chỗ' : 'Không khả dụng'}
+                    </button>
+                  )}
                 </div>
-                <div className="info-item">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} />
-                  <span>Khởi hành: <strong>{tourData.departure}</strong></span>
-                </div>
-                <div className="info-item">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  <span>Ngày khởi hành: <strong>{tourData.departureDate}</strong></span>
-                </div>
-                <div className="info-item">
-                  <FontAwesomeIcon icon={faClock} />
-                  <span>Thời gian: <strong>{tourData.duration}</strong></span>
-                </div>
-                <div className="info-item">
-                  <FontAwesomeIcon icon={faUsers} />
-                  <span>Số chỗ còn: <strong>{tourData.seatsLeft}</strong></span>
-                </div>
-              </div>
 
-              <div className="booking-actions">
-                <button className="btn-secondary">
-                  <FontAwesomeIcon icon={faCalendar} />
-                  Ngày khác
-                </button>
-                <button className="btn-primary">Đặt ngay</button>
+                {tourData.registrationGuide && (
+                  <div className="booking-note">
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    <p>{tourData.registrationGuide}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
+
   );
 };
 

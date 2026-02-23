@@ -6,7 +6,13 @@
     "startDate": "2026-02-01",
     "duration": "Trong ngày",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour5.webp"
+    "mainImage": "/tours/tour5.webp",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   },
   {
     "id": 2,
@@ -15,7 +21,13 @@
     "startDate": "2026-02-01",
     "duration": "6 ngày 5 đêm",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour1.jpg"
+    "mainImage": "/tours/tour1.jpg",
+    "gallery": [
+      "/tours/tour1.jpg",
+      "/tours/tour1.jpg",
+      "/tours/tour1.jpg",
+      "/tours/tour1.jpg"
+    ]
   },
   {
     "id": 3,
@@ -24,7 +36,13 @@
     "startDate": "2026-02-01",
     "duration": "3 ngày 2 đêm",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour4.jpg"
+    "mainImage": "/tours/tour4.jpg",
+    "gallery": [
+      "/tours/tour4.jpg",
+      "/tours/tour4.jpg",
+      "/tours/tour4.jpg",
+      "/tours/tour4.jpg"
+    ]
   },
   {
     "id": 4,
@@ -33,7 +51,13 @@
     "startDate": "2026-02-01",
     "duration": "Trong ngày",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour5.webp"
+    "mainImage": "/tours/tour5.webp",
+    "gallery": [
+      "/tours/tour5.webp",
+      "/tours/tour5.webp",
+      "/tours/tour5.webp",
+      "/tours/tour5.webp"
+    ]
   },
   {
     "id": 5,
@@ -42,7 +66,13 @@
     "startDate": "2026-02-01",
     "duration": "6 ngày 5 đêm",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour6.jpg"
+    "mainImage": "/tours/tour6.jpg",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   },
   {
     "id": 6,
@@ -51,7 +81,12 @@
     "startDate": "2026-02-01",
     "duration": "Trong ngày",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour5.webp"
+    "mainImage": "/tours/tour5.webp",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   },
   {
     "id": 7,
@@ -60,7 +95,13 @@
     "startDate": "2026-02-01",
     "duration": "6 ngày 5 đêm",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour6.jpg"
+    "mainImage": "/tours/tour6.jpg",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   },
   {
     "id": 8,
@@ -69,7 +110,13 @@
     "startDate": "2026-02-01",
     "duration": "Trong ngày",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour5.webp"
+    "mainImage": "/tours/tour5.webp",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   },
   {
     "id": 9,
@@ -78,6 +125,12 @@
     "startDate": "2026-02-01",
     "duration": "6 ngày 5 đêm",
     "departureLocation": "TP. Hồ Chí Minh",
-    "mainImage": "/tours/tour6.jpg"
+    "mainImage": "/tours/tour6.jpg",
+    "gallery": [
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg",
+      "/tours/tour6.jpg"
+    ]
   }
 ]

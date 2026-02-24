@@ -20,8 +20,7 @@ public interface TourMapper {
     public Tour toTour(TourCreationRequest tourCreationRequest);
 
     public List<TourResponse> tourListTourResponses(List<Tour> tours);
-
-
+    public TourResponse toTourResponse(Tour tour);
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "gallery", ignore = true)
     public void updateTour(@MappingTarget Tour tour, TourUpdateRequest tourUpdateRequest);

@@ -16,7 +16,11 @@ import com.tourbooking.backend.repository.TourRepository;
 import com.tourbooking.backend.service.TourService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,10 +39,12 @@ public class TourServiceImpl implements TourService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<TourResponse> getAllTours() {
-        List<Tour> tours = tourRepository.findAll();
-        List<TourResponse> tourResponses = tourMapper.tourListTourResponses(tours) ;;
-        return tourResponses;
+    public Page<TourResponse> getAllTours(int page, int size) {
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Tour> tourPage = tourRepository.findAll(pageable);
+
+        Page<TourResponse> tourResponsePage = tourPage.map(tour -> tourMapper.toTourResponse(tour));
+        return tourResponsePage;
     }
 
     @Override

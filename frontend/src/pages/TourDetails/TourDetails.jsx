@@ -35,58 +35,26 @@ const TourDetails = () => {
   useEffect(() => {
 
     const fetchTourData = async () => {
+
       try {
 
-        const demoData = {
-          "id": 1,
-          "title": "Tour Nha Trang: Thiên Đường Biển Đảo",
-          "description": "Trải nghiệm lặn ngắm san hô và thưởng thức hải sản tươi sống tại vịnh biển đẹp nhất Việt Nam.",
-          "price": 3990000.0,
-          "startDate": "2026-05-10",
-          "duration": "3 ngày 2 đêm",
-          "departureLocation": "TP. Hồ Chí Minh",
-          "transport": "Xe du lịch đời mới",
-          "maxSlots": 40,
-          "remainingSlots": 25,
-          "status": "AVAILABLE",
-          "mainImage": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3",
-          "categories": [
-            { "id": 1, "name": "Du lịch Biển" },
-            { "id": 2, "name": "Khám phá Núi" }
-          ],
-          "gallery": [
-            "/tours/tour6.jpg",
-            "/tours/tour6.jpg",
-            "/tours/tour6.jpg",
-            "/tours/tour6.jpg"
-          ],
-          "itinerary": "Ngày 1: Đón khách - VinWonders. Ngày 2: Du ngoạn 4 đảo. Ngày 3: Tháp Bà Ponagar - Tiễn khách.",
-          "policy": "Giá tour bao gồm bảo hiểm. Không bao gồm chi phí cá nhân.",
-          "registrationGuide": "Quý khách đặt cọc 50% ngay sau khi đăng ký tour."
-        };
+        const response = await fetch(`http://localhost:8080/api/v1/tours/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        // ⭐ Fetch deals giống FlashDeals
-        const response = await fetch('/deals.json');
-        const deals = await response.json();
+        const data = await response.json();
 
-        // tìm tour đúng theo id
-        const dealData = deals.find(
-          tour => String(tour.id) === String(id)
-        );
-
-        // ⭐ merge data
-        const mergedData = {
-          ...demoData,
-          ...dealData   // field nào trùng sẽ override demoData
-        };
-
-        setTourData(mergedData);
+        setTourData(data);
         setLoading(false);
 
       } catch (error) {
+
         console.error('Error fetching tour data:', error);
         setLoading(false);
+
       }
+
     };
 
     fetchTourData();
@@ -186,13 +154,13 @@ const TourDetails = () => {
 
   const itineraryDays = parseItinerary(tourData.itinerary);
   const policySections = parsePolicy(tourData.policy);
-  const images = tourData.gallery?.length > 0
-    ? tourData.gallery.map(img =>
-      typeof img === 'string'
-        ? { imageUrl: img }
-        : img
-    )
-    : [{ imageUrl: tourData.mainImage }];
+  // Luôn đặt mainImage đầu tiên, gallery phía sau
+  const images = [
+    { imageUrl: tourData.mainImage },
+    ...(tourData.gallery
+      ?.filter(img => img.imageUrl && !img.imageUrl.includes('example.com'))
+      .map(img => ({ imageUrl: img.imageUrl })) || [])
+  ];
 
   const statusBadge = getStatusBadge(tourData.status);
 
@@ -253,6 +221,7 @@ const TourDetails = () => {
                   <img
                     src={images[currentImageIndex]?.imageUrl}
                     alt={`${tourData.title} - ${currentImageIndex + 1}`}
+                    onError={(e) => { e.target.src = "/no-image.jpg"; }}
                   />
                   {images.length > 1 && (
                     <>
@@ -395,33 +364,21 @@ const TourDetails = () => {
                   <div className="itinerary-content">
                     <h2>LỊCH TRÌNH TOUR</h2>
 
-                    {itineraryDays.length > 0 ? (
-                      <div className="itinerary-timeline">
-                        {itineraryDays.map((day, index) => (
-                          <div key={index} className={`day-item ${expandedDay === index ? 'expanded' : ''}`}>
-                            <div className="day-header" onClick={() => toggleDay(index)}>
-                              <div className="day-title">
-                                <div className="day-number">Ngày {day.day}</div>
-                                <h3>{day.title}</h3>
-                              </div>
-                              <FontAwesomeIcon icon={expandedDay === index ? faChevronUp : faChevronDown} />
+                    {tourData.itinerary ? (
+                      <div className="itinerary-list">
+                        {tourData.itinerary
+                          .split('|')
+                          .filter(item => item.trim())
+                          .map((item, index) => (
+                            <div key={index} className="itinerary-item">
+                              <div className="itinerary-dot"></div>
+                              <p>{item.trim()}</p>
                             </div>
-                            {expandedDay === index && day.activities.length > 0 && (
-                              <div className="day-content">
-                                <ul className="activities-list">
-                                  {day.activities.map((activity, idx) => (
-                                    <li key={idx}>{activity}</li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                          ))
+                        }
                       </div>
                     ) : (
-                      <div className="no-data">
-                        <p>Thông tin lịch trình đang được cập nhật.</p>
-                      </div>
+                      <p>Thông tin lịch trình đang được cập nhật.</p>
                     )}
                   </div>
                 )}

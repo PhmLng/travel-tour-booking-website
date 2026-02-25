@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
 // Font Awesome
@@ -12,6 +14,7 @@ const Header = () => {
   const [showDestinationMenu, setShowDestinationMenu] = useState(false);
   const [activeTab, setActiveTab] = useState('NƯỚC NGOÀI');
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   const destinationTabs = ['NƯỚC NGOÀI', 'TRONG NƯỚC'];
 
@@ -31,6 +34,13 @@ const Header = () => {
     if (!showDestinationMenu) {
       setActiveTab('NƯỚC NGOÀI');
     }
+  };
+
+  // Navigate to category page
+  const handleDestinationClick = (e, destination) => {
+    e.preventDefault();
+    setShowDestinationMenu(false);
+    navigate(`/category/${encodeURIComponent(destination)}`);
   };
 
   // Close menu when click outside
@@ -92,10 +102,9 @@ const Header = () => {
         <div className="container">
           <div className="header-main-content">
 
-            <div className="logo">
+            <Link to="/" className="logo">
               <img src="/Logo_booking_tour_website-removebg-preview.png" alt="logo" />
-              <p>Travel</p>
-            </div>
+            </Link>
 
             <nav className="main-nav">
 
@@ -154,37 +163,39 @@ const Header = () => {
                   <div className="destination-column">
                     <h3>CHÂU Á</h3>
                     <ul>
-                      <li><a href="#">Thái Lan</a></li>
-                      <li><a href="#">Singapore</a></li>
-                      <li><a href="#">Nhật Bản</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Thái Lan')}>Thái Lan</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Singapore')}>Singapore</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Nhật Bản')}>Nhật Bản</a></li>
                     </ul>
                   </div>
 
                   <div className="destination-column">
                     <h3>CHÂU ÂU</h3>
                     <ul>
-                      <li><a href="#">Pháp</a></li>
-                      <li><a href="#">Ý</a></li>
-                      <li><a href="#">Thụy Sĩ</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Pháp')}>Pháp</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Ý')}>Ý</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Thụy Sĩ')}>Thụy Sĩ</a></li>
                     </ul>
                   </div>
+
                   <div className="destination-column">
                     <h3>CHÂU Á</h3>
                     <ul>
-                      <li><a href="#">Thái Lan</a></li>
-                      <li><a href="#">Singapore</a></li>
-                      <li><a href="#">Nhật Bản</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Thái Lan')}>Thái Lan</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Singapore')}>Singapore</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Nhật Bản')}>Nhật Bản</a></li>
                     </ul>
                   </div>
 
                   <div className="destination-column">
                     <h3>CHÂU ÂU</h3>
                     <ul>
-                      <li><a href="#">Pháp</a></li>
-                      <li><a href="#">Ý</a></li>
-                      <li><a href="#">Thụy Sĩ</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Pháp')}>Pháp</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Ý')}>Ý</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Thụy Sĩ')}>Thụy Sĩ</a></li>
                     </ul>
                   </div>
+
                 </div>
               )}
 
@@ -194,47 +205,45 @@ const Header = () => {
                   <div className="destination-column">
                     <h3>MIỀN BẮC</h3>
                     <ul>
-                      <li><a href="#">Hà Nội</a></li>
-                      <li><a href="#">Hạ Long</a></li>
-                      <li><a href="#">Sapa</a></li>
-                      <li><a href="#">Ninh Bình</a></li>
-                      <li><a href="#">Hà Giang</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Hà Nội')}>Hà Nội</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Hạ Long')}>Hạ Long</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Sapa')}>Sapa</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Ninh Bình')}>Ninh Bình</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Hà Giang')}>Hà Giang</a></li>
                     </ul>
                   </div>
 
                   <div className="destination-column">
-                    <h3>MIỀN BẮC</h3>
+                    <h3>MIỀN TRUNG</h3>
                     <ul>
-                      <li><a href="#">Hà Nội</a></li>
-                      <li><a href="#">Hạ Long</a></li>
-                      <li><a href="#">Sapa</a></li>
-                      <li><a href="#">Ninh Bình</a></li>
-                      <li><a href="#">Hà Giang</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Đà Nẵng')}>Đà Nẵng</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Hội An')}>Hội An</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Huế')}>Huế</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Quy Nhơn')}>Quy Nhơn</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Nha Trang')}>Nha Trang</a></li>
                     </ul>
                   </div>
 
                   <div className="destination-column">
-                    <h3>MIỀN BẮC</h3>
+                    <h3>MIỀN NAM</h3>
                     <ul>
-                      <li><a href="#">Hà Nội</a></li>
-                      <li><a href="#">Hạ Long</a></li>
-                      <li><a href="#">Sapa</a></li>
-                      <li><a href="#">Ninh Bình</a></li>
-                      <li><a href="#">Hà Giang</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'TP. Hồ Chí Minh')}>TP. Hồ Chí Minh</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Phú Quốc')}>Phú Quốc</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Đà Lạt')}>Đà Lạt</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Vũng Tàu')}>Vũng Tàu</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Cần Thơ')}>Cần Thơ</a></li>
                     </ul>
                   </div>
 
                   <div className="destination-column">
-                    <h3>MIỀN BẮC</h3>
+                    <h3>ĐẢO & BIỂN</h3>
                     <ul>
-                      <li><a href="#">Hà Nội</a></li>
-                      <li><a href="#">Hạ Long</a></li>
-                      <li><a href="#">Sapa</a></li>
-                      <li><a href="#">Ninh Bình</a></li>
-                      <li><a href="#">Hà Giang</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Côn Đảo')}>Côn Đảo</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Cát Bà')}>Cát Bà</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Lý Sơn')}>Lý Sơn</a></li>
+                      <li><a href="#" onClick={(e) => handleDestinationClick(e, 'Phú Quý')}>Phú Quý</a></li>
                     </ul>
                   </div>
-
 
                 </div>
               )}

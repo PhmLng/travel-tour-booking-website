@@ -1,7 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Footer.css';
 
-// Import FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faInstagram, 
@@ -13,6 +13,12 @@ import {
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const goTo = (destination) => {
+    navigate(`/category/${encodeURIComponent(destination)}`);
+  };
+
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -23,14 +29,14 @@ const Footer = () => {
             <div className="footer-column">
               <h4 className="footer-title">Du lịch trong nước</h4>
               <ul className="footer-links">
-                <li><a href="#">Hà Nội</a></li>
-                <li><a href="#">Hạ Long</a></li>
-                <li><a href="#">Đà Nẵng</a></li>
-                <li><a href="#">Nha Trang</a></li>
-                <li><a href="#">Phan Thiết</a></li>
-                <li><a href="#">Phú Quốc</a></li>
-                <li><a href="#">Bắc Kạn</a></li>
-                <li><a href="#">Quy Nhơn</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Hà Nội'); }}>Hà Nội</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Hạ Long'); }}>Hạ Long</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Đà Nẵng'); }}>Đà Nẵng</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Nha Trang'); }}>Nha Trang</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Phan Thiết'); }}>Phan Thiết</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Phú Quốc'); }}>Phú Quốc</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Bắc Kạn'); }}>Bắc Kạn</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Quy Nhơn'); }}>Quy Nhơn</a></li>
               </ul>
             </div>
 
@@ -38,23 +44,23 @@ const Footer = () => {
             <div className="footer-column">
               <h4 className="footer-title">Du lịch nước ngoài</h4>
               <ul className="footer-links">
-                <li><a href="#">Trung Quốc</a></li>
-                <li><a href="#">Malaysia</a></li>
-                <li><a href="#">Hàn Quốc</a></li>
-                <li><a href="#">Mỹ</a></li>
-                <li><a href="#">Đài Loan</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Trung Quốc'); }}>Trung Quốc</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Malaysia'); }}>Malaysia</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Hàn Quốc'); }}>Hàn Quốc</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Mỹ'); }}>Mỹ</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Đài Loan'); }}>Đài Loan</a></li>
               </ul>
 
               <h4 className="footer-title" style={{ marginTop: '24px' }}>Hướng</h4>
               <ul className="footer-links">
-                <li><a href="#">Huế</a></li>
-                <li><a href="#">Quảng Bình</a></li>
-                <li><a href="#">Quảng Nam</a></li>
-                <li><a href="#">Đà Lạt</a></li>
-                <li><a href="#">Bà Rịa - Vũng Tàu</a></li>
-                <li><a href="#">Cần Thơ</a></li>
-                <li><a href="#">Hà Giang</a></li>
-                <li><a href="#">Côn Đảo</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Huế'); }}>Huế</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Quảng Bình'); }}>Quảng Bình</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Quảng Nam'); }}>Quảng Nam</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Đà Lạt'); }}>Đà Lạt</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Bà Rịa - Vũng Tàu'); }}>Bà Rịa - Vũng Tàu</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Cần Thơ'); }}>Cần Thơ</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Hà Giang'); }}>Hà Giang</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); goTo('Côn Đảo'); }}>Côn Đảo</a></li>
               </ul>
             </div>
 
@@ -78,7 +84,7 @@ const Footer = () => {
               <h4 className="footer-title">Liên hệ</h4>
               <div className="contact-info">
                 <p>Số 18 Phố Viên, phường Đức Thắng, quận Bắc Từ Liêm, Hà Nội</p>
-                <p><a href="mailto:info@vietravel.com">info@Travel.com</a></p>
+                <p><a href="mailto:info@Travel.com">info@Travel.com</a></p>
 
                 <div className="social-links">
                   <a href="#" className="social-icon"><FontAwesomeIcon icon={faInstagram} /></a>

@@ -31,12 +31,15 @@ const FlashDeals = () => {
         // Gọi API search hoặc lấy tất cả
         const url = destination
           ? `http://localhost:8080/api/v1/tours/search?title=${encodeURIComponent(destination)}`
-          : `http://localhost:8080/api/v1/tours`;
-
+          : `http://localhost:8080/api/v1/tours?page=0&size=9`;
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        let data = await response.json();
+        let responseData = await response.json();
+
+        // Hỗ trợ API phân trang
+        let data = responseData.content ? responseData.content : responseData;
+
         data = Array.isArray(data) ? data : [];
 
         // Lọc theo ngày ± 15 ngày

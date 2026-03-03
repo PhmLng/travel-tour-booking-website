@@ -1,0 +1,7 @@
+package com.tourbooking.backend.service.impl;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookingRequestImpl {
+}

@@ -5,6 +5,7 @@ import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 @Setter
@@ -15,7 +16,7 @@ public class TourCreationRequest {
 
     private String description;
 
-    private Double price;
+    private BigDecimal price;
 
     private LocalDate startDate;
 

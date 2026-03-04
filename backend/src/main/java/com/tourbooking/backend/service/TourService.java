@@ -5,11 +5,12 @@ import com.tourbooking.backend.dto.tour.TourDetailResponse;
 import com.tourbooking.backend.dto.tour.TourResponse;
 import com.tourbooking.backend.dto.tour.TourUpdateRequest;
 import com.tourbooking.backend.entity.Tour;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface TourService {
-    public List<TourResponse> getAllTours();
+    public Page<TourResponse> getAllTours(int page, int size);
     public TourDetailResponse getTourById(Long id);
     public  List<TourResponse> getAllToursByCategory(Long id);
     public List<TourResponse> SearchTourByTitle(String title);

@@ -113,7 +113,6 @@ const CategoryPage = () => {
         let data = await response.json();
         data = Array.isArray(data) ? data : [];
         setTours(data);
-
         // Extract unique departure locations
         const locs = ['Tất cả', ...new Set(data.map(t => t.departureLocation).filter(Boolean))];
         setDepartures(locs);
@@ -468,7 +467,7 @@ const CategoryPage = () => {
                               <span className="meta-label">
                                 <FontAwesomeIcon icon={faBus} /> Phương tiện:
                               </span>
-                              <span className="meta-value">{tour.transport || 'Đang cập nhật'}</span>
+                              <span className="meta-value">{tour.transport || '—'}</span>
                             </div>
                             <div className="meta-row dates-row">
                               <span className="meta-label">

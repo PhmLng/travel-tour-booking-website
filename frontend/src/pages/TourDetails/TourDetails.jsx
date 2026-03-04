@@ -21,8 +21,11 @@ import {
 
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const TourDetails = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,7 +68,7 @@ const TourDetails = () => {
   const parseItinerary = (itineraryString) => {
     if (!itineraryString) return [];
 
-    const days = itineraryString.split('.').filter(day => day.trim());
+    const days = itineraryString.split('|').filter(day => day.trim());
     return days.map((day, index) => {
       const parts = day.trim().split(':');
       return {
@@ -503,11 +506,7 @@ const TourDetails = () => {
                 <div className="booking-actions">
                   {tourData.status === 'AVAILABLE' ? (
                     <>
-                      <button className="btn-secondary">
-                        <FontAwesomeIcon icon={faCalendar} />
-                        Ngày khác
-                      </button>
-                      <button className="btn-primary">
+                      <button className="btn-primary" onClick={() => navigate(`/booking/${tourData.id}`)}>
                         Đặt ngay
                       </button>
                     </>

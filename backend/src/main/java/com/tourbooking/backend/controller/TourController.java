@@ -6,6 +6,7 @@ import com.tourbooking.backend.dto.tour.TourResponse;
 import com.tourbooking.backend.dto.tour.TourUpdateRequest;
 import com.tourbooking.backend.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class TourController {
     private TourService tourService;
 
     @GetMapping("")
-    public ResponseEntity<List<TourResponse>> getAllTours() {
-        return ResponseEntity.status(HttpStatus.OK).body(tourService.getAllTours());
+    public ResponseEntity<Page<TourResponse>> getAllTours(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "9") int size) {
+        return ResponseEntity.status(HttpStatus.OK).body(tourService.getAllTours(page, size));
     }
 
     @GetMapping("/{id}")

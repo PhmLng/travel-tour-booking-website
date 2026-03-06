@@ -3,11 +3,6 @@ import './TourPage.css';
 import { set } from 'zod';
 import { id } from 'zod/v4/locales';
 
-const TourPage = () => {
-    const [selectedImage, setSelectedImage] = useState(0);
-    const [expandedSection, setExpandedSection] = useState(null);
-    const toggleSection = (section) => {setExpandedSection(expandedSection === section ? null : section)};
-};
 
 const tourData = {
     breakcrumbs: ['Du lịch', 'Trong nước', 'Miền Tây Nam Bộ', 'Phú Quốc'],
@@ -19,7 +14,7 @@ const tourData = {
     ],
     originalPrice: '8.790.000đ',
     price: '8.290.000 đ',
-    pricePerPerson: '/ Khách',
+    pricePerPerson: 'Khách',
     promotion: 'Đặt ngay để nhận được Ưu đãi giờ chót tiết kiệm thêm 500K',
     departure: 'TP. Hồ Chí Minh',
     departureDate: '06-02-2026',
@@ -74,6 +69,23 @@ const accordionDections = [
                     <th>Giá gốc</th>
                     <th>Giá ưu đãi</th>
                 </thead>
+                <tbody>
+                    <tr>
+                        <td>Người lớn (từ 12 tuổi)</td>
+                        <td>8.790.000đ</td>
+                        <td class="hightlight-price">8.290.00đ</td>
+                    </tr>
+                    <tr>
+                        <td>Trẻ em (5-11 tuổi)</td>
+                        <td>6.500.000đ</td>
+                        <td class="hightlight-price">6.100.000đ</td>
+                    </tr>
+                    <tr>
+                        <td>Trẻ em (dưới 5 tuổi)</td>
+                        <td>-</td>
+                        <td class="highlight-price">Miễn phí</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     },

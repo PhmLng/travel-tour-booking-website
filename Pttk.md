@@ -156,22 +156,22 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ## Sơ đồ Usecase
 
 1. Usecase Quản lý tài khoản
-   ![1768805937118](image/Pttk/1768805937118.png)
+   ![1769483357775](image/Pttk/1769483357775.png)
 2. Usecase Quản  lý đặt Tour
 
-   ![1768805977244](image/Pttk/1768805977244.png)
+   ![1769483400639](image/Pttk/1769483400639.png)
 3. Usecase Thanh toán
 
-   ![1768806008683](image/Pttk/1768806008683.png)
+   ![1769483422860](image/Pttk/1769483422860.png)
 4. Usecase Theo dõi đơn
 
-   ![1768806053818](image/Pttk/1768806053818.png)
+   ![1769483453121](image/Pttk/1769483453121.png)
 5. UUsecase Quản lý khách hàng
 
-   ![1768547586051](image/Pttk/1768547586051.png)
+   ![1769483471030](image/Pttk/1769483471030.png)
 6. Usecase Quản lý doanh thu
 
-   ![1768547641942](image/Pttk/1768547641942.png)
+   ![1769483570311](image/Pttk/1769483570311.png)
 
 ## Đặc tả Usecase
 
@@ -191,6 +191,20 @@ Bên cạnh các chức năng nghiệp vụ, hệ thống cần đáp ứng các
 ![1768530979766](image/Pttk/1768530979766.png)
 
 ![1768531004821](image/Pttk/1768531004821.png)
+
+![1768805996587](image/Pttk/1768805996587.png)
+
+![1768806011699](image/Pttk/1768806011699.png)
+
+![1768806024330](image/Pttk/1768806024330.png)
+
+![1768806036876](image/Pttk/1768806036876.png)
+
+![1768806057771](image/Pttk/1768806057771.png)
+
+![1768806066092](image/Pttk/1768806066092.png)
+
+![1769152755735](image/Pttk/1769152755735.png)
 
 ## Sơ đồ tuần tự
 
@@ -274,6 +288,18 @@ Hoàn tiền
 ![1769154068101](image/Pttk/1769154068101.png)
 
 ## Sơ đồ hoạt động
+
+Sơ đồ hoạt động: Hoàn tiền
+
+![1769166052543](image/Pttk/1769166052543.png)
+
+> Sơ đồ hoạt động: Xuất hóa đơn
+>
+> ![1769166128054](image/Pttk/1769166128054.png)
+>
+> Sơ đồ hoạt động: Thống kê doanh thu
+>
+> ![1769166154685](image/Pttk/1769166154685.png)
 
 1. Sơ đồ hoạt động xem doanh thu
 

@@ -203,7 +203,7 @@ const BookingPage = () => {
 
     const payload = {
       tourId: Number(id),
-      userId: null, // thay bằng userId thực nếu user đã đăng nhập
+      userId: 1, // hardcode tạm userId = 1 để test, thay sau khi có auth
       quantity: adults + children + infants,
       passengers: allPassengers,
     };
@@ -408,7 +408,7 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-              {/* summary-flight */}
+                {/* summary-flight */}
                 <div className="summary-flight">
                   <div className="summary-flight-header">
                     <FontAwesomeIcon icon={faPlane} /> THÔNG TIN CHUYẾN ĐI

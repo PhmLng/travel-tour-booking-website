@@ -31,7 +31,7 @@ const FlashDeals = () => {
         // Gọi API search hoặc lấy tất cả
         const url = destination
           ? `http://localhost:8080/api/v1/tours/search?title=${encodeURIComponent(destination)}`
-          : `http://localhost:8080/api/v1/tours?page=0&size=9`;
+          : `http://localhost:8080/api/v1/tours?page=1&size=9`;
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -95,7 +95,7 @@ const FlashDeals = () => {
       <div className="container">
 
         <div className="section-header">
-          <h2 className="section-title">ƯU ĐÃI NỔI BẬT</h2>
+          <h2 className="section-titlee">ƯU ĐÃI NỔI BẬT</h2>
           <p className="section-subtitle">
             {isFiltering
               ? `Tìm thấy ${deals.length} tour phù hợp`

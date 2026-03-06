@@ -16,9 +16,9 @@
   margin-bottom: 40px;
 }
 
-.section-title {
-  font-size: 28px;
-  font-weight: 700;
+.section-titlee {
+  font-size: 30px;
+  font-weight: 800;
   color: #222;
 }
 
@@ -166,15 +166,6 @@
   text-decoration: none;
   color: inherit;
 }
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .section-title {
-    font-size: 22px;
-  }
 
-  .deal-image {
-    height: 160px;
-  }
-}
 
 

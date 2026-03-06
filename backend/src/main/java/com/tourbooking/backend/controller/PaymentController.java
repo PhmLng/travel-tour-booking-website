@@ -1,4 +1,27 @@
 package com.tourbooking.backend.controller;
 
+import com.tourbooking.backend.dto.payment.PaymentRequest;
+import com.tourbooking.backend.dto.payment.PaymentResponse;
+import com.tourbooking.backend.service.PaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+@RestController
+@RequestMapping("api/v1/payments")
 public class PaymentController {
+    @Autowired
+    private PaymentService paymentService;
+
+    @PostMapping("")
+    public ResponseEntity<PaymentResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.processMockPayment(paymentRequest));
+    }
+    @GetMapping("/remaining/{id}")
+    public ResponseEntity<BigDecimal> getRemainingAmount(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.getRemainingAmount(id));
+    }
 }

@@ -1,5 +1,6 @@
 
 import { ContactPage } from "./pages/ContactPage"
+import Dashboard from "./pages/DashBoard"
 import { HomePage } from "./pages/HomePage"
 import { SignInPage } from "./pages/SignInPage"
 import { SignUpPage } from "./pages/SignUpPage"
@@ -29,6 +30,10 @@ function App() {
          <Route  
           path='/contact'
           element={<ContactPage/>}
+        /> 
+         <Route  
+          path='/dashboard/*'
+          element={<Dashboard/>}
         /> 
       </Routes>
     </BrowserRouter>

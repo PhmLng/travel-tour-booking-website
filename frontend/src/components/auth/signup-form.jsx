@@ -7,6 +7,9 @@ import { Label } from "@radix-ui/react-label"
 import {z} from 'zod'
 import {useForm} from 'react-hook-form'
 import { zodResolver} from '@hookform/resolvers/zod'
+import { api } from "@/lib/axios"
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner"
 
 const signUpSchema = z.object({
   fullname : z.string().min(1, 'Tên bắt buộc phải có'),
@@ -15,6 +18,9 @@ const signUpSchema = z.object({
   password : z.string().min(6, "PassWord phải có ít nhất 6 kí tự")
 
 })
+
+
+
 export function SignupForm({
   className,
   ...props
@@ -22,10 +28,19 @@ export function SignupForm({
     const {register, handleSubmit, formState:{errors, isSubmitting}}     = useForm({
     resolver:zodResolver(signUpSchema)
   })
-
-  const onSubmit = async (data) =>{
-
+const navigate = useNavigate();
+  const onSubmit = async (data) =>{ 
+  try {
+    const res = await api.post("/auth/register", data)
+    console.log(res.data)
+    toast.success("Đăng ký thành công")
+    navigate("/signin");
+  } catch (error) {
+    console.error(error)
+    toast.error("Đăng ký thất bại")
   }
+}
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

@@ -6,6 +6,9 @@ import { Label } from "@radix-ui/react-label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "@/lib/axios"
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const signinSchema = z.object({
   username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 kí tự"),
@@ -19,8 +22,20 @@ export function SigninForm({ className, ...props }) {
   } = useForm({
     resolver: zodResolver(signinSchema),
   });
+const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    try {
+    const res = await api.post("/auth/login", data);
+    console.log(res.data);
+    toast.success("Đăng nhập thành công");
 
-  const onSubmit = async (data) => {};
+    localStorage.setItem("user", JSON.stringify(res.data));
+    navigate("/");
+  } catch (error) {
+    console.error(error);
+    toast.error("Sai tài khoản hoặc mật khẩu");
+  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -75,7 +90,7 @@ export function SigninForm({ className, ...props }) {
                 )}
               </div>
 
-              {/* nút đăng ký */}
+              {/* nút đăng nhập */}
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Đăng nhập
               </Button>

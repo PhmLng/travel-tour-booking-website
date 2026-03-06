@@ -25,7 +25,7 @@ const InputField = ({
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b outline-none border-b-gray-500 placeholder:text-gray-400 focus:border-blue-400"
+        className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-blue-500"
         {...register}
       />
       {error && <p className="text-sm text-red-500">{error}</p>}
@@ -45,10 +45,10 @@ const FormField = () => {
   return (
     <form
       action=""
-      className="flex flex-col gap-8"
+      className="flex flex-col justify-between flex-1 p-20"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         <InputField
           label="Họ và tên"
           placeholder="Nguyễn Văn c"
@@ -72,8 +72,8 @@ const FormField = () => {
       <div className="flex flex-col gap-2">
         <label className="font-medium text-gray-500">Tin nhắn</label>
         <textarea
-          rows={5}
-          className="border-b outline-none border-b-gray-500 placeholder:text-gray-400 focus:border-blue-400"
+          rows={6}
+          className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-blue-500"
           {...register("message")}
         ></textarea>
         {errors.message && (
@@ -92,8 +92,8 @@ const FormField = () => {
 
 export const FromContact = () => {
   return (
-    <div className="w-full max-w-3xl p-10 shadow-xl rounded-2xl bg-linear-to-br from-white/90 via-cyan-50/80 to-green-100/80 backdrop-blur-md">
-      <h2 className="mb-10 text-4xl font-bold text-center text-slate-700">
+    <div className="w-full max-w-4xl min-h-[75vh] p-16 shadow-xl rounded-2xl bg-linear-to-br from-white/90 via-cyan-50/80 to-green-100/80 backdrop-blur-md flex flex-col">
+      <h2 className="mb-12 text-4xl font-bold text-center text-slate-700">
         Liên hệ với chúng tôi
       </h2>
       <FormField />

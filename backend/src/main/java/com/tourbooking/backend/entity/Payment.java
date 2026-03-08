@@ -26,6 +26,7 @@ public class Payment {
     @Column(name = "transactionCode", unique = true)
     private String transactionCode ;
 
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod = PaymentMethod.MOCK_PAYMENT;
 
     @Column(name = "paymentDate")

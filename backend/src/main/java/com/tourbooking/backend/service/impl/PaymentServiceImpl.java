@@ -2,6 +2,7 @@ package com.tourbooking.backend.service.impl;
 
 import com.tourbooking.backend.dto.payment.PaymentRequest;
 import com.tourbooking.backend.dto.payment.PaymentResponse;
+import com.tourbooking.backend.dto.payment.RemainingAmountResponse;
 import com.tourbooking.backend.entity.Booking;
 import com.tourbooking.backend.entity.BookingStatus;
 import com.tourbooking.backend.entity.Payment;
@@ -55,11 +56,17 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentMapper.toPaymentResponse(payment);
     }
     @Override
-    public BigDecimal getRemainingAmount(Long bookingId) {
+    public RemainingAmountResponse getRemainingAmount(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
 
         BigDecimal totalPaid = paymentRepository.sumPaidAmountByBookingId(bookingId);
         BigDecimal remainingAmount = totalPaid.subtract(booking.getTotalPrice());
-        return remainingAmount;
+
+        RemainingAmountResponse remainingAmountResponse = new RemainingAmountResponse();
+
+        remainingAmountResponse.setBookingId(bookingId);
+        remainingAmountResponse.setRemainingAmount(remainingAmount);
+
+        return remainingAmountResponse;
     }
 }

@@ -20,8 +20,4 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.processMockPayment(paymentRequest));
     }
-    @GetMapping("/remaining/{id}")
-    public ResponseEntity<BigDecimal> getRemainingAmount(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(paymentService.getRemainingAmount(id));
-    }
 }

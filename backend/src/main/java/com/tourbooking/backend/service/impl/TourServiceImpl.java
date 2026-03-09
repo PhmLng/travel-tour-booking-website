@@ -10,6 +10,7 @@ import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import com.tourbooking.backend.entity.Category;
 import com.tourbooking.backend.entity.Tour;
 import com.tourbooking.backend.entity.TourImage;
+import com.tourbooking.backend.exception.NotFoundException;
 import com.tourbooking.backend.mapper.TourMapper;
 import com.tourbooking.backend.repository.CategoryRepository;
 import com.tourbooking.backend.repository.TourRepository;
@@ -49,7 +50,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public TourDetailResponse getTourById(Long id) {
-        Tour tour = tourRepository.findById(id).orElseThrow(() ->new RuntimeException("Tour is not exist"));
+        Tour tour = tourRepository.findById(id).orElseThrow(() ->new NotFoundException("Tour is not exist"));
         TourDetailResponse tourDetailResponse = tourMapper.toTourDetailResponse(tour);
         return tourDetailResponse;
     }
@@ -76,7 +77,7 @@ public class TourServiceImpl implements TourService {
         if(tourCreationRequest.getCategories() != null) {
             List<Category> categoryList = new ArrayList<>();
             for (CategoryLinkRequest catDto : tourCreationRequest.getCategories()) {
-                Category category = categoryRepository.findById(catDto.getId()).orElseThrow(()->new RuntimeException("Category is not exist"));
+                Category category = categoryRepository.findById(catDto.getId()).orElseThrow(()->new NotFoundException("Category is not exist"));
                 categoryList.add(category);
             }
             tour.setCategories(categoryList);

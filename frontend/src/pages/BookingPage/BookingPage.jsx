@@ -19,20 +19,39 @@ export const bookingApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     }),
-
-  getById: (id) =>
-    fetch(`${BASE_URL}/bookings/${id}`),
-
-  getAll: () =>
-    fetch(`${BASE_URL}/bookings`),
-
-  deleteById: (id) =>
-    fetch(`${BASE_URL}/bookings/${id}`, { method: 'DELETE' }),
+  getById: (id) => fetch(`${BASE_URL}/bookings/${id}`),
+  getAll: () => fetch(`${BASE_URL}/bookings`),
+  deleteById: (id) => fetch(`${BASE_URL}/bookings/${id}`, { method: 'DELETE' }),
 };
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+export const paymentApi = {
+  create: (payload) =>
+    fetch(`${BASE_URL}/payments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }),
+};
+
+// ─── Constants ────────────────────────────────────────────────────────────────
 const STEPS = ['NHẬP THÔNG TIN', 'THANH TOÁN', 'HOÀN TẤT'];
 
+const PAYMENT_OPTIONS = [
+  {
+    key: 'FULL',
+    label: 'Thanh toán toàn bộ',
+    desc: 'Thanh toán 100% tổng giá trị đơn hàng',
+    ratio: 1,
+  },
+  {
+    key: 'HALF',
+    label: 'Thanh toán một nửa',
+    desc: 'Đặt cọc 50%, thanh toán phần còn lại trước ngày khởi hành',
+    ratio: 0.5,
+  },
+];
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 const PassengerCounter = ({ label, sub, value, onDecrease, onIncrease }) => (
   <div className="passenger-counter">
     <div>
@@ -67,10 +86,16 @@ const BookingPage = () => {
   const [agreePolicy, setAgreePolicy] = useState(true);
   const [errors, setErrors] = useState({});
 
-  // Booking result từ API
+  // Payment
+  const [paymentOption, setPaymentOption] = useState('FULL');
+
+  // API state
   const [bookingResult, setBookingResult] = useState(null);
-  const [bookingLoading, setBookingLoading] = useState(false);
+  const [paymentResult, setPaymentResult] = useState(null);
+  const [submitting, setSubmitting] = useState(false); // booking loading
+  const [paymentLoading, setPaymentLoading] = useState(false);
   const [bookingError, setBookingError] = useState('');
+  const [paymentError, setPaymentError] = useState('');
 
   // ── Fetch tour ──
   useEffect(() => {
@@ -80,14 +105,14 @@ const BookingPage = () => {
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
         setTourData(data);
-      } catch (err) {
+      } catch {
         setTourData({
           id, title: 'Singapore 4 ngày 3 đêm (Tặng vé tham quan Cloud Forest và Flower Dome, Khu vườn giác quan Sensory Scape)',
           tourCode: 'NNSGN193-004-120326SQ-D', mainImage: '/no-image.jpg',
           price: 17590000, adultPrice: 17590000, childPrice: 14000000,
           infantPrice: 3000000, singleRoomSurcharge: 6000000,
           departureLocation: 'Hồ Chí Minh', startDate: '2026-03-12', endDate: '2026-03-15',
-          duration: '4 ngày 3 đêm', transport: 'Máy bay', maxSlots: 30, remainingSlots: 15, status: 'AVAILABLE',
+          duration: '4 ngày 3 đêm', transport: 'Máy bay',
         });
       } finally {
         setLoading(false);
@@ -129,8 +154,10 @@ const BookingPage = () => {
   const singleRoomCount = adultDetails.filter(p => p.singleRoom).length;
 
   const formatPrice = (price) => new Intl.NumberFormat('vi-VN').format(price) + ' đ';
-  const calcTotal = () => adults * adultPrice + children * childPrice + infants * infantPrice + singleRoomCount * singleSurcharge;
+  const totalAmount = adults * adultPrice + children * childPrice + infants * infantPrice + singleRoomCount * singleSurcharge;
+  const payableAmount = paymentOption === 'FULL' ? totalAmount : Math.round(totalAmount * 0.5);
 
+  // ── Handlers ──
   const updateList = (setter, index, field, value) => {
     setter(prev => {
       const next = [...prev];
@@ -139,7 +166,6 @@ const BookingPage = () => {
     });
   };
 
-  // ── Validation ──
   const validateStep0 = () => {
     const errs = {};
     if (!contact.fullName.trim()) errs.fullName = 'Họ tên không được để trống';
@@ -155,9 +181,9 @@ const BookingPage = () => {
     window.scrollTo(0, 0);
   };
 
-  // ── Submit booking ──
+  // Step 1: tạo booking → rồi thanh toán
   const handleSubmitBooking = async () => {
-    setBookingLoading(true);
+    setSubmitting(true);
     setBookingError('');
 
     const allPassengers = [
@@ -168,20 +194,8 @@ const BookingPage = () => {
         birth: p.dob || '',
         email: i === 0 ? contact.email : '',
       })),
-      ...childDetails.map(p => ({
-        fullName: p.fullName,
-        phoneNumber: '',
-        address: '',
-        birth: p.dob || '',
-        email: '',
-      })),
-      ...infantDetails.map(p => ({
-        fullName: p.fullName,
-        phoneNumber: '',
-        address: '',
-        birth: p.dob || '',
-        email: '',
-      })),
+      ...childDetails.map(p => ({ fullName: p.fullName, phoneNumber: '', address: '', birth: p.dob || '', email: '' })),
+      ...infantDetails.map(p => ({ fullName: p.fullName, phoneNumber: '', address: '', birth: p.dob || '', email: '' })),
     ];
 
     const payload = {
@@ -192,35 +206,61 @@ const BookingPage = () => {
     };
 
     try {
-      // 1. Tạo booking
       const res = await bookingApi.create(payload);
       if (!res.ok) {
         const errData = await res.json().catch(() => null);
         throw new Error(errData?.message || `Lỗi ${res.status}: Đặt tour thất bại`);
       }
       const created = await res.json();
-      // Response: { id, tourTitle, mainImage, totalPrice, quantity, status, bookingDate }
 
-      // 2. Fetch chi tiết booking vừa tạo để hiển thị ở Step 2
+      // Fetch chi tiết nếu cần
       let detail = created;
       if (created?.id) {
         try {
           const detailRes = await bookingApi.getById(created.id);
           if (detailRes.ok) detail = await detailRes.json();
-        } catch (_) {
-          // fallback dùng created nếu getById lỗi
-        }
+        } catch (_) {}
       }
-
       setBookingResult(detail);
+
+      // Tiếp tục thanh toán ngay sau khi booking thành công
+      await handlePayment(detail.id);
+    } catch (err) {
+      setBookingError(err.message || 'Đã có lỗi xảy ra, vui lòng thử lại.');
+      setSubmitting(false);
+    }
+  };
+
+  // Thanh toán giả lập
+  const handlePayment = async (bookingId) => {
+    setPaymentLoading(true);
+    setPaymentError('');
+
+    const paymentPayload = {
+      bookingId,
+      amount: payableAmount,
+      paymentMethod: 'MOCK_PAYMENT',
+    };
+
+    try {
+      const res = await paymentApi.create(paymentPayload);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(errData?.message || `Lỗi ${res.status}: Thanh toán thất bại`);
+      }
+      const result = await res.json();
+      setPaymentResult(result);
       setStep(2);
       window.scrollTo(0, 0);
     } catch (err) {
-      setBookingError(err.message || 'Đã có lỗi xảy ra, vui lòng thử lại.');
+      setPaymentError(err.message || 'Thanh toán thất bại, vui lòng thử lại.');
     } finally {
-      setBookingLoading(false);
+      setPaymentLoading(false);
+      setSubmitting(false);
     }
   };
+
+  const isProcessing = submitting || paymentLoading;
 
   // ── Render ──
   if (loading) return (
@@ -258,18 +298,18 @@ const BookingPage = () => {
           <div className="booking-body">
             <div className="booking-left">
 
-              {/* ── STEP 0: Nhập thông tin ── */}
+              {/* ── STEP 0 ── */}
               {step === 0 && (
                 <>
                   <section className="booking-section">
                     <h2 className="section-title">THÔNG TIN LIÊN LẠC</h2>
                     <div className="login-hint">
                       <FontAwesomeIcon icon={faUser} />
-                      <span><a href="/signup">Đăng nhập</a> để nhận ưu đãi, tích điểm và quản lý đơn hàng dễ dàng hơn!</span>
+                      <span><a href="/login">Đăng nhập</a> để nhận ưu đãi, tích điểm và quản lý đơn hàng dễ dàng hơn!</span>
                     </div>
                     <div className="form-grid">
                       <div className="form-group">
-                        <label>Họ tên <span className="required">*</span></label>``
+                        <label>Họ tên <span className="required">*</span></label>
                         <input type="text" value={contact.fullName}
                           onChange={e => setContact({ ...contact, fullName: e.target.value })}
                           placeholder="Họ và tên" className={errors.fullName ? 'error' : ''} />
@@ -323,7 +363,7 @@ const BookingPage = () => {
                 </>
               )}
 
-              {/* ── STEP 1: Thanh toán ── */}
+              {/* ── STEP 1 ── */}
               {step === 1 && (
                 <>
                   <section className="booking-section">
@@ -335,27 +375,59 @@ const BookingPage = () => {
                       {contact.address && <p><strong>Địa chỉ:</strong> {contact.address}</p>}
                     </div>
                   </section>
+
                   <section className="booking-section">
-                    <h2 className="section-title">PHƯƠNG THỨC THANH TOÁN</h2>
-                    <div className="payment-methods">
-                      {['Thanh toán online (ATM/Visa/Mastercard)', 'Chuyển khoản ngân hàng', 'Thanh toán tại văn phòng'].map((m, i) => (
-                        <label key={i} className="payment-option">
-                          <input type="radio" name="payment" defaultChecked={i === 0} />
-                          <span>{m}</span>
+                    <h2 className="section-title">HÌNH THỨC THANH TOÁN</h2>
+                    <div className="payment-options">
+                      {PAYMENT_OPTIONS.map(opt => (
+                        <label
+                          key={opt.key}
+                          className={`payment-option-card ${paymentOption === opt.key ? 'selected' : ''}`}
+                          onClick={() => setPaymentOption(opt.key)}
+                        >
+                          <div className="payment-option-radio">
+                            <input
+                              type="radio"
+                              name="paymentOption"
+                              checked={paymentOption === opt.key}
+                              onChange={() => setPaymentOption(opt.key)}
+                            />
+                          </div>
+                          <div className="payment-option-info">
+                            <div className="payment-option-label">{opt.label}</div>
+                            <div className="payment-option-desc">{opt.desc}</div>
+                          </div>
+                          <div className="payment-option-amount">
+                            {formatPrice(Math.round(totalAmount * opt.ratio))}
+                          </div>
                         </label>
                       ))}
                     </div>
+
+                    {paymentOption === 'HALF' && (
+                      <div className="payment-half-notice">
+                        💡 Số tiền còn lại <strong>{formatPrice(totalAmount - payableAmount)}</strong> sẽ cần thanh toán trước ngày khởi hành.
+                      </div>
+                    )}
                   </section>
 
-                  {bookingError && (
+                  {/* Loading giả lập */}
+                  {isProcessing && (
+                    <div className="payment-processing">
+                      <div className="spinner" />
+                      <p>{submitting ? 'Đang tạo đơn đặt tour...' : 'Đang xử lý thanh toán...'}</p>
+                    </div>
+                  )}
+
+                  {(bookingError || paymentError) && !isProcessing && (
                     <div className="booking-error-msg">
-                      ⚠️ {bookingError}
+                      ⚠️ {bookingError || paymentError}
                     </div>
                   )}
                 </>
               )}
 
-              {/* ── STEP 2: Hoàn tất ── */}
+              {/* ── STEP 2 ── */}
               {step === 2 && (
                 <section className="booking-section success-section">
                   <div className="success-icon">✅</div>
@@ -365,28 +437,33 @@ const BookingPage = () => {
 
                   {bookingResult && (
                     <div className="booking-result-summary">
-                      {bookingResult.id && (
-                        <p><strong>Mã đặt chỗ:</strong> #{bookingResult.id}</p>
-                      )}
-                      {bookingResult.tourTitle && (
-                        <p><strong>Tour:</strong> {bookingResult.tourTitle}</p>
-                      )}
-                      {bookingResult.quantity && (
-                        <p><strong>Số khách:</strong> {bookingResult.quantity}</p>
-                      )}
-                      {bookingResult.totalPrice != null && (
-                        <p><strong>Tổng tiền:</strong> {formatPrice(bookingResult.totalPrice)}</p>
-                      )}
+                      {bookingResult.id && <p><strong>Mã đặt chỗ:</strong> #{bookingResult.id}</p>}
+                      {bookingResult.tourTitle && <p><strong>Tour:</strong> {bookingResult.tourTitle}</p>}
+                      {bookingResult.quantity && <p><strong>Số khách:</strong> {bookingResult.quantity}</p>}
+                      {bookingResult.totalPrice != null && <p><strong>Tổng tiền:</strong> {formatPrice(bookingResult.totalPrice)}</p>}
                       {bookingResult.status && (
-                        <p>
-                          <strong>Trạng thái:</strong>{' '}
-                          <span className={`booking-status ${bookingResult.status.toLowerCase()}`}>
-                            {bookingResult.status}
-                          </span>
+                        <p><strong>Trạng thái booking:</strong>{' '}
+                          <span className={`booking-status ${bookingResult.status.toLowerCase()}`}>{bookingResult.status}</span>
                         </p>
                       )}
-                      {bookingResult.bookingDate && (
-                        <p><strong>Ngày đặt:</strong> {new Date(bookingResult.bookingDate).toLocaleString('vi-VN')}</p>
+                    </div>
+                  )}
+
+                  {paymentResult && (
+                    <div className="payment-result-summary">
+                      <h3>Thông tin thanh toán</h3>
+                      {paymentResult.transactionCode && <p><strong>Mã giao dịch:</strong> {paymentResult.transactionCode}</p>}
+                      {paymentResult.amount != null && <p><strong>Số tiền đã thanh toán:</strong> {formatPrice(paymentResult.amount)}</p>}
+                      {paymentOption === 'HALF' && (
+                        <p><strong>Số tiền còn lại:</strong> {formatPrice(totalAmount - payableAmount)}</p>
+                      )}
+                      {paymentResult.status && (
+                        <p><strong>Trạng thái:</strong>{' '}
+                          <span className={`booking-status ${paymentResult.status.toLowerCase()}`}>{paymentResult.status}</span>
+                        </p>
+                      )}
+                      {paymentResult.paymentDate && (
+                        <p><strong>Ngày thanh toán:</strong> {new Date(paymentResult.paymentDate).toLocaleString('vi-VN')}</p>
                       )}
                     </div>
                   )}
@@ -491,8 +568,16 @@ const BookingPage = () => {
 
                 <div className="summary-total">
                   <span>Tổng tiền</span>
-                  <span className="total-price">{formatPrice(calcTotal())}</span>
+                  <span className="total-price">{formatPrice(totalAmount)}</span>
                 </div>
+
+                {/* Hiển thị số tiền cần thanh toán ở step 1 */}
+                {step === 1 && paymentOption === 'HALF' && (
+                  <div className="summary-payable">
+                    <span>Thanh toán ngay</span>
+                    <span className="payable-price">{formatPrice(payableAmount)}</span>
+                  </div>
+                )}
 
                 {step === 0 && (
                   <button className="btn-book-now" onClick={handleNext}>Tiếp tục</button>
@@ -502,11 +587,15 @@ const BookingPage = () => {
                     <button
                       className="btn-book-now"
                       onClick={handleSubmitBooking}
-                      disabled={!agreePolicy || bookingLoading}
+                      disabled={!agreePolicy || isProcessing}
                     >
-                      {bookingLoading ? 'Đang xử lý...' : 'Xác nhận đặt tour'}
+                      {isProcessing ? 'Đang xử lý...' : `Thanh toán ${formatPrice(payableAmount)}`}
                     </button>
-                    <button className="btn-secondary-full" onClick={() => { setStep(0); setBookingError(''); }}>
+                    <button
+                      className="btn-secondary-full"
+                      onClick={() => { setStep(0); setBookingError(''); setPaymentError(''); }}
+                      disabled={isProcessing}
+                    >
                       Quay lại
                     </button>
                   </>

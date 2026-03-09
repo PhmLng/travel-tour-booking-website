@@ -4,6 +4,7 @@ import com.tourbooking.backend.dto.boking.BookingRequest;
 import com.tourbooking.backend.dto.boking.BookingResponse;
 import com.tourbooking.backend.dto.passenger.PassengerRequest;
 import com.tourbooking.backend.entity.*;
+import com.tourbooking.backend.exception.NotFoundException;
 import com.tourbooking.backend.mapper.BookingMapper;
 import com.tourbooking.backend.mapper.PassengerMapper;
 import com.tourbooking.backend.repository.BookingRepository;
@@ -70,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingResponse getBookingById(long id) {
-        Booking booking = bookingRepository.findById(id).orElseThrow(()->new RuntimeException("booking not found"));
+        Booking booking = bookingRepository.findById(id).orElseThrow(()->new NotFoundException("booking not found"));
         return bookingMapper.toBookingResponse(booking);
     }
 

@@ -1,7 +1,7 @@
 package com.tourbooking.backend.exception;
 
-public class IncorrectPasswordException extends RuntimeException {
-    public IncorrectPasswordException(String message) {
+public class InvalidCredentialsException extends RuntimeException {
+    public InvalidCredentialsException(String message) {
         super(message);
     }
 }

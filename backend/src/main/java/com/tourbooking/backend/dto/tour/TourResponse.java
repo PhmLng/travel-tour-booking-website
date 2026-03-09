@@ -19,3 +19,4 @@ public class TourResponse {
     private String departureLocation;
     private String mainImage;
 }
+    

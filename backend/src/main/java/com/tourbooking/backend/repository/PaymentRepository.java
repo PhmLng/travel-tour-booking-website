@@ -16,13 +16,13 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.booking.id= :bookingId")
     public BigDecimal sumPaidAmountByBookingId(@Param("bookingId") Long bookingId);
 
-    @Query("SELECT new com.tourbooking.dto.MonthlyRevenueDTO(" +
-            "FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m'), SUM(p.amount)) " +
-            "FROM Payment p " +
-            "WHERE p.status = 'SUCCESS' " +
-            "GROUP BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') " +
-            "ORDER BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') ASC")
-    public List<MonthlyRevenueResponse> getMonthlyRevenue();
+//    @Query("SELECT new com.tourbooking.dto.MonthlyRevenueDTO(" +
+//            "FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m'), SUM(p.amount)) " +
+//            "FROM Payment p " +
+//            "WHERE p.status = 'SUCCESS' " +
+//            "GROUP BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') " +
+//            "ORDER BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') ASC")
+//    public List<MonthlyRevenueResponse> getMonthlyRevenue();
 
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.status = 'SUCCESS'")
     public BigDecimal getTotalRevenue();

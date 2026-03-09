@@ -22,15 +22,15 @@ import com.tourbooking.backend.repository.PaymentRepository;
     @Autowired
      private TourRepository tourRepository;
 
-    public DashboardResponse getDashboardStats() {
-        DashboardResponse dashboardResponse = new DashboardResponse();
-        dashboardResponse.setTotalBookings(bookingRepository.count());
-        dashboardResponse.setTotalUsers(userRepository.count());
-        dashboardResponse.setTotalRevenue(paymentRepository.getTotalRevenue());
-        dashboardResponse.setActiveTours(tourRepository.countByStatus("AVAILABLE"));
-        dashboardResponse.setRevenueChart(paymentRepository.getMonthlyRevenue());
-
-        return dashboardResponse;
-    }
+//    public DashboardResponse getDashboardStats() {
+//        DashboardResponse dashboardResponse = new DashboardResponse();
+//        dashboardResponse.setTotalBookings(bookingRepository.count());
+//        dashboardResponse.setTotalUsers(userRepository.count());
+//        dashboardResponse.setTotalRevenue(paymentRepository.getTotalRevenue());
+//        dashboardResponse.setActiveTours(tourRepository.countByStatus("AVAILABLE"));
+//        dashboardResponse.setRevenueChart(paymentRepository.getMonthlyRevenue());
+//
+//        return dashboardResponse;
+//    }
 
 }

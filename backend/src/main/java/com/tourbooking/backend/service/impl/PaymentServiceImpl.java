@@ -7,6 +7,7 @@ import com.tourbooking.backend.entity.Booking;
 import com.tourbooking.backend.entity.BookingStatus;
 import com.tourbooking.backend.entity.Payment;
 import com.tourbooking.backend.entity.PaymentStatus;
+import com.tourbooking.backend.exception.NotFoundException;
 import com.tourbooking.backend.mapper.PaymentMapper;
 import com.tourbooking.backend.repository.BookingRepository;
 import com.tourbooking.backend.repository.PaymentRepository;
@@ -57,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
     @Override
     public RemainingAmountResponse getRemainingAmount(Long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
 
         BigDecimal totalPaid = paymentRepository.sumPaidAmountByBookingId(bookingId);
         BigDecimal remainingAmount = totalPaid.subtract(booking.getTotalPrice());

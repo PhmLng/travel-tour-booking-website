@@ -4,6 +4,6 @@ import com.tourbooking.backend.dto.dashboard.DashboardResponse;
 
 public interface DashboardService {
 
-public DashboardResponse getDashboardStats(){}
+    public DashboardResponse getDashboardStats();
 
 }

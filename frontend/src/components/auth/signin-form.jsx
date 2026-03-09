@@ -25,7 +25,7 @@ export function SigninForm({ className, ...props }) {
 const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
-    const res = await api.post("/auth/login", data);
+    const res = await api.post("/auth/login", data );
     console.log(res.data);
     toast.success("Đăng nhập thành công");
 
@@ -91,7 +91,7 @@ const navigate = useNavigate();
               </div>
 
               {/* nút đăng nhập */}
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full" >
                 Đăng nhập
               </Button>
               <div className="text-sm text-center">Quên mật khẩu? </div>

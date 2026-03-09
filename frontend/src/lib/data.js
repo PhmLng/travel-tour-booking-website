@@ -215,3 +215,73 @@ export const officeData = [
       ],
     },
   ];
+
+export const cardData = [
+  {
+    description: "Tour đã đặt",
+    value: "28",
+    change: "+3",
+    trend: "up",
+    note: "Tăng so với tuần trước",
+    sub: "Số tour khách đã đặt",
+  },
+  {
+    description: "Khách hàng mới",
+    value: "12",
+    change: "+2",
+    trend: "up",
+    note: "Có thêm khách đăng ký",
+    sub: "Trong 7 ngày gần đây",
+  },
+  {
+    description: "Tour đang hoạt động",
+    value: "5",
+    change: "+1",
+    trend: "up",
+    note: "Thêm tour mới mở bán",
+    sub: "Tour còn nhận khách",
+  },
+  {
+    description: "Doanh thu",
+    value: "32.5M",
+    change: "+8%",
+    trend: "up",
+    note: "Doanh thu tăng nhẹ",
+    sub: "Từ các tour đã đặt",
+  },
+];
+
+export const tourCardData = [
+  {
+    description: "Tổng số tour",
+    value: "6",
+    change: "+1",
+    trend: "up",
+    note: "Thêm tour mới trong tuần",
+    sub: "Tổng số tour trong hệ thống",
+  },
+  {
+    description: "Tour đã được đặt",
+    value: "14",
+    change: "+4",
+    trend: "up",
+    note: "Khách đặt nhiều hơn",
+    sub: "Số lượt đặt tour",
+  },
+  {
+    description: "Tour còn chỗ",
+    value: "4",
+    change: "+0",
+    trend: "up",
+    note: "Vẫn đang nhận khách",
+    sub: "Tour có thể đặt",
+  },
+  {
+    description: "Tour hết chỗ",
+    value: "2",
+    change: "+1",
+    trend: "down",
+    note: "Một số tour đã đủ khách",
+    sub: "Không thể đặt thêm",
+  },
+];

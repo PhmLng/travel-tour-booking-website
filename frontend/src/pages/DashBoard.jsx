@@ -1,8 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Routes, Route } from "react-router-dom";
-import { ContentDashBoard } from "@/components/DashBoardPage/ContentDashBoard";
-import { TourManage } from "@/components/DashBoardPage/TourManage";
+import { ContentDashBoard } from "@/components/DashBoardPage/DashBoardContent/ContentDashBoard";
+import { TourManage } from "@/components/DashBoardPage/TourMangager/TourManage";
 
 export default function Dashboard() {
   return (

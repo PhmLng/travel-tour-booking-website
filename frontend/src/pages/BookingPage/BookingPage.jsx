@@ -6,10 +6,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft, faUser, faCreditCard, faCheckCircle,
   faPlane, faUsers, faTag, faInfoCircle, faMinus, faPlus,
-  faBaby, faChild
 } from '@fortawesome/free-solid-svg-icons';
 import './BookingPage.css';
 
+const BASE_URL = 'http://localhost:8080/api/v1';
+
+// ─── API helpers ─────────────────────────────────────────────────────────────
+export const bookingApi = {
+  create: (payload) =>
+    fetch(`${BASE_URL}/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }),
+
+  getById: (id) =>
+    fetch(`${BASE_URL}/bookings/${id}`),
+
+  getAll: () =>
+    fetch(`${BASE_URL}/bookings`),
+
+  deleteById: (id) =>
+    fetch(`${BASE_URL}/bookings/${id}`, { method: 'DELETE' }),
+};
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 const STEPS = ['NHẬP THÔNG TIN', 'THANH TOÁN', 'HOÀN TẤT'];
 
 const PassengerCounter = ({ label, sub, value, onDecrease, onIncrease }) => (
@@ -26,47 +47,7 @@ const PassengerCounter = ({ label, sub, value, onDecrease, onIncrease }) => (
   </div>
 );
 
-const PassengerDetailCard = ({ index, passenger, showSingleRoom, singleRoomPrice, errors, errorKey, onChange }) => (
-  <div className="passenger-detail-card">
-    <div className="passenger-card-index">Hành khách #{index}</div>
-    <div className="passenger-detail-grid">
-      <div className="form-group pd-name">
-        <label>Họ tên <span className="required">*</span></label>
-        <input type="text" value={passenger.fullName}
-          onChange={e => onChange('fullName', e.target.value)}
-          placeholder="Nhập họ và tên"
-          className={errors[errorKey] ? 'error' : ''} />
-        {errors[errorKey] && <span className="error-msg">{errors[errorKey]}</span>}
-      </div>
-      <div className="form-group">
-        <label>Giới tính <span className="required">*</span></label>
-        <select value={passenger.gender} onChange={e => onChange('gender', e.target.value)}>
-          <option>Nam</option>
-          <option>Nữ</option>
-          <option>Khác</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label>Ngày sinh <span className="required">*</span></label>
-        <input type="date" value={passenger.dob} onChange={e => onChange('dob', e.target.value)} />
-      </div>
-      {showSingleRoom && (
-        <div className="form-group single-room-group">
-          <label>Phòng đơn</label>
-          <div className="single-room-row">
-            <label className="toggle-switch">
-              <input type="checkbox" checked={passenger.singleRoom}
-                onChange={e => onChange('singleRoom', e.target.checked)} />
-              <span className="toggle-slider" />
-            </label>
-            <span className="single-room-price">+{singleRoomPrice}</span>
-          </div>
-        </div>
-      )}
-    </div>
-  </div>
-);
-
+// ─── Main component ───────────────────────────────────────────────────────────
 const BookingPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -86,10 +67,16 @@ const BookingPage = () => {
   const [agreePolicy, setAgreePolicy] = useState(true);
   const [errors, setErrors] = useState({});
 
+  // Booking result từ API
+  const [bookingResult, setBookingResult] = useState(null);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState('');
+
+  // ── Fetch tour ──
   useEffect(() => {
     const fetchTour = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/tours/${id}`);
+        const response = await fetch(`${BASE_URL}/tours/${id}`);
         if (!response.ok) throw new Error('Failed to fetch');
         const data = await response.json();
         setTourData(data);
@@ -101,10 +88,6 @@ const BookingPage = () => {
           infantPrice: 3000000, singleRoomSurcharge: 6000000,
           departureLocation: 'Hồ Chí Minh', startDate: '2026-03-12', endDate: '2026-03-15',
           duration: '4 ngày 3 đêm', transport: 'Máy bay', maxSlots: 30, remainingSlots: 15, status: 'AVAILABLE',
-          flightInfo: {
-            departure: { date: '12/03/2026', depart: '12:15', arrive: '15:20' },
-            return: { date: '15/03/2026', depart: '17:30', arrive: '18:40' }
-          }
         });
       } finally {
         setLoading(false);
@@ -113,6 +96,7 @@ const BookingPage = () => {
     fetchTour();
   }, [id]);
 
+  // ── Sync passenger arrays ──
   useEffect(() => {
     setAdultDetails(prev => {
       const next = [...prev];
@@ -137,6 +121,7 @@ const BookingPage = () => {
     });
   }, [infants]);
 
+  // ── Pricing ──
   const adultPrice = tourData?.adultPrice || tourData?.price || 0;
   const childPrice = tourData?.childPrice || Math.round(adultPrice * 0.8);
   const infantPrice = tourData?.infantPrice || Math.round(adultPrice * 0.1);
@@ -154,14 +139,12 @@ const BookingPage = () => {
     });
   };
 
+  // ── Validation ──
   const validateStep0 = () => {
     const errs = {};
     if (!contact.fullName.trim()) errs.fullName = 'Họ tên không được để trống';
     if (!contact.phone.trim()) errs.phone = 'Số điện thoại không được để trống';
     if (!contact.email.trim()) errs.email = 'Email không được để trống';
-    adultDetails.forEach((p, i) => { if (!p.fullName.trim()) errs[`adult_${i}_name`] = 'Thông tin bắt buộc'; });
-    childDetails.forEach((p, i) => { if (!p.fullName.trim()) errs[`child_${i}_name`] = 'Thông tin bắt buộc'; });
-    infantDetails.forEach((p, i) => { if (!p.fullName.trim()) errs[`infant_${i}_name`] = 'Thông tin bắt buộc'; });
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -172,10 +155,12 @@ const BookingPage = () => {
     window.scrollTo(0, 0);
   };
 
+  // ── Submit booking ──
   const handleSubmitBooking = async () => {
-    // Map tất cả hành khách sang format API
+    setBookingLoading(true);
+    setBookingError('');
+
     const allPassengers = [
-      // Người lớn - người đầu tiên dùng thông tin liên lạc
       ...adultDetails.map((p, i) => ({
         fullName: p.fullName || (i === 0 ? contact.fullName : ''),
         phoneNumber: i === 0 ? contact.phone : '',
@@ -183,7 +168,6 @@ const BookingPage = () => {
         birth: p.dob || '',
         email: i === 0 ? contact.email : '',
       })),
-      // Trẻ em
       ...childDetails.map(p => ({
         fullName: p.fullName,
         phoneNumber: '',
@@ -191,7 +175,6 @@ const BookingPage = () => {
         birth: p.dob || '',
         email: '',
       })),
-      // Em bé
       ...infantDetails.map(p => ({
         fullName: p.fullName,
         phoneNumber: '',
@@ -203,33 +186,46 @@ const BookingPage = () => {
 
     const payload = {
       tourId: Number(id),
-      userId: 1, // hardcode tạm userId = 1 để test, thay sau khi có auth
+      userId: 1, // TODO: thay bằng userId từ auth context
       quantity: adults + children + infants,
       passengers: allPassengers,
     };
 
     try {
-      const res = await fetch('http://localhost:8080/api/v1/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error('Booking failed');
+      // 1. Tạo booking
+      const res = await bookingApi.create(payload);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        throw new Error(errData?.message || `Lỗi ${res.status}: Đặt tour thất bại`);
+      }
+      const created = await res.json();
+      // Response: { id, tourTitle, mainImage, totalPrice, quantity, status, bookingDate }
+
+      // 2. Fetch chi tiết booking vừa tạo để hiển thị ở Step 2
+      let detail = created;
+      if (created?.id) {
+        try {
+          const detailRes = await bookingApi.getById(created.id);
+          if (detailRes.ok) detail = await detailRes.json();
+        } catch (_) {
+          // fallback dùng created nếu getById lỗi
+        }
+      }
+
+      setBookingResult(detail);
+      setStep(2);
+      window.scrollTo(0, 0);
     } catch (err) {
-      console.error('Booking error:', err);
+      setBookingError(err.message || 'Đã có lỗi xảy ra, vui lòng thử lại.');
+    } finally {
+      setBookingLoading(false);
     }
-    setStep(2);
-    window.scrollTo(0, 0);
   };
 
+  // ── Render ──
   if (loading) return (
     <><Header /><div className="booking-loading"><div className="spinner" /><p>Đang tải...</p></div><Footer /></>
   );
-
-  const flightInfo = tourData?.flightInfo || {
-    departure: { date: tourData?.startDate, depart: '12:15', arrive: '15:20' },
-    return: { date: tourData?.endDate, depart: '17:30', arrive: '18:40' }
-  };
 
   return (
     <>
@@ -241,6 +237,7 @@ const BookingPage = () => {
           </button>
           <h1 className="booking-title">ĐẶT TOUR</h1>
 
+          {/* Steps */}
           <div className="booking-steps">
             {STEPS.map((s, i) => (
               <React.Fragment key={i}>
@@ -260,33 +257,43 @@ const BookingPage = () => {
 
           <div className="booking-body">
             <div className="booking-left">
+
+              {/* ── STEP 0: Nhập thông tin ── */}
               {step === 0 && (
                 <>
                   <section className="booking-section">
                     <h2 className="section-title">THÔNG TIN LIÊN LẠC</h2>
                     <div className="login-hint">
                       <FontAwesomeIcon icon={faUser} />
-                      <span><a href="/login">Đăng nhập</a> để nhận ưu đãi, tích điểm và quản lý đơn hàng dễ dàng hơn!</span>
+                      <span><a href="/signup">Đăng nhập</a> để nhận ưu đãi, tích điểm và quản lý đơn hàng dễ dàng hơn!</span>
                     </div>
                     <div className="form-grid">
                       <div className="form-group">
-                        <label>Họ tên <span className="required">*</span></label>
-                        <input type="text" value={contact.fullName} onChange={e => setContact({ ...contact, fullName: e.target.value })} placeholder="Họ và tên" className={errors.fullName ? 'error' : ''} />
+                        <label>Họ tên <span className="required">*</span></label>``
+                        <input type="text" value={contact.fullName}
+                          onChange={e => setContact({ ...contact, fullName: e.target.value })}
+                          placeholder="Họ và tên" className={errors.fullName ? 'error' : ''} />
                         {errors.fullName && <span className="error-msg">{errors.fullName}</span>}
                       </div>
                       <div className="form-group">
                         <label>Điện thoại <span className="required">*</span></label>
-                        <input type="tel" value={contact.phone} onChange={e => setContact({ ...contact, phone: e.target.value })} placeholder="Số điện thoại" className={errors.phone ? 'error' : ''} />
+                        <input type="tel" value={contact.phone}
+                          onChange={e => setContact({ ...contact, phone: e.target.value })}
+                          placeholder="Số điện thoại" className={errors.phone ? 'error' : ''} />
                         {errors.phone && <span className="error-msg">{errors.phone}</span>}
                       </div>
                       <div className="form-group">
                         <label>Email <span className="required">*</span></label>
-                        <input type="email" value={contact.email} onChange={e => setContact({ ...contact, email: e.target.value })} placeholder="Email" className={errors.email ? 'error' : ''} />
+                        <input type="email" value={contact.email}
+                          onChange={e => setContact({ ...contact, email: e.target.value })}
+                          placeholder="Email" className={errors.email ? 'error' : ''} />
                         {errors.email && <span className="error-msg">{errors.email}</span>}
                       </div>
                       <div className="form-group">
                         <label>Địa chỉ</label>
-                        <input type="text" value={contact.address} onChange={e => setContact({ ...contact, address: e.target.value })} placeholder="Địa chỉ" />
+                        <input type="text" value={contact.address}
+                          onChange={e => setContact({ ...contact, address: e.target.value })}
+                          placeholder="Địa chỉ" />
                       </div>
                     </div>
                   </section>
@@ -307,45 +314,6 @@ const BookingPage = () => {
                   </section>
 
                   <section className="booking-section">
-                    <h2 className="section-title">THÔNG TIN HÀNH KHÁCH</h2>
-                    <div className="passenger-group-label">
-                      <FontAwesomeIcon icon={faUsers} /><span>Người lớn</span><span className="age-note">(Từ 12 trở lên)</span>
-                    </div>
-                    {adultDetails.map((p, i) => (
-                      <PassengerDetailCard key={`adult-${i}`} index={i + 1} passenger={p}
-                        showSingleRoom={true} singleRoomPrice={formatPrice(singleSurcharge)}
-                        errors={errors} errorKey={`adult_${i}_name`}
-                        onChange={(field, value) => updateList(setAdultDetails, i, field, value)} />
-                    ))}
-
-                    {children > 0 && (
-                      <>
-                        <div className="passenger-group-label" style={{ marginTop: '20px' }}>
-                          <FontAwesomeIcon icon={faChild} /><span>Trẻ em</span><span className="age-note">(Từ 2 - 11 tuổi)</span>
-                        </div>
-                        {childDetails.map((p, i) => (
-                          <PassengerDetailCard key={`child-${i}`} index={i + 1} passenger={p}
-                            showSingleRoom={false} errors={errors} errorKey={`child_${i}_name`}
-                            onChange={(field, value) => updateList(setChildDetails, i, field, value)} />
-                        ))}
-                      </>
-                    )}
-
-                    {infants > 0 && (
-                      <>
-                        <div className="passenger-group-label" style={{ marginTop: '20px' }}>
-                          <FontAwesomeIcon icon={faBaby} /><span>Em bé</span><span className="age-note">(Dưới 2 tuổi)</span>
-                        </div>
-                        {infantDetails.map((p, i) => (
-                          <PassengerDetailCard key={`infant-${i}`} index={i + 1} passenger={p}
-                            showSingleRoom={false} errors={errors} errorKey={`infant_${i}_name`}
-                            onChange={(field, value) => updateList(setInfantDetails, i, field, value)} />
-                        ))}
-                      </>
-                    )}
-                  </section>
-
-                  <section className="booking-section">
                     <h2 className="section-title">GHI CHÚ</h2>
                     <p className="note-hint">Quý khách có ghi chú lưu ý gì, hãy nói với chúng tôi</p>
                     <textarea className="note-textarea" rows={4} value={note}
@@ -355,6 +323,7 @@ const BookingPage = () => {
                 </>
               )}
 
+              {/* ── STEP 1: Thanh toán ── */}
               {step === 1 && (
                 <>
                   <section className="booking-section">
@@ -377,21 +346,57 @@ const BookingPage = () => {
                       ))}
                     </div>
                   </section>
+
+                  {bookingError && (
+                    <div className="booking-error-msg">
+                      ⚠️ {bookingError}
+                    </div>
+                  )}
                 </>
               )}
 
+              {/* ── STEP 2: Hoàn tất ── */}
               {step === 2 && (
                 <section className="booking-section success-section">
                   <div className="success-icon">✅</div>
                   <h2>Đặt tour thành công!</h2>
                   <p>Cảm ơn bạn đã đặt tour. Chúng tôi sẽ liên hệ xác nhận trong thời gian sớm nhất.</p>
                   <p>Thông tin xác nhận sẽ được gửi đến: <strong>{contact.email}</strong></p>
+
+                  {bookingResult && (
+                    <div className="booking-result-summary">
+                      {bookingResult.id && (
+                        <p><strong>Mã đặt chỗ:</strong> #{bookingResult.id}</p>
+                      )}
+                      {bookingResult.tourTitle && (
+                        <p><strong>Tour:</strong> {bookingResult.tourTitle}</p>
+                      )}
+                      {bookingResult.quantity && (
+                        <p><strong>Số khách:</strong> {bookingResult.quantity}</p>
+                      )}
+                      {bookingResult.totalPrice != null && (
+                        <p><strong>Tổng tiền:</strong> {formatPrice(bookingResult.totalPrice)}</p>
+                      )}
+                      {bookingResult.status && (
+                        <p>
+                          <strong>Trạng thái:</strong>{' '}
+                          <span className={`booking-status ${bookingResult.status.toLowerCase()}`}>
+                            {bookingResult.status}
+                          </span>
+                        </p>
+                      )}
+                      {bookingResult.bookingDate && (
+                        <p><strong>Ngày đặt:</strong> {new Date(bookingResult.bookingDate).toLocaleString('vi-VN')}</p>
+                      )}
+                    </div>
+                  )}
+
                   <button className="btn-primary large" onClick={() => navigate('/')}>Về trang chủ</button>
                 </section>
               )}
             </div>
 
-            {/* RIGHT SIDEBAR */}
+            {/* ── RIGHT SIDEBAR ── */}
             <div className="booking-right">
               <div className="summary-card">
                 <h3 className="summary-title">TÓM TẮT CHUYẾN ĐI</h3>
@@ -408,7 +413,6 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                {/* summary-flight */}
                 <div className="summary-flight">
                   <div className="summary-flight-header">
                     <FontAwesomeIcon icon={faPlane} /> THÔNG TIN CHUYẾN ĐI
@@ -495,10 +499,16 @@ const BookingPage = () => {
                 )}
                 {step === 1 && (
                   <>
-                    <button className="btn-book-now" onClick={handleSubmitBooking} disabled={!agreePolicy}>
-                      Xác nhận đặt tour
+                    <button
+                      className="btn-book-now"
+                      onClick={handleSubmitBooking}
+                      disabled={!agreePolicy || bookingLoading}
+                    >
+                      {bookingLoading ? 'Đang xử lý...' : 'Xác nhận đặt tour'}
                     </button>
-                    <button className="btn-secondary-full" onClick={() => setStep(0)}>Quay lại</button>
+                    <button className="btn-secondary-full" onClick={() => { setStep(0); setBookingError(''); }}>
+                      Quay lại
+                    </button>
                   </>
                 )}
 

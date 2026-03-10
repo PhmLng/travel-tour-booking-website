@@ -10,7 +10,10 @@ import { faPhone, faBell, faUser, faChevronDown, faTimes } from '@fortawesome/fr
 const Header = () => {
 
   // State
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
   const [showDestinationMenu, setShowDestinationMenu] = useState(false);
   const [activeTab, setActiveTab] = useState('NƯỚC NGOÀI');
   const menuRef = useRef(null);
@@ -18,15 +21,23 @@ const Header = () => {
 
   const destinationTabs = ['NƯỚC NGOÀI', 'TRONG NƯỚC'];
 
-  // Handle user click
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      setUser(JSON.parse(stored));
+    }
+  }, []);
+
   const handleUserClick = () => {
     if (user) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUser(null);
+      navigate("/");
     } else {
-      setUser({ name: 'Ngô Văn A' });
+      navigate("/signin");
     }
   };
-
   // Toggle menu
   const toggleDestinationMenu = (e) => {
     e.preventDefault();
@@ -87,7 +98,8 @@ const Header = () => {
               <button className="user-btn" onClick={handleUserClick}>
                 <FontAwesomeIcon icon={faUser} />
                 <span className="user-text">
-                  {user ? user.name : 'Đăng nhập'}
+                  {/* Đổi "fullname" thành đúng field backend trả về */}
+                  {user ? (user.fullname || user.username || user.name) : 'Đăng nhập'}
                 </span>
               </button>
 
@@ -120,8 +132,7 @@ const Header = () => {
                 />
               </a>
 
-              <a href="#" className="nav-link">Liên hệ</a>
-
+              <Link to="/contact" className="nav-link">Liên hệ</Link>
             </nav>
 
           </div>

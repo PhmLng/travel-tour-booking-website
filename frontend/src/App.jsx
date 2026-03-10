@@ -5,7 +5,6 @@ import HomePage from "./pages/HomePage/HomePage";
 import TourDetails from './pages/TourDetails/TourDetails';
 import CategoryPage from './pages/CategoryPage/CategoryPage';
 import BookingPage from './pages/BookingPage/BookingPage';
-import AdminDashboard from './pages/admin';
 
 import { ContactPage } from "./pages/ContactPage";
 import Dashboard from "./pages/DashBoard";
@@ -35,9 +34,6 @@ function App() {
 
           {/* Dashboard */}
           <Route path="/dashboard/*" element={<Dashboard />} />
-
-          {/* Admin */}
-          <Route path="/admin" element={<AdminDashboard />} />
 
         </Routes>
       </div>

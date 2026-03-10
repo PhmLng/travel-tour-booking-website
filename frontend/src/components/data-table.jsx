@@ -92,36 +92,36 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-})
+// export const schema = z.object({
+//   id: z.number(),
+//   header: z.string(),
+//   type: z.string(),
+//   status: z.string(),
+//   target: z.string(),
+//   limit: z.string(),
+//   reviewer: z.string(),
+// })
 
 // Create a separate component for the drag handle
-function DragHandle({
-  id
-}) {
-  const { attributes, listeners } = useSortable({
-    id,
-  })
+// function DragHandle({
+//   id
+// }) {
+//   const { attributes, listeners } = useSortable({
+//     id,
+//   })
 
-  return (
-    <Button
-      {...attributes}
-      {...listeners}
-      variant="ghost"
-      size="icon"
-      className="size-7 text-muted-foreground hover:bg-transparent">
-      <IconGripVertical className="size-3 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
-    </Button>
-  );
-}
+//   return (
+//     <Button
+//       {...attributes}
+//       {...listeners}
+//       variant="ghost"
+//       size="icon"
+//       className="size-7 text-muted-foreground hover:bg-transparent">
+//       <IconGripVertical className="size-3 text-muted-foreground" />
+//       <span className="sr-only">Drag to reorder</span>
+//     </Button>
+//   );
+// }
 
 const columns = [
   {
@@ -203,7 +203,7 @@ const columns = [
           Target
         </Label>
         <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:hover:bg-input/30 dark:focus-visible:bg-input/30"
+          className="w-16 h-8 text-right bg-transparent border-transparent shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:hover:bg-input/30 dark:focus-visible:bg-input/30"
           defaultValue={row.original.target}
           id={`${row.original.id}-target`} />
       </form>
@@ -226,7 +226,7 @@ const columns = [
           Limit
         </Label>
         <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:hover:bg-input/30 dark:focus-visible:bg-input/30"
+          className="w-16 h-8 text-right bg-transparent border-transparent shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:hover:bg-input/30 dark:focus-visible:bg-input/30"
           defaultValue={row.original.limit}
           id={`${row.original.id}-limit`} />
       </form>
@@ -317,9 +317,13 @@ function DraggableRow({
 }
 
 export function DataTable({
-  data: initialData
+  data: initialData,
+  columns
 }) {
   const [data, setData] = React.useState(() => initialData)
+   React.useEffect(() => {
+  setData(initialData)
+  }, [initialData])
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState({})
@@ -341,6 +345,7 @@ export function DataTable({
   const table = useReactTable({
     data,
     columns,
+    getCoreRowModel: getCoreRowModel(),
     state: {
       sorting,
       columnVisibility,
@@ -375,12 +380,12 @@ export function DataTable({
   }
 
   return (
-    <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6">
+    <Tabs defaultValue="outline" className="flex-col justify-start w-full gap-6">
       <div className="flex items-center justify-between px-4 lg:px-6">
-        <Label htmlFor="view-selector" className="sr-only">
+        {/* <Label htmlFor="view-selector" className="sr-only">
           View
-        </Label>
-        <Select defaultValue="outline">
+        </Label> */}
+        {/* <Select defaultValue="outline">
           <SelectTrigger className="flex w-fit @4xl/main:hidden" size="sm" id="view-selector">
             <SelectValue placeholder="Select a view" />
           </SelectTrigger>
@@ -401,7 +406,8 @@ export function DataTable({
             Key Personnel <Badge variant="secondary">2</Badge>
           </TabsTrigger>
           <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
-        </TabsList>
+        </TabsList> */}
+        <div></div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -441,8 +447,8 @@ export function DataTable({
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
-        <div className="overflow-hidden rounded-lg border">
+        className="relative flex flex-col gap-4 px-4 overflow-auto lg:px-6">
+        <div className="overflow-hidden border rounded-lg">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -484,12 +490,12 @@ export function DataTable({
           </DndContext>
         </div>
         <div className="flex items-center justify-between px-4">
-          <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+          <div className="flex-1 hidden text-sm text-muted-foreground lg:flex">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          <div className="flex w-full items-center gap-8 lg:w-fit">
-            <div className="hidden items-center gap-2 lg:flex">
+          <div className="flex items-center w-full gap-8 lg:w-fit">
+            <div className="items-center hidden gap-2 lg:flex">
               <Label htmlFor="rows-per-page" className="text-sm font-medium">
                 Rows per page
               </Label>
@@ -510,14 +516,14 @@ export function DataTable({
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex w-fit items-center justify-center text-sm font-medium">
+            <div className="flex items-center justify-center text-sm font-medium w-fit">
               Page {table.getState().pagination.pageIndex + 1} of{" "}
               {table.getPageCount()}
             </div>
-            <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            <div className="flex items-center gap-2 ml-auto lg:ml-0">
               <Button
                 variant="outline"
-                className="hidden h-8 w-8 p-0 lg:flex"
+                className="hidden w-8 h-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}>
                 <span className="sr-only">Go to first page</span>
@@ -555,13 +561,13 @@ export function DataTable({
         </div>
       </TabsContent>
       <TabsContent value="past-performance" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
+        <div className="flex-1 w-full border border-dashed rounded-lg aspect-video"></div>
       </TabsContent>
       <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
+        <div className="flex-1 w-full border border-dashed rounded-lg aspect-video"></div>
       </TabsContent>
       <TabsContent value="focus-documents" className="flex flex-col px-4 lg:px-6">
-        <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
+        <div className="flex-1 w-full border border-dashed rounded-lg aspect-video"></div>
       </TabsContent>
     </Tabs>
   );
@@ -596,7 +602,7 @@ function TableCellViewer({
   return (
     <Drawer direction={isMobile ? "bottom" : "right"}>
       <DrawerTrigger asChild>
-        <Button variant="link" className="w-fit px-0 text-left text-foreground">
+        <Button variant="link" className="px-0 text-left w-fit text-foreground">
           {item.header}
         </Button>
       </DrawerTrigger>
@@ -607,7 +613,7 @@ function TableCellViewer({
             Showing total visitors for the last 6 months
           </DrawerDescription>
         </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
+        <div className="flex flex-col gap-4 px-4 overflow-y-auto text-sm">
           {!isMobile && (
             <>
               <ChartContainer config={chartConfig}>
@@ -645,7 +651,7 @@ function TableCellViewer({
               </ChartContainer>
               <Separator />
               <div className="grid gap-2">
-                <div className="flex gap-2 leading-none font-medium">
+                <div className="flex gap-2 font-medium leading-none">
                   Trending up by 5.2% this month{" "}
                   <IconTrendingUp className="size-4" />
                 </div>

@@ -18,64 +18,33 @@ const FlashDeals = () => {
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [showAll, setShowAll] = useState(false);
-
+  const [page, setPage] = useState(0);
+  const size = 9;
+  const [totalElements, setTotalElements] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {
     const fetchDeals = async () => {
       setLoading(true);
       try {
-        const searchParams = new URLSearchParams(location.search);
-        const destination = searchParams.get('destination')?.trim();
-        const date = searchParams.get('date');
-        const price = searchParams.get('price');
 
-        // Gọi API search hoặc lấy tất cả
-        const url = destination
-          ? `http://localhost:8080/api/v1/tours/search?title=${encodeURIComponent(destination)}`
-          : `http://localhost:8080/api/v1/tours?page=1&size=9`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await fetch(
+          `http://localhost:8080/api/v1/tours?page=${page + 1}&size=${size}`
+        );
 
-        let responseData = await response.json();
+        const data = await response.json();
 
-        // Hỗ trợ API phân trang
-        let data = responseData.content ? responseData.content : responseData;
+        setDeals(data.content || []);
+        setTotalPages(data.totalPages || 1);
 
-        data = Array.isArray(data) ? data : [];
-
-        // Lọc theo ngày ± 15 ngày
-        if (date) {
-          const searchDate = new Date(date);
-          data = data.filter(deal => {
-            if (!deal.startDate) return false;
-            const tourDate = new Date(deal.startDate);
-            const diffDays = Math.abs((tourDate - searchDate) / (1000 * 60 * 60 * 24));
-            return diffDays <= 15; // ✅ Chấp nhận chênh lệch tối đa 15 ngày
-          });
-        }
-
-        // Lọc theo ngân sách
-        if (price && price !== 'all') {
-          data = data.filter(deal => {
-            const p = deal.price;
-            if (price === 'under-5m') return p < 5_000_000;
-            if (price === '5m-10m') return p >= 5_000_000 && p <= 10_000_000;
-            if (price === '10m-20m') return p > 10_000_000 && p <= 20_000_000;
-            if (price === 'over-20m') return p > 20_000_000;
-            return true;
-          });
-        }
-
-        setDeals(data);
       } catch (err) {
-        console.error('Lỗi khi gọi API:', err);
-        setDeals([]);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchDeals();
-  }, [location.search]);
+  }, [page, location.search]);
 
   const toggleFavorite = (id, e) => {
     e.preventDefault();
@@ -176,12 +145,29 @@ const FlashDeals = () => {
               ))}
             </div>
 
+            {/* PAGINATION */}
+            {showAll && totalPages > 1 && (
+              <div className="pagination">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`page-btn ${page === index ? 'active' : ''}`}
+                    onClick={() => setPage(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </div>
+            )}
             {deals.length > 6 && (
               <button
                 className="view-all-btn"
-                onClick={() => setShowAll(prev => !prev)}
+                onClick={() => {
+                  setShowAll(prev => !prev);
+                  setPage(0);
+                }}
               >
-                {showAll ? 'Thu gọn' : `Xem tất cả (${deals.length})`}
+                {showAll ? 'Thu gọn' : `Xem tất cả `}
               </button>
             )}
           </>

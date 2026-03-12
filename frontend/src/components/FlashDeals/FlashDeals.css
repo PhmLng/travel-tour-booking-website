@@ -39,13 +39,13 @@
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .deal-item:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== IMAGE ===== */
@@ -145,6 +145,7 @@
   background: #ff5722;
   color: #fff;
 }
+
 .favorite-btn {
   position: absolute;
   top: 8px;
@@ -167,5 +168,23 @@
   color: inherit;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
 
+.page-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
 
+.page-btn.active {
+  background: #ff6b00;
+  color: white;
+  border: none;
+}

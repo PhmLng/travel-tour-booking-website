@@ -1,11 +1,11 @@
-import { SigninForm } from '@/components/auth/signin-form'
-import React from 'react'
+import { SigninForm } from "@/components/auth/signin-form";
 
+// Named export để App.jsx import được: import { SignInPage } from '...'
 export const SignInPage = () => {
   return (
-    <div className="relative inset-0 z-0 flex flex-col items-center justify-center p-6 bg-white min-h-svh md:p-10">
+    <div className="relative flex flex-col items-center justify-center p-6 bg-white min-h-svh md:p-10">
       <div
-        className="absolute inset-0 z-10"
+        className="absolute inset-0 z-0"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(229,231,235,0.8) 1px, transparent 1px),
@@ -16,9 +16,9 @@ export const SignInPage = () => {
           backgroundSize: "48px 48px, 48px 48px, 100% 100%, 100% 100%",
         }}
       />
-      <div className="absolute z-20 w-full max-w-sm md:max-w-4xl">
+      <div className="relative z-10 w-full max-w-sm md:max-w-4xl">
         <SigninForm />
       </div>
     </div>
-  )
-}
+  );
+};

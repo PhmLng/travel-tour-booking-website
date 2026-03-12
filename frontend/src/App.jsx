@@ -10,7 +10,7 @@ import { ContactPage } from "./pages/ContactPage";
 import Dashboard from "./pages/DashBoard";
 import { SignInPage } from "./pages/SignInPage";
 import { SignUpPage } from "./pages/SignUpPage";
-
+import BookingHistoryPage from "./pages/BookingHistoryPage/BookingHistoryPage";
 
 
 function App() {
@@ -34,6 +34,8 @@ function App() {
 
           {/* Dashboard */}
           <Route path="/dashboard/*" element={<Dashboard />} />
+
+          <Route path="/booking-history" element={<BookingHistoryPage />} />
 
         </Routes>
       </div>

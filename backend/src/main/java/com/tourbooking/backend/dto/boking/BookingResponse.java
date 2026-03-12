@@ -12,7 +12,8 @@ public class BookingResponse {
    private String tourTitle;
    private String mainImage;
    private BigDecimal totalPrice;
-   private int quantity;
+   private int adultQuantity;
+   private int childQuantity;
    private BookingStatus status;
    private LocalDateTime bookingDate;
 }

@@ -1,6 +1,6 @@
 package com.tourbooking.backend.dto.payment;
 
-import com.tourbooking.backend.entity.PaymentStatus;
+import com.tourbooking.backend.enums.PaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 

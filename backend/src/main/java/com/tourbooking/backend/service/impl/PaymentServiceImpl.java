@@ -3,10 +3,10 @@ package com.tourbooking.backend.service.impl;
 import com.tourbooking.backend.dto.payment.PaymentRequest;
 import com.tourbooking.backend.dto.payment.PaymentResponse;
 import com.tourbooking.backend.dto.payment.RemainingAmountResponse;
-import com.tourbooking.backend.entity.Booking;
-import com.tourbooking.backend.entity.BookingStatus;
-import com.tourbooking.backend.entity.Payment;
-import com.tourbooking.backend.entity.PaymentStatus;
+import com.tourbooking.backend.entity.*;
+import com.tourbooking.backend.enums.BookingStatus;
+import com.tourbooking.backend.enums.PaymentStatus;
+import com.tourbooking.backend.enums.PaymentType;
 import com.tourbooking.backend.exception.NotFoundException;
 import com.tourbooking.backend.mapper.PaymentMapper;
 import com.tourbooking.backend.repository.BookingRepository;
@@ -33,9 +33,16 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse processMockPayment(PaymentRequest paymentRequest) {
         Booking booking = bookingRepository.findById(paymentRequest.getBookingId()).orElseThrow(() -> new RuntimeException("Booking not found"));
 
+        BigDecimal amount ;
+        if (paymentRequest.getPaymentType()== PaymentType.DEPOSIT_HALF){
+            amount = booking.getTotalPrice().multiply(BigDecimal.valueOf(0.5));
+        }
+        else{
+            amount = booking.getTotalPrice();
+        }
         Payment payment = new Payment();
         payment.setBooking(booking);
-        payment.setAmount(paymentRequest.getAmount());
+        payment.setAmount(amount);
         payment.setTransactionCode("MOCK_PAYMENT"+ System.currentTimeMillis());
         payment.setPaymentDate(LocalDateTime.now());
         payment.setStatus(PaymentStatus.SUCCESS);
@@ -56,12 +63,13 @@ public class PaymentServiceImpl implements PaymentService {
 
         return paymentMapper.toPaymentResponse(payment);
     }
+
     @Override
     public RemainingAmountResponse getRemainingAmount(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));
 
         BigDecimal totalPaid = paymentRepository.sumPaidAmountByBookingId(bookingId);
-        BigDecimal remainingAmount = totalPaid.subtract(booking.getTotalPrice());
+        BigDecimal remainingAmount = booking.getTotalPrice().subtract(totalPaid);
 
         RemainingAmountResponse remainingAmountResponse = new RemainingAmountResponse();
 

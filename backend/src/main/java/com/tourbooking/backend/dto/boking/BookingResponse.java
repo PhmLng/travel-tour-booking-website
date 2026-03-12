@@ -1,12 +1,10 @@
 package com.tourbooking.backend.dto.boking;
 
-import com.tourbooking.backend.dto.passenger.PassengerRequest;
-import com.tourbooking.backend.entity.BookingStatus;
+import com.tourbooking.backend.enums.BookingStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class BookingResponse {

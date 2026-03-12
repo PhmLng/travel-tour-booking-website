@@ -2,6 +2,8 @@ package com.tourbooking.backend.dto.tour;
 
 import com.tourbooking.backend.dto.category.CategoryLinkRequest;
 import com.tourbooking.backend.dto.tour_image.TourImageRequest;
+import com.tourbooking.backend.enums.TourStatus;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +18,9 @@ public class TourCreationRequest {
 
     private String description;
 
-    private BigDecimal price;
+    private BigDecimal adultPrice;
+
+    private BigDecimal childPrice;
 
     private LocalDate startDate;
 
@@ -30,7 +34,7 @@ public class TourCreationRequest {
 
     private int remainingSlots;
 
-    private String status;
+    private TourStatus status;
 
     private String itinerary;
 

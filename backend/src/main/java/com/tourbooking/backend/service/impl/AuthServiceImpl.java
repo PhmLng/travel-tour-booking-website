@@ -3,7 +3,7 @@ package com.tourbooking.backend.service.impl;
 import com.tourbooking.backend.dto.user.UserCreationRequest;
 import com.tourbooking.backend.dto.user.UserLoginRequest;
 import com.tourbooking.backend.dto.user.UserResponse;
-import com.tourbooking.backend.entity.Role;
+import com.tourbooking.backend.enums.Role;
 import com.tourbooking.backend.entity.User;
 import com.tourbooking.backend.exception.DuplicateException;
 import com.tourbooking.backend.mapper.UserMapper;

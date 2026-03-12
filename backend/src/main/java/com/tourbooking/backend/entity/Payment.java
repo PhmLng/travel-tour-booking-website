@@ -1,11 +1,12 @@
 package com.tourbooking.backend.entity;
 
+import com.tourbooking.backend.enums.PaymentMethod;
+import com.tourbooking.backend.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

@@ -1,4 +1,4 @@
-package com.tourbooking.backend.entity;
+package com.tourbooking.backend.enums;
 
 public enum PaymentType {
     DEPOSIT_HALF,

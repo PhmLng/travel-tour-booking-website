@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class TourResponse {
     private Long id;
     private String title;
-    private BigDecimal price;
+    private BigDecimal adultPrice;
     private LocalDate startDate;
     private String duration;
     private String departureLocation;

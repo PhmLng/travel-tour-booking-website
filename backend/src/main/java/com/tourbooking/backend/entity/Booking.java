@@ -1,5 +1,6 @@
 package com.tourbooking.backend.entity;
 
+import com.tourbooking.backend.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,8 +25,11 @@ public class Booking {
     @Column(name ="bookingDate", nullable = false )
     private LocalDateTime bookingDate;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
+    @Column(name = "adultQuantity", nullable = false)
+    private int adultQuantity;
+
+    @Column(name = "childQuantity")
+    private int childQuantity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

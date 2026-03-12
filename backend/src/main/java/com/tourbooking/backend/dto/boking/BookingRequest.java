@@ -9,6 +9,7 @@ import java.util.List;
 public class BookingRequest {
     private Long tourId;
     private Long userId;
-    private int quantity;
+    private int adultQuantity;
+    private int childQuantity;
     private List<PassengerRequest> passengers;
 }

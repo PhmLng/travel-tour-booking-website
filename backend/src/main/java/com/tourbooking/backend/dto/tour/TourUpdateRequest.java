@@ -5,6 +5,7 @@ import com.tourbooking.backend.dto.category.CategoryResponse;
 import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import com.tourbooking.backend.entity.Category;
 import com.tourbooking.backend.entity.TourImage;
+import com.tourbooking.backend.enums.TourStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,9 @@ public class TourUpdateRequest {
 
     private String description;
 
-    private BigDecimal price;
+    private BigDecimal adultPrice;
+
+    private BigDecimal childPrice;
 
     private LocalDate startDate;
 
@@ -34,7 +37,7 @@ public class TourUpdateRequest {
 
     private int remainingSlots;
 
-    private String status;
+    private TourStatus status;
 
     private String itinerary;
 

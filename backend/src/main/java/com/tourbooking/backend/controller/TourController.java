@@ -5,7 +5,7 @@ import com.tourbooking.backend.dto.tour.TourDetailResponse;
 import com.tourbooking.backend.dto.tour.TourResponse;
 import com.tourbooking.backend.dto.tour.TourUpdateRequest;
 import com.tourbooking.backend.service.TourService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/tours")
+@RequiredArgsConstructor
 public class TourController {
-    @Autowired
-    private TourService tourService;
+
+    private final TourService tourService;
 
     @GetMapping("")
     public ResponseEntity<Page<TourResponse>> getAllTours(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "9") int size) {

@@ -16,6 +16,7 @@ import com.tourbooking.backend.repository.CategoryRepository;
 import com.tourbooking.backend.repository.TourRepository;
 import com.tourbooking.backend.service.TourService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,16 +29,12 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TourServiceImpl implements TourService {
 
-
-    @Autowired
-    private TourMapper tourMapper;
-    @Autowired
-    private TourRepository tourRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final TourMapper tourMapper;
+    private final TourRepository tourRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<TourResponse> getAllTours(int page, int size) {

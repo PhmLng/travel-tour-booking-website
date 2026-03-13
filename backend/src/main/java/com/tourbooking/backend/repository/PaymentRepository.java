@@ -1,5 +1,6 @@
 package com.tourbooking.backend.repository;
 
+import com.tourbooking.backend.dto.dashboard.MonthlyRevenueProjection;
 import com.tourbooking.backend.dto.dashboard.MonthlyRevenueResponse;
 import com.tourbooking.backend.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,13 +17,15 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.booking.id= :bookingId")
     public BigDecimal sumPaidAmountByBookingId(@Param("bookingId") Long bookingId);
 
-//    @Query("SELECT new com.tourbooking.dto.MonthlyRevenueDTO(" +
-//            "FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m'), SUM(p.amount)) " +
-//            "FROM Payment p " +
-//            "WHERE p.status = 'SUCCESS' " +
-//            "GROUP BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') " +
-//            "ORDER BY FUNCTION('DATE_FORMAT', p.paymentDate, '%Y-%m') ASC")
-//    public List<MonthlyRevenueResponse> getMonthlyRevenue();
+
+    @Query(value = "SELECT MONTH(payment_date) as month, " +
+            "YEAR(payment_date) as year, " +
+            "SUM(amount) as revenue " +
+            "FROM payments " +
+            "WHERE status = 'SUCCESS' " +
+            "GROUP BY year, month " +
+            "ORDER BY year DESC, month DESC", nativeQuery = true)
+    List<MonthlyRevenueProjection> getMonthlyRevenue();
 
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.status = 'SUCCESS'")
     public BigDecimal getTotalRevenue();

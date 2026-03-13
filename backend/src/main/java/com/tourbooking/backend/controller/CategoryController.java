@@ -3,7 +3,7 @@ package com.tourbooking.backend.controller;
 import com.tourbooking.backend.dto.category.CategoryCreationRequest;
 import com.tourbooking.backend.dto.category.CategoryResponse;
 import com.tourbooking.backend.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/categories")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    private CategoryService categoryService;
+
+    private final CategoryService categoryService;
 
     @GetMapping("")
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {

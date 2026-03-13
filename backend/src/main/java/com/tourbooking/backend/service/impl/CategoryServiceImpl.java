@@ -8,18 +8,19 @@ import com.tourbooking.backend.entity.Tour;
 import com.tourbooking.backend.mapper.CategoryMapper;
 import com.tourbooking.backend.repository.CategoryRepository;
 import com.tourbooking.backend.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CategoryMapper categoryMapper;
+
+    private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public List<CategoryResponse> getAllCategories() {

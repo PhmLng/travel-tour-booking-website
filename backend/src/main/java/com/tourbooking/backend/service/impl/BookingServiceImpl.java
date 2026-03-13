@@ -14,6 +14,7 @@ import com.tourbooking.backend.repository.TourRepository;
 import com.tourbooking.backend.repository.UserRepository;
 import com.tourbooking.backend.service.BookingService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PassengerMapper passengerMapper;
-    @Autowired
-    private BookingMapper bookingMapper;
+
+    private final BookingRepository bookingRepository;
+    private final TourRepository tourRepository;
+    private final UserRepository userRepository;
+    private final PassengerMapper passengerMapper;
+    private final BookingMapper bookingMapper;
 
     @Override
     @Transactional(rollbackOn = Exception.class)

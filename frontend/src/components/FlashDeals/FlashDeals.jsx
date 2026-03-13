@@ -20,24 +20,26 @@ const FlashDeals = () => {
   const [showAll, setShowAll] = useState(false);
   const [page, setPage] = useState(0);
   const size = 9;
-  const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     const fetchDeals = async () => {
       setLoading(true);
       try {
-
         const response = await fetch(
           `http://localhost:8080/api/v1/tours?page=${page + 1}&size=${size}`
         );
 
         const data = await response.json();
+        console.log('[FlashDeals] API response:', data); // debug
 
-        setDeals(data.content || []);
-        setTotalPages(data.totalPages || 1);
+        // Spring Boot 4 PageImpl trả về: { content: [], page: { totalPages, ... } }
+        const list = Array.isArray(data) ? data : (data.content ?? data.data ?? []);
+        setDeals(list);
+        setTotalPages(data.page?.totalPages ?? data.totalPages ?? 1);
 
       } catch (err) {
-        console.error(err);
+        console.error('[FlashDeals] fetch error:', err);
       } finally {
         setLoading(false);
       }
@@ -49,9 +51,7 @@ const FlashDeals = () => {
   const toggleFavorite = (id, e) => {
     e.preventDefault();
     setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(favId => favId !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
     );
   };
 
@@ -134,7 +134,7 @@ const FlashDeals = () => {
                       <div className="deal-footer">
                         <div className="price-box">
                           <span className="current-price">
-                            {deal.price?.toLocaleString('vi-VN')} ₫
+                            {(deal.adultPrice ?? deal.adult_price)?.toLocaleString('vi-VN')} ₫
                           </span>
                         </div>
                         <button className="book-btn">Đặt ngay</button>
@@ -145,7 +145,6 @@ const FlashDeals = () => {
               ))}
             </div>
 
-            {/* PAGINATION */}
             {showAll && totalPages > 1 && (
               <div className="pagination">
                 {[...Array(totalPages)].map((_, index) => (
@@ -167,7 +166,7 @@ const FlashDeals = () => {
                   setPage(0);
                 }}
               >
-                {showAll ? 'Thu gọn' : `Xem tất cả `}
+                {showAll ? 'Thu gọn' : 'Xem tất cả'}
               </button>
             )}
           </>

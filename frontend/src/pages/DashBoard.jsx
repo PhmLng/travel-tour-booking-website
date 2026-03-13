@@ -3,6 +3,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Routes, Route } from "react-router-dom";
 import { ContentDashBoard } from "@/components/DashBoardPage/DashBoardContent/ContentDashBoard";
 import { TourManage } from "@/components/DashBoardPage/TourMangager/TourManage";
+import { Customer } from "@/components/DashBoardPage/Customer/Customer";
 
 export default function Dashboard() {
   return (
@@ -16,6 +17,7 @@ export default function Dashboard() {
       <Routes>
         <Route path="contentDashboard" element={<ContentDashBoard />} />
         <Route path="tours" element={<TourManage />} />
+        <Route path="customers" element={<Customer />} />
       </Routes>
     </SidebarProvider>
   );

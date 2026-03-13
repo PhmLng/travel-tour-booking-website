@@ -92,7 +92,7 @@ const FormField = () => {
 
 export const FromContact = () => {
   return (
-    <div className="w-full max-w-4xl min-h-[75vh] p-16 shadow-xl rounded-2xl bg-linear-to-br from-white/90 via-cyan-50/80 to-green-100/80 backdrop-blur-md flex flex-col">
+    <div className="w-full max-w-4xl min-h-[75vh] p-16 shadow-xl rounded-2xl  backdrop-blur-md flex flex-col">
       <h2 className="mb-12 text-4xl font-bold text-center text-slate-700">
         Liên hệ với chúng tôi
       </h2>

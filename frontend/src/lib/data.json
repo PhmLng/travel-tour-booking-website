@@ -2,56 +2,83 @@
   "customers": [
     {
       "id": 1,
-      "name": "Nguyễn Văn A",
+      "fullName": "Nguyễn Văn A",
       "email": "vana@gmail.com",
-      "phone": "0901234567",
+      "phoneNumber": "0901234567",
       "address": "Hà Nội",
-      "status": "Hoạt động"
+      "birth": "1995-05-10",
+      "isLead": true
     },
     {
       "id": 2,
-      "name": "Trần Thị B",
+      "fullName": "Trần Thị B",
       "email": "thib@gmail.com",
-      "phone": "0912345678",
+      "phoneNumber": "0912345678",
       "address": "Đà Nẵng",
-      "status": "Ngưng"
+      "birth": "1998-09-20",
+      "isLead": false
     },
     {
       "id": 3,
-      "name": "Lê Văn C",
+      "fullName": "Lê Văn C",
       "email": "vanc@gmail.com",
-      "phone": "0987654321",
+      "phoneNumber": "0987654321",
       "address": "TP HCM",
-      "status": "Hoạt động"
+      "birth": "1993-12-15",
+      "isLead": false
     }
   ],
-  "tours": [
+   "tours": [
     {
       "id": 1,
-      "tourName": "Hà Nội - Hạ Long",
-      "location": "Quảng Ninh",
-      "price": 2500000,
+      "title": "Hà Nội - Hạ Long",
+      "adultPrice": 2500000,
+      "childPrice": 1800000,
+      "startDate": "2026-04-10",
       "duration": "2 ngày 1 đêm",
-      "status": "Còn chỗ",
-      "slots": 20
+      "departureLocation": "Hà Nội",
+      "transport": "Xe du lịch",
+      "maxSlots": 20,
+      "remainingSlots": 20,
+      "status": "ACTIVE",
+      "itinerary": "Ngày 1: Hà Nội → Hạ Long tham quan vịnh, ngủ đêm trên tàu",
+      "policy": "Hoàn tiền trước 3 ngày khởi hành",
+      "registrationGuide": "Đăng ký online hoặc tại văn phòng",
+      "mainImage": "https://picsum.photos/200/120"
     },
     {
       "id": 2,
-      "tourName": "Hà Nội - Sapa",
-      "location": "Lào Cai",
-      "price": 3200000,
+      "title": "Hà Nội - Sapa",
+      "adultPrice": 3200000,
+      "childPrice": 2500000,
+      "startDate": "2026-05-05",
       "duration": "3 ngày 2 đêm",
-      "status": "Còn chỗ",
-      "slots": 15
+      "departureLocation": "Hà Nội",
+      "transport": "Xe giường nằm",
+      "maxSlots": 15,
+      "remainingSlots": 8,
+      "status": "ACTIVE",
+      "itinerary": "Ngày 1: Hà Nội → Sapa, tham quan bản Cát Cát",
+      "policy": "Hủy trước 5 ngày được hoàn 80%",
+      "registrationGuide": "Đăng ký qua website",
+      "mainImage": "https://picsum.photos/200/121"
     },
     {
       "id": 3,
-      "tourName": "Đà Nẵng - Hội An",
-      "location": "Đà Nẵng",
-      "price": 2800000,
+      "title": "Đà Nẵng - Hội An",
+      "adultPrice": 2800000,
+      "childPrice": 2000000,
+      "startDate": "2026-06-01",
       "duration": "2 ngày 1 đêm",
-      "status": "Hết chỗ",
-      "slots": 0
+      "departureLocation": "Đà Nẵng",
+      "transport": "Xe du lịch",
+      "maxSlots": 10,
+      "remainingSlots": 0,
+      "status": "FULL",
+      "itinerary": "Ngày 1: Đà Nẵng → Hội An tham quan phố cổ",
+      "policy": "Không hoàn tiền khi hủy sát ngày",
+      "registrationGuide": "Đăng ký trực tiếp tại văn phòng",
+      "mainImage": "https://picsum.photos/200/122"
     }
   ]
 }

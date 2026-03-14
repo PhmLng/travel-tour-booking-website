@@ -22,8 +22,10 @@ public class BookingController {
     private final PaymentService paymentService;
 
     @GetMapping("")
-    public ResponseEntity<List<BookingResponse>> getAllBooking() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getAllBooking());
+    public ResponseEntity<List<BookingResponse>> getBookings(@RequestParam(required = false) Long userId,
+                                                               @RequestParam(required = false) BookingStatus status) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.searchBookings(userId,status));
     }
     @GetMapping("{id}")
     public ResponseEntity<BookingResponse> getBookingById(@PathVariable Long id) {
@@ -32,10 +34,6 @@ public class BookingController {
     @GetMapping("{id}/remaining")
     public ResponseEntity<RemainingAmountResponse> getRemainingAmount(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.getRemainingAmount(id));
-    }
-    @GetMapping("/filter")
-    public ResponseEntity<List<BookingResponse>> getBookingByStatus(@RequestParam BookingStatus status) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getBookingByStatus(status));
     }
     @PostMapping("")
     public ResponseEntity<BookingResponse> creatBooking(@RequestBody BookingRequest bookingRequest){

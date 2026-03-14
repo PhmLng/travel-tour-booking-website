@@ -71,23 +71,25 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponse> getAllBooking() {
-        List<Booking> bookings = bookingRepository.findAll();
-        return  bookingMapper.toBookingResponses(bookings);
-    }
-
-    @Override
     public BookingResponse getBookingById(long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(()->new NotFoundException("booking not found"));
         return bookingMapper.toBookingResponse(booking);
     }
 
     @Override
-    public List<BookingResponse> getBookingByStatus(BookingStatus status) {
-        List<Booking> bookings = bookingRepository.findBookingByStatus(status);
-        return  bookingMapper.toBookingResponses(bookings);
+    public List<BookingResponse> searchBookings(Long userId, BookingStatus status) {
+        List<Booking> bookings ;
+        if(userId != null && status != null) {
+            bookings = bookingRepository.findBookingByUserIdAndStatus(userId, status);
+        } else if (status!=null) {
+            bookings = bookingRepository.findBookingByStatus(status);
+        } else if (userId!= null) {
+            bookings = bookingRepository.findBookingByUserId(userId);
+        }else {
+            bookings = bookingRepository.findAll();
+        }
+        return bookingMapper.toBookingResponses(bookings);
     }
-
     @Override
     public void deleteBookingById(long id) {
        bookingRepository.deleteById(id);

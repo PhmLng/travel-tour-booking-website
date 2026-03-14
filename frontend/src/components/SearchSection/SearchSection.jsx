@@ -13,7 +13,7 @@ const SearchSection = () => {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (destination) params.set('destination', destination);
+    if (destination) params.set('title', destination);
     if (date) params.set('date', date);
     if (priceRange !== 'all') params.set('price', priceRange);
 

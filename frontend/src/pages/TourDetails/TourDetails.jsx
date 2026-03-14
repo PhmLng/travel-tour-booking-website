@@ -38,7 +38,7 @@ const TourDetails = () => {
   useEffect(() => {
     const fetchTourData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/tours/${id}`);
+        const response = await fetch(`http://localhost:8080/api/v1/tours/${id}`, { cache: "no-store" });
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
         setTourData(data);

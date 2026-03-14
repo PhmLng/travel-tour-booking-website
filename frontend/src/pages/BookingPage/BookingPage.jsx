@@ -56,12 +56,6 @@ const getCurrentUser = () => {
   }
 };
 
-const updateAt = (list, index, field, value) => {
-  const next = [...list];
-  next[index] = { ...next[index], [field]: value };
-  return next;
-};
-
 // ─── Main component ───────────────────────────────────────────────────────────
 const BookingPage = () => {
   const { id } = useParams();
@@ -72,21 +66,22 @@ const BookingPage = () => {
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Contact
-  const [contact, setContact] = useState({ fullName: "", phone: "", email: "", address: "" });
+  // Contact (bao gồm cả thông tin hành khách chính)
+  const [contact, setContact] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    address: "",
+    dob: "",
+    gender: "Nam",
+    singleRoom: false,
+  });
 
-  // Passengers
+  // Số lượng hành khách
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [infants, setInfants] = useState(0);
-  const [adultDetails, setAdultDetails] = useState([
-    { fullName: "", gender: "Nam", dob: "", singleRoom: false },
-  ]);
-  const [childDetails, setChildDetails] = useState([]);
-  const [infantDetails, setInfantDetails] = useState([]);
 
   // Extras
-  const [note, setNote] = useState("");
   const [discountCode, setDiscountCode] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountStatus, setDiscountStatus] = useState(null);
@@ -119,54 +114,16 @@ const BookingPage = () => {
     fetchTour();
   }, [id]);
 
-  // ── Sync passenger arrays ──
-  useEffect(() => {
-    setAdultDetails((prev) => {
-      const next = [...prev];
-      while (next.length < adults)
-        next.push({ fullName: "", gender: "Nam", dob: "", singleRoom: false });
-      return next.slice(0, adults);
-    });
-  }, [adults]);
-
-  useEffect(() => {
-    setAdultDetails((prev) => {
-      if (!prev.length) return prev;
-      const next = [...prev];
-      next[0] = { ...next[0], fullName: contact.fullName };
-      return next;
-    });
-  }, [contact.fullName]);
-
-  useEffect(() => {
-    setChildDetails((prev) => {
-      const next = [...prev];
-      while (next.length < children)
-        next.push({ fullName: "", gender: "Nam", dob: "" });
-      return next.slice(0, children);
-    });
-  }, [children]);
-
-  useEffect(() => {
-    setInfantDetails((prev) => {
-      const next = [...prev];
-      while (next.length < infants)
-        next.push({ fullName: "", gender: "Nam", dob: "" });
-      return next.slice(0, infants);
-    });
-  }, [infants]);
-
   // ── Pricing ──
   const adultPrice = tourData?.adultPrice || tourData?.price || 0;
   const childPrice = tourData?.childPrice || Math.round(adultPrice * 0.8);
   const infantPrice = tourData?.infantPrice || Math.round(adultPrice * 0.1);
   const singleSurcharge = tourData?.singleRoomSurcharge || 6000000;
-  const singleRoomCount = adultDetails.filter((p) => p.singleRoom).length;
+  const singleRoomCount = contact.singleRoom ? 1 : 0;
 
   const subtotal =
     adults * adultPrice +
     children * childPrice +
-    infants * infantPrice +
     singleRoomCount * singleSurcharge;
 
   const totalAmount = Math.max(0, subtotal - discountAmount);
@@ -184,7 +141,8 @@ const BookingPage = () => {
       if (!res.ok) throw new Error("Mã không hợp lệ");
       const data = await res.json();
       const amount =
-        data.discountAmount ?? Math.round(subtotal * (data.discountPercent ?? 0) / 100);
+        data.discountAmount ??
+        Math.round(subtotal * (data.discountPercent ?? 0) / 100);
       setDiscountAmount(amount);
       setDiscountStatus("valid");
     } catch {
@@ -209,8 +167,7 @@ const BookingPage = () => {
     if (!contact.fullName.trim()) errs.fullName = "Họ tên không được để trống";
     if (!contact.phone.trim()) errs.phone = "Số điện thoại không được để trống";
     if (!contact.email.trim()) errs.email = "Email không được để trống";
-    if ([...adultDetails, ...childDetails, ...infantDetails].some((p) => !p.dob))
-      errs.dob = "Vui lòng nhập ngày sinh cho tất cả hành khách";
+    if (!contact.dob) errs.dob = "Vui lòng nhập ngày sinh";
     if (!agreePolicy)
       errs.agreePolicy = "Vui lòng đồng ý với điều khoản để tiếp tục";
     setErrors(errs);
@@ -236,9 +193,10 @@ const BookingPage = () => {
     try {
       const res = await paymentApi.create({
         bookingId,
-        amount: payableAmount,
+        paymentType: paymentOption === "FULL" ? "DEPOSIT_FULL" : "DEPOSIT_HALF",
         paymentMethod: "MOCK_PAYMENT",
       });
+
       if (!res.ok) {
         const errData = await res.json().catch(() => null);
         throw new Error(errData?.message || `Lỗi ${res.status}: Thanh toán thất bại`);
@@ -263,32 +221,21 @@ const BookingPage = () => {
     setSubmitting(true);
     setBookingError("");
 
-    const allPassengers = [
-      ...adultDetails.map((p, i) => ({
-        fullName: p.fullName || (i === 0 ? contact.fullName : ""),
-        phoneNumber: i === 0 ? contact.phone : "",
-        address: i === 0 ? contact.address : "",
-        birth: p.dob || null,
-        email: i === 0 ? contact.email : "",
-      })),
-      ...childDetails.map((p) => ({
-        fullName: p.fullName, phoneNumber: "", address: "", birth: p.dob || null, email: "",
-      })),
-      ...infantDetails.map((p) => ({
-        fullName: p.fullName, phoneNumber: "", address: "", birth: p.dob || null, email: "",
-      })),
-    ];
-
+    // Payload khớp đúng với swagger: tourId, userId, adultQuantity, childQuantity, passengers
     const payload = {
       tourId: Number(id),
-      userId: currentUser?.id,
-      adultQuantity: adults,          // backend field
-      childQuantity: children,        // backend field (0 nếu không có trẻ em)
-      passengers: allPassengers,
-      note,
-      ...(discountCode.trim() && discountStatus === "valid" && {
-        discountCode: discountCode.trim(),
-      }),
+      userId: currentUser?.id ?? null,
+      adultQuantity: adults,
+      childQuantity: children,
+      passengers: [
+        {
+          fullName: contact.fullName,
+          phoneNumber: contact.phone,
+          address: contact.address,
+          email: contact.email,
+          birth: contact.dob || null, // format "YYYY-MM-DD" từ input type="date"
+        },
+      ],
     };
 
     try {
@@ -349,37 +296,20 @@ const BookingPage = () => {
                 <>
                   <ContactForm
                     contact={contact}
-                    onChange={(field, value) => setContact((c) => ({ ...c, [field]: value }))}
+                    onChange={(field, value) =>
+                      setContact((c) => ({ ...c, [field]: value }))
+                    }
                     errors={errors}
                     currentUser={currentUser}
-                  />
-                  <PassengerSection
-                    adults={adults} children={children} infants={infants}
-                    onAdultsChange={setAdults}
-                    onChildrenChange={setChildren}
-                    onInfantsChange={setInfants}
-                    adultDetails={adultDetails}
-                    childDetails={childDetails}
-                    infantDetails={infantDetails}
-                    onAdultChange={(i, f, v) => setAdultDetails((prev) => updateAt(prev, i, f, v))}
-                    onChildChange={(i, f, v) => setChildDetails((prev) => updateAt(prev, i, f, v))}
-                    onInfantChange={(i, f, v) => setInfantDetails((prev) => updateAt(prev, i, f, v))}
-                    contactName={contact.fullName}
                     singleSurcharge={singleSurcharge}
                     formatPrice={formatPrice}
-                    errors={errors}
                   />
-                  <section className="booking-section">
-                    <h2 className="section-title">GHI CHÚ</h2>
-                    <p className="note-hint">Quý khách có ghi chú lưu ý gì, hãy nói với chúng tôi</p>
-                    <textarea
-                      className="note-textarea"
-                      rows={4}
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      placeholder="Vui lòng nhập nội dung lời nhắn bằng tiếng Anh hoặc tiếng Việt"
-                    />
-                  </section>
+                  <PassengerSection
+                    adults={adults}
+                    children={children}
+                    onAdultsChange={setAdults}
+                    onChildrenChange={setChildren}
+                  />
                 </>
               )}
 
@@ -419,9 +349,12 @@ const BookingPage = () => {
                 paymentOption={paymentOption}
                 payableAmount={payableAmount}
                 totalAmount={totalAmount}
-                adults={adults} adultPrice={adultPrice}
-                children={children} childPrice={childPrice}
-                infants={infants} infantPrice={infantPrice}
+                adults={adults}
+                adultPrice={adultPrice}
+                children={children}
+                childPrice={childPrice}
+                infants={0}
+                infantPrice={infantPrice}
                 singleRoomCount={singleRoomCount}
                 singleSurcharge={singleSurcharge}
                 discountCode={discountCode}
@@ -434,14 +367,22 @@ const BookingPage = () => {
                 onAgreePolicyChange={(checked) => {
                   setAgreePolicy(checked);
                   if (checked)
-                    setErrors((prev) => { const next = { ...prev }; delete next.agreePolicy; return next; });
+                    setErrors((prev) => {
+                      const next = { ...prev };
+                      delete next.agreePolicy;
+                      return next;
+                    });
                 }}
                 errors={errors}
                 isProcessing={isProcessing}
                 formatPrice={formatPrice}
                 onNext={handleNext}
                 onSubmit={handleSubmitBooking}
-                onBack={() => { setStep(0); setBookingError(""); setPaymentError(""); }}
+                onBack={() => {
+                  setStep(0);
+                  setBookingError("");
+                  setPaymentError("");
+                }}
               />
             </div>
           </div>

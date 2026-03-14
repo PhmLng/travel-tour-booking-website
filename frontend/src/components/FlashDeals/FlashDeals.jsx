@@ -21,6 +21,7 @@ const FlashDeals = () => {
   const [page, setPage] = useState(0);
   const size = 9;
   const [totalPages, setTotalPages] = useState(1);
+  
 
   useEffect(() => {
     const fetchDeals = async () => {

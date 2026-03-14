@@ -62,6 +62,39 @@ const ContactForm = ({ contact, onChange, errors, currentUser }) => (
           placeholder="Địa chỉ"
         />
       </div>
+
+      <div className="form-group">
+        <label>Ngày sinh <span className="required">*</span></label>
+        <input
+          type="date"
+          value={contact.dob}
+          onChange={(e) => onChange("dob", e.target.value)}
+          className={errors.dob ? "error" : ""}
+        />
+        {errors.dob && <span className="error-msg">{errors.dob}</span>}
+      </div>
+
+      <div className="form-group">
+        <label>Giới tính</label>
+        <select
+          value={contact.gender}
+          onChange={(e) => onChange("gender", e.target.value)}
+        >
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+      </div>
+
+      <div className="form-group form-group-checkbox">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={!!contact.singleRoom}
+            onChange={(e) => onChange("singleRoom", e.target.checked)}
+          />
+          <span>Yêu cầu phòng đơn</span>
+        </label>
+      </div>
     </div>
   </section>
 );

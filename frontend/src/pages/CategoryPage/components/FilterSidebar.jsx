@@ -88,40 +88,6 @@ const FilterSidebar = ({
         </div>
       </div>
 
-      {/* Tour type */}
-      <div className="filter-group">
-        <h4>Dòng tour</h4>
-        <div className="filter-tags">
-          {TOUR_TYPES.map((t) => (
-            <button
-              key={t.value}
-              className={`filter-tag ${selectedType === t.value ? "active" : ""}`}
-              onClick={() => setSelectedType(selectedType === t.value ? null : t.value)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Transport */}
-      <div className="filter-group">
-        <h4>Phương tiện</h4>
-        <div className="filter-tags">
-          {TRANSPORTS.map((t) => (
-            <button
-              key={t.value}
-              className={`filter-tag ${selectedTransport === t.value ? "active" : ""}`}
-              onClick={() =>
-                setSelectedTransport(selectedTransport === t.value ? null : t.value)
-              }
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       <button className="apply-filter-btn" onClick={onApply}>Áp dụng</button>
     </div>
   );

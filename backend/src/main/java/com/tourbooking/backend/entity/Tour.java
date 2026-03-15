@@ -64,6 +64,8 @@ public class Tour {
     @Column(name = "mainImage",nullable = false)
     private String mainImage;
 
+    @Column(name = "isDeleted")
+    private boolean isDeleted =false;
     @ManyToMany()
     @JoinTable(
             name = "tours_categories",

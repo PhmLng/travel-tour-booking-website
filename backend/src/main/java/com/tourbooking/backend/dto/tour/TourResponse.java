@@ -1,6 +1,7 @@
 package com.tourbooking.backend.dto.tour;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.tourbooking.backend.enums.TourStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +19,6 @@ public class TourResponse {
     private String duration;
     private String departureLocation;
     private String mainImage;
+    private TourStatus status;
 }
     

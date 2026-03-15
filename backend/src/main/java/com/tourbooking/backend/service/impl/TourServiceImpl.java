@@ -39,7 +39,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Page<TourResponse> getAllTours(int page, int size) {
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<Tour> tourPage = tourRepository.findAll(pageable);
+        Page<Tour> tourPage = tourRepository.findByActiveTour(pageable);
 
         Page<TourResponse> tourResponsePage = tourPage.map(tour -> tourMapper.toTourResponse(tour));
         return tourResponsePage;
@@ -54,7 +54,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public List<TourResponse> getAllToursByCategory(Long id) {
-        List<Tour> tours = tourRepository.findByCategories_Id(id);
+        List<Tour> tours = tourRepository.findByCategoriesId(id);
         List<TourResponse> tourResponses = tourMapper.tourListTourResponses(tours) ;;
         return tourResponses;
     }
@@ -150,6 +150,8 @@ public class TourServiceImpl implements TourService {
         if (!tourRepository.existsById(id)) {
             throw new RuntimeException("Tour is not exist");
         }
-        tourRepository.deleteById(id);
+        Tour tour = tourRepository.findById(id).orElseThrow(()->new NotFoundException("Tour is not exist"));
+        tour.setDeleted(true);
+        tourRepository.save(tour);
     }
 }

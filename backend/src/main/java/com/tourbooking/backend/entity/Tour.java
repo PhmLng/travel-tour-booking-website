@@ -1,11 +1,9 @@
 package com.tourbooking.backend.entity;
 
-import com.tourbooking.backend.enums.TourStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,11 +24,8 @@ public class Tour {
     @Column(name = "description",columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "adultPrice",nullable = false)
-    private BigDecimal adultPrice;
-
-    @Column(name = "childPrice", nullable = false)
-    private BigDecimal childPrice;
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name = "startDate")
     private LocalDate startDate;
@@ -47,10 +42,8 @@ public class Tour {
     private int maxSlots;
     @Column(name = "remainingSlots")
     private int remainingSlots;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private TourStatus status;
+    private String status;
 
     @Column(name="itinerary", columnDefinition = "TEXT")
     private String itinerary;

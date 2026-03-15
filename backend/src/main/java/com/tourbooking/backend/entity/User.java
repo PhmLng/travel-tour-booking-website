@@ -1,6 +1,5 @@
 package com.tourbooking.backend.entity;
 
-import com.tourbooking.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

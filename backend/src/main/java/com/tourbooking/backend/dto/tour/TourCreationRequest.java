@@ -2,12 +2,9 @@ package com.tourbooking.backend.dto.tour;
 
 import com.tourbooking.backend.dto.category.CategoryLinkRequest;
 import com.tourbooking.backend.dto.tour_image.TourImageRequest;
-import com.tourbooking.backend.enums.TourStatus;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 @Setter
@@ -18,9 +15,7 @@ public class TourCreationRequest {
 
     private String description;
 
-    private BigDecimal adultPrice;
-
-    private BigDecimal childPrice;
+    private Double price;
 
     private LocalDate startDate;
 
@@ -34,7 +29,7 @@ public class TourCreationRequest {
 
     private int remainingSlots;
 
-    private TourStatus status;
+    private String status;
 
     private String itinerary;
 

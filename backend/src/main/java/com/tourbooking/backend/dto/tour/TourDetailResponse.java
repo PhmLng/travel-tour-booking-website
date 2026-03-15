@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tourbooking.backend.dto.category.CategoryResponse;
 import com.tourbooking.backend.dto.tour_image.TourImageResponse;
 import com.tourbooking.backend.entity.Category;
-import com.tourbooking.backend.enums.TourStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,9 +28,7 @@ public class TourDetailResponse {
 
     private String description;
 
-    private BigDecimal adultPrice;
-
-    private BigDecimal childPrice;
+    private Double price;
 
     private LocalDate startDate;
 
@@ -46,7 +42,7 @@ public class TourDetailResponse {
 
     private int remainingSlots;
 
-    private TourStatus status;
+    private String status;
 
     private String itinerary;
 

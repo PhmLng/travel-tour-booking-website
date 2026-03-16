@@ -1,9 +1,10 @@
 package com.tourbooking.backend.dto.tour;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.tourbooking.backend.enums.TourStatus;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Setter
@@ -12,9 +13,11 @@ import java.time.LocalDate;
 public class TourResponse {
     private Long id;
     private String title;
-    private Double price;
+
+    private BigDecimal adultPrice;
     private LocalDate startDate;
     private String duration;
     private String departureLocation;
     private String mainImage;
+    private TourStatus status;
 }

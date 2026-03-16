@@ -5,9 +5,10 @@ import com.tourbooking.backend.dto.category.CategoryResponse;
 import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import com.tourbooking.backend.entity.Category;
 import com.tourbooking.backend.entity.TourImage;
+import com.tourbooking.backend.enums.TourStatus;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +20,9 @@ public class TourUpdateRequest {
 
     private String description;
 
-    private Double price;
+    private BigDecimal adultPrice;
+
+    private BigDecimal childPrice;
 
     private LocalDate startDate;
 
@@ -33,7 +36,7 @@ public class TourUpdateRequest {
 
     private int remainingSlots;
 
-    private String status;
+    private TourStatus status;
 
     private String itinerary;
 

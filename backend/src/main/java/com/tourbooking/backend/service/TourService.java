@@ -7,6 +7,7 @@ import com.tourbooking.backend.dto.tour.TourUpdateRequest;
 import com.tourbooking.backend.entity.Tour;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TourService {
@@ -14,6 +15,7 @@ public interface TourService {
     public TourDetailResponse getTourById(Long id);
     public  List<TourResponse> getAllToursByCategory(Long id);
     public List<TourResponse> SearchTourByTitle(String title);
+    public List<TourResponse> searchTours(String departure, String priceRange, LocalDateTime startDate);
     public TourDetailResponse createTour(TourCreationRequest tour);
     public TourDetailResponse updateTour(Long id,TourUpdateRequest tourUpdateRequest );
     public void deleteTour(Long id);

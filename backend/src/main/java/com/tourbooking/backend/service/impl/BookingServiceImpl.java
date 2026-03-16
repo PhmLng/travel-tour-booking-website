@@ -14,6 +14,7 @@ import com.tourbooking.backend.repository.TourRepository;
 import com.tourbooking.backend.repository.UserRepository;
 import com.tourbooking.backend.service.BookingService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private TourRepository tourRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PassengerMapper passengerMapper;
-    @Autowired
-    private BookingMapper bookingMapper;
+
+    private final BookingRepository bookingRepository;
+    private final TourRepository tourRepository;
+    private final UserRepository userRepository;
+    private final PassengerMapper passengerMapper;
+    private final BookingMapper bookingMapper;
 
     @Override
     @Transactional(rollbackOn = Exception.class)
@@ -73,23 +71,25 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingResponse> getAllBooking() {
-        List<Booking> bookings = bookingRepository.findAll();
-        return  bookingMapper.toBookingResponses(bookings);
-    }
-
-    @Override
     public BookingResponse getBookingById(long id) {
         Booking booking = bookingRepository.findById(id).orElseThrow(()->new NotFoundException("booking not found"));
         return bookingMapper.toBookingResponse(booking);
     }
 
     @Override
-    public List<BookingResponse> getBookingByStatus(BookingStatus status) {
-        List<Booking> bookings = bookingRepository.findBookingByStatus(status);
-        return  bookingMapper.toBookingResponses(bookings);
+    public List<BookingResponse> searchBookings(Long userId, BookingStatus status) {
+        List<Booking> bookings ;
+        if(userId != null && status != null) {
+            bookings = bookingRepository.findBookingByUserIdAndStatus(userId, status);
+        } else if (status!=null) {
+            bookings = bookingRepository.findBookingByStatus(status);
+        } else if (userId!= null) {
+            bookings = bookingRepository.findBookingByUserId(userId);
+        }else {
+            bookings = bookingRepository.findAll();
+        }
+        return bookingMapper.toBookingResponses(bookings);
     }
-
     @Override
     public void deleteBookingById(long id) {
        bookingRepository.deleteById(id);

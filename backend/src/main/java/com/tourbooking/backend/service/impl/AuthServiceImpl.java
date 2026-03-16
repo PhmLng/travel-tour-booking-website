@@ -3,27 +3,26 @@ package com.tourbooking.backend.service.impl;
 import com.tourbooking.backend.dto.user.UserCreationRequest;
 import com.tourbooking.backend.dto.user.UserLoginRequest;
 import com.tourbooking.backend.dto.user.UserResponse;
-import com.tourbooking.backend.entity.Role;
+import com.tourbooking.backend.enums.Role;
 import com.tourbooking.backend.entity.User;
 import com.tourbooking.backend.mapper.UserMapper;
 import com.tourbooking.backend.repository.UserRepository;
 import com.tourbooking.backend.service.AuthService;
 import com.tourbooking.backend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+
 
     @Override
     public UserResponse login(UserLoginRequest userLoginRequest) {

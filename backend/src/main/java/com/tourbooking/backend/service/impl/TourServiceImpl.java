@@ -15,33 +15,29 @@ import com.tourbooking.backend.repository.CategoryRepository;
 import com.tourbooking.backend.repository.TourRepository;
 import com.tourbooking.backend.service.TourService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import com.tourbooking.backend.exception.NotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TourServiceImpl implements TourService {
 
-
-    @Autowired
-    private TourMapper tourMapper;
-    @Autowired
-    private TourRepository tourRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final TourMapper tourMapper;
+    private final TourRepository tourRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<TourResponse> getAllTours(int page, int size) {
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<Tour> tourPage = tourRepository.findAll(pageable);
+        Page<Tour> tourPage = tourRepository.findByActiveTour(pageable);
 
         Page<TourResponse> tourResponsePage = tourPage.map(tour -> tourMapper.toTourResponse(tour));
         return tourResponsePage;
@@ -56,7 +52,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public List<TourResponse> getAllToursByCategory(Long id) {
-        List<Tour> tours = tourRepository.findByCategories_Id(id);
+        List<Tour> tours = tourRepository.findByCategoriesId(id);
         List<TourResponse> tourResponses = tourMapper.tourListTourResponses(tours) ;;
         return tourResponses;
     }
@@ -66,6 +62,23 @@ public class TourServiceImpl implements TourService {
         List<Tour> tours = tourRepository.searchByName(title);
         List<TourResponse> tourResponses =tourMapper.tourListTourResponses(tours);
         return tourResponses;
+    }
+
+    @Override
+    public List<TourResponse> searchTours(String departure, String priceRange, LocalDateTime startDate) {
+        Double min = null;
+        Double max = null;
+
+        if (priceRange != null) {
+            switch (priceRange) {
+                case "Dưới 5 triệu": max = 5000000.0; break;
+                case "Từ 5 - 10 triệu":  min = 5000000.0; max = 10000000.0; break;
+                case "Từ 10 -20 triệu": min = 10000000.0; max = 20000000.0; break;
+                case "Trên 20 triệu": min = 20000000.0; break;
+            }
+        }
+
+        return tourMapper.tourListTourResponses(tourRepository.filterTours(departure, min, max, startDate));
     }
 
     @Override
@@ -152,6 +165,8 @@ public class TourServiceImpl implements TourService {
         if (!tourRepository.existsById(id)) {
             throw new RuntimeException("Tour is not exist");
         }
-        tourRepository.deleteById(id);
+        Tour tour = tourRepository.findById(id).orElseThrow(()->new NotFoundException("Tour is not exist"));
+        tour.setDeleted(true);
+        tourRepository.save(tour);
     }
 }

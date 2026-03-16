@@ -6,25 +6,26 @@ import com.tourbooking.backend.dto.payment.RemainingAmountResponse;
 import com.tourbooking.backend.enums.BookingStatus;
 import com.tourbooking.backend.service.BookingService;
 import com.tourbooking.backend.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/bookings")
+@RequiredArgsConstructor
 public class BookingController {
-    @Autowired
-    private BookingService bookingService;
-    @Autowired
-    private PaymentService paymentService;
+
+    private final BookingService bookingService;
+    private final PaymentService paymentService;
 
     @GetMapping("")
-    public ResponseEntity<List<BookingResponse>> getAllBooking() {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getAllBooking());
+    public ResponseEntity<List<BookingResponse>> getBookings(@RequestParam(required = false) Long userId,
+                                                               @RequestParam(required = false) BookingStatus status) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.searchBookings(userId,status));
     }
     @GetMapping("{id}")
     public ResponseEntity<BookingResponse> getBookingById(@PathVariable Long id) {

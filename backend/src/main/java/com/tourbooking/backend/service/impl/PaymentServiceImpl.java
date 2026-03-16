@@ -13,6 +13,7 @@ import com.tourbooking.backend.repository.BookingRepository;
 import com.tourbooking.backend.repository.PaymentRepository;
 import com.tourbooking.backend.service.PaymentService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private PaymentMapper paymentMapper;
+
+    private final PaymentRepository paymentRepository;
+    private final BookingRepository bookingRepository;
+    private final PaymentMapper paymentMapper;
 
     @Override
     @Transactional(rollbackOn = Exception.class)

@@ -8,6 +8,7 @@ import com.tourbooking.backend.enums.TourStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +29,6 @@ public class TourDetailResponse {
     private String title;
 
     private String description;
-
 
     private BigDecimal adultPrice;
 

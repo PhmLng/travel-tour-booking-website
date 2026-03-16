@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tourbooking.backend.enums.TourStatus;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,7 +14,6 @@ import java.time.LocalDate;
 public class TourResponse {
     private Long id;
     private String title;
-
     private BigDecimal adultPrice;
     private LocalDate startDate;
     private String duration;
@@ -21,3 +21,4 @@ public class TourResponse {
     private String mainImage;
     private TourStatus status;
 }
+    

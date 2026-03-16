@@ -35,10 +35,6 @@ public class BookingController {
     public ResponseEntity<RemainingAmountResponse> getRemainingAmount(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.getRemainingAmount(id));
     }
-    @GetMapping("/filter")
-    public ResponseEntity<List<BookingResponse>> getBookingByStatus(@RequestParam BookingStatus status) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getBookingByStatus(status));
-    }
     @PostMapping("")
     public ResponseEntity<BookingResponse> creatBooking(@RequestBody BookingRequest bookingRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.createBooking(bookingRequest));

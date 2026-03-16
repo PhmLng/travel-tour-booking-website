@@ -5,6 +5,7 @@ import com.tourbooking.backend.dto.user.UserLoginRequest;
 import com.tourbooking.backend.dto.user.UserResponse;
 import com.tourbooking.backend.enums.Role;
 import com.tourbooking.backend.entity.User;
+import com.tourbooking.backend.exception.DuplicateException;
 import com.tourbooking.backend.mapper.UserMapper;
 import com.tourbooking.backend.repository.UserRepository;
 import com.tourbooking.backend.service.AuthService;
@@ -36,6 +37,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponse register(UserCreationRequest userCreationRequest) {
+        if (userRepository.findByUsername(userCreationRequest.getUsername()).isPresent()) {
+            throw new DuplicateException("Username already in use");
+        }
         User user =userMapper.toUser(userCreationRequest);
         user.setPassword(passwordEncoder.encode(userCreationRequest.getPassword()));
         user.setRole(Role.ROLE_USER);

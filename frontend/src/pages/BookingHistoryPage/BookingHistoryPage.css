@@ -346,3 +346,113 @@
 .bh-btn-cancel:hover {
   background: #d9363e;
 }
+
+/* ─── Status pending cancel ────────────────────────────────────────────────── */
+.status-pending-cancel {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+/* ─── Pending cancel notice ────────────────────────────────────────────────── */
+.bh-pending-cancel-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f3e8ff;
+  border-left: 3px solid #7e22ce;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  color: #6b21a8;
+}
+
+/* ─── Card error inline ────────────────────────────────────────────────────── */
+.bh-card-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff3f3;
+  border-left: 3px solid #e84040;
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  color: #c0392b;
+}
+
+/* ─── Pay button ───────────────────────────────────────────────────────────── */
+.bh-btn-pay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #e84040;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.bh-btn-pay:hover {
+  background: #c0392b;
+}
+
+.bh-btn-pay--done {
+  background: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.bh-btn-pay--done:hover {
+  background: #e0e0e0;
+}
+
+/* ─── Cancel button (cải tiến) ─────────────────────────────────────────────── */
+.bh-btn-cancel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: #fff;
+  border: 1.5px solid #ff4d4f;
+  color: #ff4d4f;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.bh-btn-cancel:hover {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+/* ─── Spinner nhỏ trong modal button ──────────────────────────────────────── */
+.bh-spinner-sm {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bh-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─── Card action layout (vertical stack) ──────────────────────────────────── */
+.bh-card-action {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 20px;
+  border-left: 1px solid #f0f0f0;
+  min-width: 160px;
+}

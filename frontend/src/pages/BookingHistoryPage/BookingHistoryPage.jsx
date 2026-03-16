@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTicketAlt } from "@fortawesome/free-solid-svg-icons";
@@ -21,32 +21,59 @@ const getCurrentUser = () => {
   }
 };
 
+// Filter PENDING gộp cả CANCELED_PENDING → gọi 2 API song song
+const fetchByFilter = async (filter) => {
+  if (filter === "ALL") {
+    const res = await fetch(`${BASE_URL}/bookings`);
+    if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
+    return res.json();
+  }
+
+  if (filter === "PENDING") {
+    const [r1, r2] = await Promise.all([
+      fetch(`${BASE_URL}/bookings/filter?status=PENDING`),
+      fetch(`${BASE_URL}/bookings/filter?status=CANCELED_PENDING`),
+    ]);
+    const [d1, d2] = await Promise.all([
+      r1.ok ? r1.json() : [],
+      r2.ok ? r2.json() : [],
+    ]);
+    return [...d1, ...d2];
+  }
+
+  const res = await fetch(`${BASE_URL}/bookings/filter?status=${filter}`);
+  if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
+  return res.json();
+};
+
 // ─── Main component ───────────────────────────────────────────────────────────
 const BookingHistoryPage = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
   const [bookings, setBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]); // chỉ dùng để đếm count trên filter
   const [loading, setLoading] = useState(true);
+  const [filterLoading, setFilterLoading] = useState(false);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("ALL");
 
+  // Fetch tất cả 1 lần để hiển thị count trên filter buttons
   useEffect(() => {
     if (!currentUser) {
       navigate("/signin");
       return;
     }
-    fetchBookings();
+    fetchAllBookings();
   }, []);
 
-  const fetchBookings = async () => {
+  const fetchAllBookings = async () => {
     try {
       const res = await fetch(`${BASE_URL}/bookings`);
       if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
       const data = await res.json();
-      // TODO: xoá "|| true" khi có API filter theo user
-      const myBookings = data.filter((b) => b.userId === currentUser?.id || true);
-      setBookings(myBookings);
+      setAllBookings(data);
+      setBookings(data);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -54,21 +81,29 @@ const BookingHistoryPage = () => {
     }
   };
 
-  // FIX: cancelBooking đã được chuyển vào trong component để có thể dùng setBookings
-  const handleCancelBooking = async (bookingId) => {
-    if (!window.confirm("Bạn có chắc muốn hủy đơn đặt tour này?")) return;
+  const handleFilterChange = useCallback(async (newFilter) => {
+    setFilter(newFilter);
+    setFilterLoading(true);
+    setError("");
     try {
-      const res = await fetch(`${BASE_URL}/bookings/${bookingId}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Hủy đơn thất bại");
-      alert("Đã hủy đơn thành công!");
-      setBookings((prev) => prev.filter((b) => (b.id ?? b.Id) !== bookingId));
+      const data = await fetchByFilter(newFilter);
+      setBookings(data);
     } catch (err) {
-      alert(err.message);
+      setError(err.message);
+    } finally {
+      setFilterLoading(false);
     }
-  };
+  }, []);
 
-  const filtered =
-    filter === "ALL" ? bookings : bookings.filter((b) => b.status === filter);
+  const handleStatusChange = (bookingId, newStatus) => {
+    // Cập nhật cả 2 list
+    const update = (list) =>
+      list.map((b) =>
+        (b.id ?? b.Id) === bookingId ? { ...b, status: newStatus } : b
+      );
+    setBookings(update);
+    setAllBookings(update);
+  };
 
   if (loading)
     return (
@@ -96,31 +131,40 @@ const BookingHistoryPage = () => {
                 <h1 className="bh-title">Lịch sử đặt tour</h1>
                 <p className="bh-subtitle">
                   Xin chào, <strong>{currentUser?.fullName || currentUser?.username}</strong>!
-                  Bạn có <strong>{bookings.length}</strong> đơn đặt tour.
+                  Bạn có <strong>{allBookings.length}</strong> đơn đặt tour.
                 </p>
               </div>
             </div>
           </div>
 
           <BookingFilters
-            bookings={bookings}
+            bookings={allBookings}
             activeFilter={filter}
-            onFilterChange={setFilter}
+            onFilterChange={handleFilterChange}
+            loading={filterLoading}
           />
 
           {error && <div className="bh-error">⚠️ {error}</div>}
 
-          {!error && filtered.length === 0 && <BookingEmptyState />}
-
-          <div className="bh-list">
-            {filtered.map((booking) => (
-              <BookingCard
-                key={booking.id ?? booking.Id}
-                booking={booking}
-                onCancel={handleCancelBooking}
-              />
-            ))}
-          </div>
+          {filterLoading ? (
+            <div className="bh-loading" style={{ minHeight: 200 }}>
+              <div className="bh-spinner" />
+              <p>Đang lọc...</p>
+            </div>
+          ) : (
+            <>
+              {!error && bookings.length === 0 && <BookingEmptyState />}
+              <div className="bh-list">
+                {bookings.map((b) => (
+                  <BookingCard
+                    key={b.id ?? b.Id}
+                    booking={b}
+                    onStatusChange={handleStatusChange}
+                  />
+                ))}
+              </div>
+            </>
+          )}
 
         </div>
       </div>

@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTicketAlt, faCalendarAlt, faUsers, faMoneyBillWave,
   faCheckCircle, faClock, faTimesCircle, faExclamationCircle,
-  faArrowRight, faExclamationTriangle, faShieldAlt,
+  faExclamationTriangle, faShieldAlt, faCreditCard, faHourglassHalf,
+  faChild,
 } from "@fortawesome/free-solid-svg-icons";
 
+const BASE_URL = "http://localhost:8080/api/v1";
+
 const STATUS_CONFIG = {
-  PENDING:        { label: "Chờ xác nhận",      icon: faClock,             color: "status-pending"   },
-  PAID:           { label: "Đã thanh toán",      icon: faCheckCircle,       color: "status-paid"      },
-  PARTIALLY_PAID: { label: "Thanh toán 1 phần",  icon: faExclamationCircle, color: "status-partial"   },
-  CANCELLED:      { label: "Đã huỷ",             icon: faTimesCircle,       color: "status-cancelled" },
+  PENDING:          { label: "Chờ xác nhận",     icon: faClock,             color: "status-pending"        },
+  PAID:             { label: "Đã thanh toán",     icon: faCheckCircle,       color: "status-paid"           },
+  PARTIALLY_PAID:   { label: "Thanh toán 1 phần", icon: faExclamationCircle, color: "status-partial"        },
+  CANCELLED:        { label: "Đã huỷ",            icon: faTimesCircle,       color: "status-cancelled"      },
+  CANCELED_PENDING: { label: "Chờ xác nhận huỷ",  icon: faHourglassHalf,     color: "status-pending-cancel" },
 };
 
-const formatPrice = (price) => new Intl.NumberFormat("vi-VN").format(price) + " đ";
+const formatPrice = (price) =>
+  price != null ? new Intl.NumberFormat("vi-VN").format(price) + " đ" : "—";
 
 const formatDate = (dateStr) =>
   dateStr
@@ -24,22 +29,21 @@ const formatDate = (dateStr) =>
     : "—";
 
 // ─── Cancel Modal ─────────────────────────────────────────────────────────────
-const CancelModal = ({ booking, onConfirm, onClose }) => {
+const CancelModal = ({ booking, onConfirm, onClose, loading }) => {
   const bookingId = booking.id ?? booking.Id;
 
   const policies = [
-    { range: "Trước 15 ngày khởi hành",  fee: "Hoàn 90% tổng tiền tour" },
-    { range: "Trước 10–14 ngày",          fee: "Hoàn 70% tổng tiền tour" },
-    { range: "Trước 7–9 ngày",            fee: "Hoàn 50% tổng tiền tour" },
-    { range: "Trước 3–6 ngày",            fee: "Hoàn 30% tổng tiền tour" },
-    { range: "Dưới 3 ngày / không báo",   fee: "Không hoàn tiền"          },
+    { range: "Trước 15 ngày khởi hành", fee: "Hoàn 90% tổng tiền tour" },
+    { range: "Trước 10–14 ngày",         fee: "Hoàn 70% tổng tiền tour" },
+    { range: "Trước 7–9 ngày",           fee: "Hoàn 50% tổng tiền tour" },
+    { range: "Trước 3–6 ngày",           fee: "Hoàn 30% tổng tiền tour" },
+    { range: "Dưới 3 ngày / không báo",  fee: "Không hoàn tiền"          },
   ];
 
   return (
     <div className="bh-modal-overlay" onClick={onClose}>
       <div className="bh-modal" onClick={(e) => e.stopPropagation()}>
 
-        {/* Header */}
         <div className="bh-modal-header">
           <div className="bh-modal-icon">
             <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -50,7 +54,6 @@ const CancelModal = ({ booking, onConfirm, onClose }) => {
           </p>
         </div>
 
-        {/* Policy */}
         <div className="bh-modal-policy">
           <div className="bh-modal-policy-title">
             <FontAwesomeIcon icon={faShieldAlt} />
@@ -73,18 +76,25 @@ const CancelModal = ({ booking, onConfirm, onClose }) => {
             </tbody>
           </table>
           <p className="bh-policy-note">
-            ⚠️ Phí huỷ được tính dựa trên tổng giá trị đơn hàng. Tiền hoàn sẽ được xử lý trong 5–7 ngày làm việc.
+            Yêu cầu huỷ sẽ được gửi tới admin để xét duyệt. Tiền hoàn (nếu có) sẽ được xử lý
+            trong 5–7 ngày làm việc sau khi được duyệt.
           </p>
         </div>
 
-        {/* Actions */}
         <div className="bh-modal-actions">
-          <button className="bh-modal-btn-back" onClick={onClose}>
+          <button className="bh-modal-btn-back" onClick={onClose} disabled={loading}>
             Giữ đơn
           </button>
-          <button className="bh-modal-btn-confirm" onClick={() => onConfirm(bookingId)}>
-            <FontAwesomeIcon icon={faTimesCircle} />
-            Xác nhận huỷ
+          <button
+            className="bh-modal-btn-confirm"
+            onClick={() => onConfirm(bookingId)}
+            disabled={loading}
+          >
+            {loading ? (
+              <><div className="bh-spinner-sm" /> Đang gửi...</>
+            ) : (
+              <><FontAwesomeIcon icon={faTimesCircle} /> Gửi yêu cầu huỷ</>
+            )}
           </button>
         </div>
 
@@ -94,15 +104,45 @@ const CancelModal = ({ booking, onConfirm, onClose }) => {
 };
 
 // ─── BookingCard ──────────────────────────────────────────────────────────────
-const BookingCard = ({ booking, onCancel }) => {
+const BookingCard = ({ booking, onStatusChange }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [cancelLoading, setCancelLoading] = useState(false);
+  const [cancelError, setCancelError] = useState("");
+  const [remainingAmount, setRemainingAmount] = useState(null);
+
   const bookingId = booking.id ?? booking.Id;
   const statusCfg = STATUS_CONFIG[booking.status] || STATUS_CONFIG.PENDING;
+  const canCancel = ["PENDING", "PAID", "PARTIALLY_PAID"].includes(booking.status);
 
-  const handleConfirmCancel = (id) => {
-    setShowModal(false);
-    onCancel(id);
+  const totalPassengers =
+    (booking.adultQuantity ?? 0) + (booking.childQuantity ?? 0);
+
+  useEffect(() => {
+    if (booking.status !== "PARTIALLY_PAID") return;
+    fetch(`${BASE_URL}/bookings/${bookingId}/remaining`)
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.remainingAmount != null) setRemainingAmount(data.remainingAmount);
+      })
+      .catch(() => {});
+  }, [bookingId, booking.status]);
+
+  const handleConfirmCancel = async (id) => {
+    setCancelLoading(true);
+    setCancelError("");
+    try {
+      const res = await fetch(`${BASE_URL}/bookings/${id}/request-cancel`, {
+        method: "POST",
+      });
+      if (!res.ok) throw new Error("Gửi yêu cầu huỷ thất bại. Vui lòng thử lại.");
+      setShowModal(false);
+      onStatusChange(id, "CANCELED_PENDING");
+    } catch (err) {
+      setCancelError(err.message);
+    } finally {
+      setCancelLoading(false);
+    }
   };
 
   return (
@@ -137,27 +177,69 @@ const BookingCard = ({ booking, onCancel }) => {
             </div>
             <div className="bh-meta-item">
               <FontAwesomeIcon icon={faUsers} />
-              <span>Số khách: <strong>{booking.quantity}</strong></span>
+              <span>Người lớn: <strong>{booking.adultQuantity ?? 0}</strong></span>
+            </div>
+            <div className="bh-meta-item">
+              <FontAwesomeIcon icon={faChild} />
+              <span>Trẻ em: <strong>{booking.childQuantity ?? 0}</strong></span>
             </div>
             <div className="bh-meta-item">
               <FontAwesomeIcon icon={faMoneyBillWave} />
               <span>Tổng tiền: <strong className="bh-price">{formatPrice(booking.totalPrice)}</strong></span>
             </div>
+            <div className="bh-meta-item">
+              <FontAwesomeIcon icon={faTicketAlt} />
+              <span>Tổng chỗ: <strong>{totalPassengers} chỗ</strong></span>
+            </div>
           </div>
 
           {booking.status === "PARTIALLY_PAID" && (
             <div className="bh-remaining-notice">
-              💡 Bạn còn nợ một phần tiền. Vui lòng thanh toán trước ngày khởi hành.
+              <FontAwesomeIcon icon={faExclamationCircle} />
+              <span>
+                Còn lại cần thanh toán:{" "}
+                <strong>
+                  {remainingAmount != null ? formatPrice(remainingAmount) : "Đang tải..."}
+                </strong>
+              </span>
+            </div>
+          )}
+
+          {booking.status === "CANCELED_PENDING" && (
+            <div className="bh-pending-cancel-notice">
+              <FontAwesomeIcon icon={faHourglassHalf} />
+              Yêu cầu huỷ đã được gửi, đang chờ admin xét duyệt.
+            </div>
+          )}
+
+          {cancelError && (
+            <div className="bh-card-error">
+              <FontAwesomeIcon icon={faExclamationTriangle} />
+              {cancelError}
             </div>
           )}
         </div>
 
         {/* Actions */}
         <div className="bh-card-action">
-          <button className="bh-btn-detail" onClick={() => navigate(`/bookings/${bookingId}`)}>
-            Xem chi tiết <FontAwesomeIcon icon={faArrowRight} />
-          </button>
-          {booking.status === "PENDING" && (
+          {booking.status === "PARTIALLY_PAID" && (
+            <button
+              className="bh-btn-pay"
+              onClick={() => navigate(`/bookings/${bookingId}/payment`)}
+            >
+              <FontAwesomeIcon icon={faCreditCard} />
+              Thanh toán ngay
+            </button>
+          )}
+
+          {booking.status === "PAID" && (
+            <button className="bh-btn-pay bh-btn-pay--done" disabled>
+              <FontAwesomeIcon icon={faCheckCircle} />
+              Đã thanh toán
+            </button>
+          )}
+
+          {canCancel && (
             <button className="bh-btn-cancel" onClick={() => setShowModal(true)}>
               <FontAwesomeIcon icon={faTimesCircle} />
               Huỷ đơn
@@ -170,7 +252,8 @@ const BookingCard = ({ booking, onCancel }) => {
         <CancelModal
           booking={booking}
           onConfirm={handleConfirmCancel}
-          onClose={() => setShowModal(false)}
+          onClose={() => { setShowModal(false); setCancelError(""); }}
+          loading={cancelLoading}
         />
       )}
     </>

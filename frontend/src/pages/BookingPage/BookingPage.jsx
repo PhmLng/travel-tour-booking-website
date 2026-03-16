@@ -66,7 +66,7 @@ const BookingPage = () => {
   const [tourData, setTourData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Contact (bao gồm cả thông tin hành khách chính)
+  // Contact
   const [contact, setContact] = useState({
     fullName: "",
     phone: "",
@@ -164,12 +164,28 @@ const BookingPage = () => {
   // ── Validation ──
   const validateStep0 = () => {
     const errs = {};
-    if (!contact.fullName.trim()) errs.fullName = "Họ tên không được để trống";
-    if (!contact.phone.trim()) errs.phone = "Số điện thoại không được để trống";
-    if (!contact.email.trim()) errs.email = "Email không được để trống";
-    if (!contact.dob) errs.dob = "Vui lòng nhập ngày sinh";
+
+    if (!contact.fullName.trim())
+      errs.fullName = "Họ tên không được để trống";
+
+    if (!contact.phone.trim()) {
+      errs.phone = "Số điện thoại không được để trống";
+    } else if (!/^0\d{9,10}$/.test(contact.phone)) {
+      errs.phone = "Số điện thoại không hợp lệ (VD: 0912345678)";
+    }
+
+    if (!contact.email.trim()) {
+      errs.email = "Email không được để trống";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) {
+      errs.email = "Email không đúng định dạng (VD: example@gmail.com)";
+    }
+
+    if (!contact.dob)
+      errs.dob = "Vui lòng nhập ngày sinh";
+
     if (!agreePolicy)
       errs.agreePolicy = "Vui lòng đồng ý với điều khoản để tiếp tục";
+
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -221,7 +237,6 @@ const BookingPage = () => {
     setSubmitting(true);
     setBookingError("");
 
-    // Payload khớp đúng với swagger: tourId, userId, adultQuantity, childQuantity, passengers
     const payload = {
       tourId: Number(id),
       userId: currentUser?.id ?? null,
@@ -233,7 +248,7 @@ const BookingPage = () => {
           phoneNumber: contact.phone,
           address: contact.address,
           email: contact.email,
-          birth: contact.dob || null, // format "YYYY-MM-DD" từ input type="date"
+          birth: contact.dob || null,
         },
       ],
     };

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PassengerService {
-    public Page<PassengerResponse> getAllPassengers(Pageable pageable);
-    public PassengerResponse getPassengerById(int id);
+    public Page<PassengerResponse> getAllPassengers(int page, int size);
+    public PassengerResponse getPassengerById(Long id);
     public void deletePassengerById(int id);
 }

@@ -2,9 +2,10 @@ import React from "react";
 
 const FILTERS = [
   { key: "ALL",             label: "Tất cả"            },
-  { key: "PENDING",         label: "Chờ xác nhận"      },
+  { key: "CONFIRMED",       label: "Đã xác nhận"       },
   { key: "PAID",            label: "Đã thanh toán"     },
   { key: "PARTIALLY_PAID",  label: "Thanh toán 1 phần" },
+  { key: "CANCELED_PENDING",label: "Chờ huỷ"           },
   { key: "CANCELED",        label: "Đã huỷ"            },
 ];
 

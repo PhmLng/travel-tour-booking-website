@@ -21,27 +21,12 @@ const getCurrentUser = () => {
   }
 };
 
-// Filter PENDING gộp cả CANCELED_PENDING → gọi 2 API song song
-const fetchByFilter = async (filter) => {
-  if (filter === "ALL") {
-    const res = await fetch(`${BASE_URL}/bookings`);
-    if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
-    return res.json();
-  }
+const fetchByFilter = async (filter, userId) => {
+  const params = new URLSearchParams();
+  if (userId) params.append("userId", userId);
+  if (filter !== "ALL") params.append("status", filter);
 
-  if (filter === "PENDING") {
-    const [r1, r2] = await Promise.all([
-      fetch(`${BASE_URL}/bookings/filter?status=PENDING`),
-      fetch(`${BASE_URL}/bookings/filter?status=CANCELED_PENDING`),
-    ]);
-    const [d1, d2] = await Promise.all([
-      r1.ok ? r1.json() : [],
-      r2.ok ? r2.json() : [],
-    ]);
-    return [...d1, ...d2];
-  }
-
-  const res = await fetch(`${BASE_URL}/bookings/filter?status=${filter}`);
+  const res = await fetch(`${BASE_URL}/bookings?${params.toString()}`);
   if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
   return res.json();
 };
@@ -67,9 +52,13 @@ const BookingHistoryPage = () => {
     fetchAllBookings();
   }, []);
 
+  // Fetch tất cả ban đầu
   const fetchAllBookings = async () => {
     try {
-      const res = await fetch(`${BASE_URL}/bookings`);
+      const params = new URLSearchParams();
+      if (currentUser?.id) params.append("userId", currentUser.id);
+
+      const res = await fetch(`${BASE_URL}/bookings?${params.toString()}`);
       if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
       const data = await res.json();
       setAllBookings(data);
@@ -81,12 +70,13 @@ const BookingHistoryPage = () => {
     }
   };
 
+  // Khi đổi filter
   const handleFilterChange = useCallback(async (newFilter) => {
     setFilter(newFilter);
     setFilterLoading(true);
     setError("");
     try {
-      const data = await fetchByFilter(newFilter);
+      const data = await fetchByFilter(newFilter, currentUser?.id);
       setBookings(data);
     } catch (err) {
       setError(err.message);

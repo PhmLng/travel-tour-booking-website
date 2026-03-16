@@ -30,13 +30,31 @@ export const FormEdit = ({ tour, getTourData, setEditingTour, setAddForm }) => {
   // Xử lý submit form
   const onSubmit = async (data) => {
     try {
+      const payload = {
+        title: data.title,
+        adultPrice: Number(data.adultPrice),
+        childPrice: Number(data.childPrice),
+        startDate: data.startDate || null,
+        duration: data.duration || "",
+        departureLocation: data.departureLocation,
+        transport: data.transport,
+        maxSlots: Number(data.maxSlots),
+        remainingSlots: Number(data.remainingSlots),
+        status: data.status,
+        itinerary: data.itinerary,
+        policy: data.policy,
+        registrationGuide: data.registrationGuide,
+        mainImage: data.mainImage,
+      };
       if (tour) {
-        await api.put(`/tours/${tour.id}`, data);
+        await api.put(`/tours/${tour.id}`, payload);
         toast.success("Cập nhật thành công");
 
         if (setEditingTour) setEditingTour(null);
       } else {
-        await api.post("/tours", data);
+        console.log("PAYLOAD:", payload);
+        await api.post("/tours", payload);
+
         toast.success("Thêm tour thành công");
 
         if (setAddForm) setAddForm(false);
@@ -45,13 +63,17 @@ export const FormEdit = ({ tour, getTourData, setEditingTour, setAddForm }) => {
       getTourData();
     } catch (error) {
       console.error(error);
+      console.log("BACKEND ERROR:", error.response?.data);
       toast.error("Thao tác thất bại");
     }
   };
   // Reset form khi tour thay đổi
   useEffect(() => {
     if (tour) {
-      reset(tour);
+      reset({
+        ...tour,
+        startDate: tour?.startDate?.slice(0, 10),
+      });
     } else {
       reset({
         title: "",
@@ -133,7 +155,14 @@ export const FormEdit = ({ tour, getTourData, setEditingTour, setAddForm }) => {
 
             <div className="flex flex-col gap-3">
               <Label className="block text-sm">Trạng thái</Label>
-              <Input {...register("status")} />
+              <select {...register("status")} className="p-2 border rounded">
+                <option value=""> Chọn trạng thái </option>
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="DEPARTING">DEPARTING</option>
+                <option value="FULL">FULL</option>
+                <option value="PENDING">PENDING</option>
+                <option value="CANCELED">CANCELED</option>
+              </select>
             </div>
 
             <div className="flex flex-col gap-3">

@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,6 +65,23 @@ public class TourServiceImpl implements TourService {
         List<Tour> tours = tourRepository.searchByName(title);
         List<TourResponse> tourResponses =tourMapper.tourListTourResponses(tours);
         return tourResponses;
+    }
+
+    @Override
+    public List<TourResponse> searchTours(String departure, String priceRange, LocalDateTime startDate) {
+        Double min = null;
+        Double max = null;
+
+        if (priceRange != null) {
+            switch (priceRange) {
+                case "Dưới 5 triệu": max = 5000000.0; break;
+                case "Từ 5 - 10 triệu":  min = 5000000.0; max = 10000000.0; break;
+                case "Từ 10 -20 triệu": min = 10000000.0; max = 20000000.0; break;
+                case "Trên 20 triệu": min = 20000000.0; break;
+            }
+        }
+
+        return tourMapper.tourListTourResponses(tourRepository.filterTours(departure, min, max, startDate));
     }
 
     @Override

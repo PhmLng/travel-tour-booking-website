@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,6 +37,10 @@ public class TourController {
     @GetMapping("/search")
     public ResponseEntity<List<TourResponse>> searchTourByTitle(@RequestParam String title) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.SearchTourByTitle(title));
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<List<TourResponse>> filterTour(@RequestParam String departure, @RequestParam String priceRange, @RequestParam LocalDateTime startDate) {
+        return ResponseEntity.status(HttpStatus.OK).body(tourService.searchTours(departure, priceRange, startDate));
     }
     @PostMapping("")
     public ResponseEntity<TourDetailResponse> createTour(@RequestBody TourCreationRequest tourCreationRequest) {

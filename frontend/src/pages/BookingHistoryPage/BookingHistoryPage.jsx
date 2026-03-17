@@ -21,6 +21,9 @@ const getCurrentUser = () => {
   }
 };
 
+const sortByNewest = (list) =>
+  [...list].sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
+
 const fetchByFilter = async (filter, userId) => {
   const params = new URLSearchParams();
   if (userId) params.append("userId", userId);
@@ -37,13 +40,12 @@ const BookingHistoryPage = () => {
   const currentUser = getCurrentUser();
 
   const [bookings, setBookings] = useState([]);
-  const [allBookings, setAllBookings] = useState([]); // chỉ dùng để đếm count trên filter
+  const [allBookings, setAllBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterLoading, setFilterLoading] = useState(false);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("ALL");
 
-  // Fetch tất cả 1 lần để hiển thị count trên filter buttons
   useEffect(() => {
     if (!currentUser) {
       navigate("/signin");
@@ -61,8 +63,9 @@ const BookingHistoryPage = () => {
       const res = await fetch(`${BASE_URL}/bookings?${params.toString()}`);
       if (!res.ok) throw new Error("Không thể tải lịch sử đặt tour");
       const data = await res.json();
-      setAllBookings(data);
-      setBookings(data);
+      const sorted = sortByNewest(data);
+      setAllBookings(sorted);
+      setBookings(sorted);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,7 +80,7 @@ const BookingHistoryPage = () => {
     setError("");
     try {
       const data = await fetchByFilter(newFilter, currentUser?.id);
-      setBookings(data);
+      setBookings(sortByNewest(data));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -86,7 +89,6 @@ const BookingHistoryPage = () => {
   }, []);
 
   const handleStatusChange = (bookingId, newStatus) => {
-    // Cập nhật cả 2 list
     const update = (list) =>
       list.map((b) =>
         (b.id ?? b.Id) === bookingId ? { ...b, status: newStatus } : b

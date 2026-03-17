@@ -16,10 +16,10 @@ const BASE_URL = 'http://localhost:8080/api/v1';
 
 // ─── Lọc theo ngày và giá ở frontend ─────────────────────────────────────────
 const PRICE_RANGES = {
-  'under-5m':  { min: 0,          max: 5_000_000   },
-  '5m-10m':    { min: 5_000_000,  max: 10_000_000  },
-  '10m-20m':   { min: 10_000_000, max: 20_000_000  },
-  'over-20m':  { min: 20_000_000, max: Infinity     },
+  'under-5m': { min: 0, max: 5_000_000 },
+  '5m-10m': { min: 5_000_000, max: 10_000_000 },
+  '10m-20m': { min: 10_000_000, max: 20_000_000 },
+  'over-20m': { min: 20_000_000, max: Infinity },
 };
 
 const applyFrontendFilters = (list, date, priceRange) => {
@@ -53,17 +53,15 @@ const FlashDeals = () => {
   const size = 9;
 
   const searchParams = new URLSearchParams(location.search);
-  const titleParam  = searchParams.get('title')  || '';
-  const dateParam   = searchParams.get('date')   || '';
-  const priceParam  = searchParams.get('price')  || 'all';
+  const titleParam = searchParams.get('title') || '';
+  const dateParam = searchParams.get('date') || '';
+  const priceParam = searchParams.get('price') || 'all';
   const isFiltering = titleParam || dateParam || (priceParam && priceParam !== 'all');
 
   // ── Fetch khi URL thay đổi ──
   useEffect(() => {
     const fetchDeals = async () => {
       setLoading(true);
-      setShowAll(false);
-      setPage(0);
       try {
         let list = [];
 
@@ -97,11 +95,14 @@ const FlashDeals = () => {
     fetchDeals();
   }, [location.search, page]);
 
-  // ── Áp dụng filter date + price ở frontend mỗi khi allDeals / params thay đổi ──
   useEffect(() => {
     setDeals(applyFrontendFilters(allDeals, dateParam, priceParam));
   }, [allDeals, dateParam, priceParam]);
 
+  useEffect(() => {
+    setPage(0);
+    setShowAll(false);
+  }, [location.search]);
   const toggleFavorite = (id, e) => {
     e.preventDefault();
     setFavorites((prev) =>

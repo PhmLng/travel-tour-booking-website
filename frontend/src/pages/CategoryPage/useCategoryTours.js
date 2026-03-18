@@ -30,6 +30,7 @@ const useCategoryTours = (decodedDest) => {
         let data = await res.json();
         data = Array.isArray(data) ? data : [];
         setTours(data);
+        console.log("👉 Tour sample:", data[0])
         setDepartures(["Tất cả", ...new Set(data.map((t) => t.departureLocation).filter(Boolean))]);
       } catch {
         // Fallback: fetch all tours
@@ -55,11 +56,11 @@ const useCategoryTours = (decodedDest) => {
 
     if (selectedPrice) {
       result = result.filter((t) => {
-        const p = t.price;
-        if (selectedPrice === "under-5m")  return p < 5_000_000;
-        if (selectedPrice === "5m-10m")    return p >= 5_000_000 && p <= 10_000_000;
-        if (selectedPrice === "10m-20m")   return p > 10_000_000 && p <= 20_000_000;
-        if (selectedPrice === "over-20m")  return p > 20_000_000;
+        const p = t.adultPrice;;
+        if (selectedPrice === "under-5m") return p < 5_000_000;
+        if (selectedPrice === "5m-10m") return p >= 5_000_000 && p <= 10_000_000;
+        if (selectedPrice === "10m-20m") return p > 10_000_000 && p <= 20_000_000;
+        if (selectedPrice === "over-20m") return p > 20_000_000;
         return true;
       });
     }
@@ -87,9 +88,9 @@ const useCategoryTours = (decodedDest) => {
       });
     }
 
-    if (sortBy === "price-asc")  result.sort((a, b) => a.price - b.price);
-    if (sortBy === "price-desc") result.sort((a, b) => b.price - a.price);
-    if (sortBy === "newest")     result.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+    if (sortBy === "price-asc") result.sort((a, b) => a.adultPrice - b.adultPrice);
+    if (sortBy === "price-desc") result.sort((a, b) => b.adultPrice - a.adultPrice);
+    if (sortBy === "newest") result.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
     return result;
   })();

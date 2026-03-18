@@ -185,7 +185,6 @@ const BookingSummary = ({
       </>
     )}
 
-    <button className="btn-support">💬 Gửi yêu cầu hỗ trợ ngay</button>
   </div>
 );
 

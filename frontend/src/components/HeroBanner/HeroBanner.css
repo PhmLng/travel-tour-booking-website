@@ -1,55 +1,41 @@
 /* ================= HERO BANNER ================= */
 .hero-banner {
-  background: linear-gradient(
-    to right,
-    #8B0000,
-    #DC143C,
-    #FF6347,
-    #DC143C,
-    #8B0000
-  );
-  padding: 80px 20px 140px; /* chừa chỗ cho SearchSection */
   position: relative;
   overflow: visible;
+  height: 400px; /* Chiều cao cố định — tất cả ảnh đều bằng nhau */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.8s ease-in-out;
 }
 
-/* ================= BANNER CONTENT ================= */
-.banner-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-  color: white;
+
+
+/* ================= DOTS ================= */
+.hero-dots {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 3;
 }
 
-.banner-title {
-  font-size: 56px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  font-style: italic;
-  letter-spacing: 4px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s;
 }
 
-.banner-subtitle {
-  font-size: 28px;
-  font-weight: 600;
-  font-style: italic;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* ================= CONTACT ================= */
-.banner-contact {
-  margin-top: 20px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.contact-icon {
-  margin-right: 6px;
-}
-
-.contact-separator {
-  margin: 0 12px;
+.hero-dot.active {
+  background: #fff;
+  transform: scale(1.2);
 }
 
 /* ================= SEARCH SECTION FLOAT ================= */
@@ -61,7 +47,6 @@
   width: 90%;
   max-width: 1200px;
   z-index: 10;
-
   background: white;
   padding: 20px 24px;
   border-radius: 16px;
@@ -70,50 +55,18 @@
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
-  .banner-title {
-    font-size: 48px;
-  }
-
-  .banner-subtitle {
-    font-size: 24px;
-  }
-
-  .banner-contact {
-    font-size: 20px;
-  }
-
-  .hero-banner .search-section {
-    width: 95%;
-    bottom: -60px;
-  }
+  .hero-banner { height: 420px; }
+  .hero-banner .search-section { width: 95%; bottom: -60px; }
 }
 
 @media (max-width: 768px) {
-  .banner-title {
-    font-size: 40px;
-  }
-
-  .banner-subtitle {
-    font-size: 20px;
-  }
-
-  .hero-banner .search-section {
-    bottom: -45px;
-    padding: 16px;
-  }
+  .hero-banner { height: 360px; }
+  .hero-banner .search-section { bottom: -45px; padding: 16px; }
+  .hero-dots { bottom: 65px; }
 }
 
 @media (max-width: 480px) {
-  .banner-title {
-    font-size: 32px;
-  }
-
-  .banner-subtitle {
-    font-size: 18px;
-  }
-
-  .hero-banner .search-section {
-    bottom: -35px;
-    padding: 12px;
-  }
+  .hero-banner { height: 280px; }
+  .hero-banner .search-section { bottom: -35px; padding: 12px; }
+  .hero-dots { bottom: 55px; }
 }

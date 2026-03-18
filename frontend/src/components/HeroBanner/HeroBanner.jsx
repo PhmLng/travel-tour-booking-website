@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HeroBanner.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import SearchSection from '../SearchSection/SearchSection';
 
+// ── Thêm tên file ảnh của bạn vào đây ──
+const SLIDES = [
+  '/tours/banner.jpg',
+  '/tours/tour6.jpg',
+  '/tours/tour4.jpg',
+];
 
 const HeroBanner = () => {
-  return (
-    <section className="hero-banner">
-      <div className="banner-container">
-        <div className="banner-main">
-          <h1 className="banner-title">Tết Rực Rỡ</h1>
-          <p className="banner-subtitle">Rộn ràng vui - Rộn hạnh phúc</p>
-        </div>
+  const [current, setCurrent] = useState(0);
 
-        <div className="banner-contact">
-          <span className="contact-icon">
-            <FontAwesomeIcon icon={faPhone} />
-          </span>
-          <span className="contact-number">1800 646 888</span>
-          <span className="contact-separator">|</span>
-          <span className="contact-website">travel.com</span>
-        </div>
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % SLIDES.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section
+      className="hero-banner"
+      style={{ backgroundImage: `url('${SLIDES[current]}')` }}
+    >
+      {/* Dots */}
+      <div className="hero-dots">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            className={`hero-dot ${i === current ? 'active' : ''}`}
+            onClick={() => setCurrent(i)}
+          />
+        ))}
       </div>
+
       <SearchSection />
     </section>
   );

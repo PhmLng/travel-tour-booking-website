@@ -7,8 +7,18 @@ import {
   faExclamationTriangle, faShieldAlt, faCreditCard, faHourglassHalf,
   faChild,
 } from "@fortawesome/free-solid-svg-icons";
+import { addNotification } from "../../../api/notificationUtils";
 
 const BASE_URL = "http://localhost:8080/api/v1";
+
+const getCurrentUser = () => {
+  try {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+};
 
 const STATUS_CONFIG = {
   PENDING:          { label: "Chờ xác nhận",     icon: faClock,             color: "status-pending"        },
@@ -43,7 +53,6 @@ const CancelModal = ({ booking, onConfirm, onClose, loading }) => {
   return (
     <div className="bh-modal-overlay" onClick={onClose}>
       <div className="bh-modal" onClick={(e) => e.stopPropagation()}>
-
         <div className="bh-modal-header">
           <div className="bh-modal-icon">
             <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -97,7 +106,6 @@ const CancelModal = ({ booking, onConfirm, onClose, loading }) => {
             )}
           </button>
         </div>
-
       </div>
     </div>
   );
@@ -106,6 +114,8 @@ const CancelModal = ({ booking, onConfirm, onClose, loading }) => {
 // ─── BookingCard ──────────────────────────────────────────────────────────────
 const BookingCard = ({ booking, onStatusChange }) => {
   const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+
   const [showModal, setShowModal] = useState(false);
   const [cancelLoading, setCancelLoading] = useState(false);
   const [cancelError, setCancelError] = useState("");
@@ -114,7 +124,6 @@ const BookingCard = ({ booking, onStatusChange }) => {
   const bookingId = booking.id ?? booking.Id;
   const statusCfg = STATUS_CONFIG[booking.status] || STATUS_CONFIG.PENDING;
   const canCancel = ["PENDING", "PAID", "PARTIALLY_PAID"].includes(booking.status);
-
   const totalPassengers =
     (booking.adultQuantity ?? 0) + (booking.childQuantity ?? 0);
 
@@ -136,8 +145,19 @@ const BookingCard = ({ booking, onStatusChange }) => {
         method: "POST",
       });
       if (!res.ok) throw new Error("Gửi yêu cầu huỷ thất bại. Vui lòng thử lại.");
+
       setShowModal(false);
       onStatusChange(id, "CANCELED_PENDING");
+
+      // ── Thông báo yêu cầu huỷ đã được gửi ──
+      if (currentUser?.id) {
+        addNotification(currentUser.id, {
+          title: "Yêu cầu huỷ đã được gửi ⏳",
+          message: `Yêu cầu huỷ đơn #BOOK-${id} - "${booking.tourTitle || "Tour"}" đang chờ admin xét duyệt.`,
+          type: "warning",
+          bookingId: id,
+        });
+      }
     } catch (err) {
       setCancelError(err.message);
     } finally {

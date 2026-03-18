@@ -11,6 +11,7 @@ import PassengerSection from "./components/PassengerSection";
 import PaymentStep from "./components/PaymentStep";
 import BookingSuccess from "./components/BookingSuccess";
 import BookingSummary from "./components/BookingSummary";
+import { addNotification } from "../../api/notificationUtils";
 import "./BookingPage.css";
 
 const BASE_URL = "http://localhost:8080/api/v1";
@@ -164,28 +165,22 @@ const BookingPage = () => {
   // ── Validation ──
   const validateStep0 = () => {
     const errs = {};
-
     if (!contact.fullName.trim())
       errs.fullName = "Họ tên không được để trống";
-
     if (!contact.phone.trim()) {
       errs.phone = "Số điện thoại không được để trống";
     } else if (!/^0\d{9,10}$/.test(contact.phone)) {
       errs.phone = "Số điện thoại không hợp lệ (VD: 0912345678)";
     }
-
     if (!contact.email.trim()) {
       errs.email = "Email không được để trống";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) {
       errs.email = "Email không đúng định dạng (VD: example@gmail.com)";
     }
-
     if (!contact.dob)
       errs.dob = "Vui lòng nhập ngày sinh";
-
     if (!agreePolicy)
       errs.agreePolicy = "Vui lòng đồng ý với điều khoản để tiếp tục";
-
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -217,7 +212,20 @@ const BookingPage = () => {
         const errData = await res.json().catch(() => null);
         throw new Error(errData?.message || `Lỗi ${res.status}: Thanh toán thất bại`);
       }
-      setPaymentResult(await res.json());
+
+      const paymentData = await res.json();
+      setPaymentResult(paymentData);
+
+      // ── Thông báo đặt tour + thanh toán thành công ──
+      if (currentUser?.id) {
+        addNotification(currentUser.id, {
+          title: "Đặt tour thành công 🎉",
+          message: `Đơn #BOOK-${bookingId} - "${tourData?.title || "Tour"}" đã được đặt và thanh toán thành công!`,
+          type: "success",
+          bookingId,
+        });
+      }
+
       setStep(2);
       window.scrollTo(0, 0);
     } catch (err) {
@@ -225,6 +233,16 @@ const BookingPage = () => {
         `Đặt tour thành công (mã #${bookingId}) nhưng thanh toán thất bại. ` +
         `Vui lòng liên hệ hỗ trợ. Chi tiết: ${err.message}`
       );
+
+      // ── Thông báo đặt tour thành công nhưng thanh toán lỗi ──
+      if (currentUser?.id) {
+        addNotification(currentUser.id, {
+          title: "Đặt tour thành công, thanh toán chưa hoàn tất ⚠️",
+          message: `Đơn #BOOK-${bookingId} đã tạo nhưng thanh toán thất bại. Vui lòng liên hệ hỗ trợ.`,
+          type: "warning",
+          bookingId,
+        });
+      }
     } finally {
       setPaymentLoading(false);
       setSubmitting(false);

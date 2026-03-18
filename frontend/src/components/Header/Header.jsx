@@ -12,11 +12,21 @@ import {
   faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
+import NotificationDropdown from "./NotificationDropdown";
+import {
+  getNotifications,
+  getUnreadCount,
+  markAllAsRead,
+  markAsRead,
+} from "../../api/notificationUtils";
+
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const menuRef = useRef(null);
+  const notifRef = useRef(null);
 
+  // ── User state ──
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem("user");
@@ -26,11 +36,71 @@ const Header = () => {
     }
   });
 
+  // ── Destination menu state ──
   const [showDestinationMenu, setShowDestinationMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("NƯỚC NGOÀI");
 
+  // ── Notification state ──
+  const [showNotif, setShowNotif] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
   const destinationTabs = ["NƯỚC NGOÀI", "TRONG NƯỚC"];
 
+  // ── Load notifications ──
+  const loadNotifications = () => {
+    if (!user?.id) return;
+    setNotifications(getNotifications(user.id));
+    setUnreadCount(getUnreadCount(user.id));
+  };
+
+  useEffect(() => {
+    loadNotifications();
+    window.addEventListener("notifications-updated", loadNotifications);
+    return () => window.removeEventListener("notifications-updated", loadNotifications);
+  }, [user]);
+
+  // ── Đóng notification dropdown khi click ra ngoài ──
+  useEffect(() => {
+    const handleOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setShowNotif(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, []);
+
+  // ── Đóng destination menu khi click ra ngoài ──
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowDestinationMenu(false);
+      }
+    };
+    if (showDestinationMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDestinationMenu]);
+
+  // ── Sync user từ localStorage ──
+  useEffect(() => {
+    const handleStorageChange = () => {
+      try {
+        const stored = localStorage.getItem("user");
+        setUser(stored ? JSON.parse(stored) : null);
+      } catch {
+        setUser(null);
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  // ── Handlers ──
   const handleLogout = async () => {
     try {
       // await api.post("/auth/logout");
@@ -64,33 +134,6 @@ const Header = () => {
     navigate(`/category/${encodeURIComponent(destination)}`);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowDestinationMenu(false);
-      }
-    };
-    if (showDestinationMenu) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showDestinationMenu]);
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      try {
-        const stored = localStorage.getItem("user");
-        setUser(stored ? JSON.parse(stored) : null);
-      } catch {
-        setUser(null);
-      }
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
   return (
     <header className="header" ref={menuRef}>
       {/* HEADER TOP */}
@@ -106,9 +149,29 @@ const Header = () => {
             </div>
 
             <div className="header-actions">
-              <button className="notification-btn" aria-label="Thông báo">
-                <FontAwesomeIcon icon={faBell} />
-              </button>
+              {/* Notification bell */}
+              <div className="notif-wrapper" ref={notifRef}>
+                <button
+                  className="notification-btn"
+                  aria-label="Thông báo"
+                  onClick={() => { setShowNotif((p) => !p); loadNotifications(); }}
+                >
+                  <FontAwesomeIcon icon={faBell} />
+                  {unreadCount > 0 && (
+                    <span className="notif-badge">
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
+                </button>
+
+                {showNotif && (
+                  <NotificationDropdown
+                    notifications={notifications}
+                    onMarkAllRead={() => { markAllAsRead(user?.id); loadNotifications(); }}
+                    onMarkRead={(id) => { markAsRead(user?.id, id); loadNotifications(); }}
+                  />
+                )}
+              </div>
 
               <div className="currency">VND</div>
 
@@ -157,7 +220,6 @@ const Header = () => {
                 Liên hệ
               </Link>
 
-              {/* Chỉ hiển thị khi đã đăng nhập */}
               {user && (
                 <Link
                   to="/booking-history"
@@ -173,9 +235,7 @@ const Header = () => {
       </div>
 
       {/* DESTINATION MENU */}
-      <div
-        className={`destination-menu-wrapper ${showDestinationMenu ? "show" : ""}`}
-      >
+      <div className={`destination-menu-wrapper ${showDestinationMenu ? "show" : ""}`}>
         <div className="destination-menu">
           <button
             className="close-menu-btn"

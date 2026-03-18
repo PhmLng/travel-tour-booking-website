@@ -9,8 +9,31 @@ import BookingFilters from "./components/BookingFilters";
 import BookingCard from "./components/BookingCard";
 import BookingEmptyState from "./components/BookingEmptyState";
 import "./BookingHistoryPage.css";
+import { addNotification, STATUS_NOTIFICATION_MAP } from "../../api/notificationUtils";
 
 const BASE_URL = "http://localhost:8080/api/v1";
+
+// Sửa handleStatusChange
+const handleStatusChange = (bookingId, newStatus) => {
+  const update = (list) =>
+    list.map((b) =>
+      (b.id ?? b.Id) === bookingId ? { ...b, status: newStatus } : b
+    );
+  setBookings(update);
+  setAllBookings(update);
+
+  // Tạo thông báo
+  const notifConfig = STATUS_NOTIFICATION_MAP[newStatus];
+  if (notifConfig && currentUser?.id) {
+    addNotification(currentUser.id, {
+      title: notifConfig.title,
+      message: notifConfig.message(`BOOK-${bookingId}`),
+      type: notifConfig.type,
+      bookingId,
+    });
+  }
+};
+
 
 const getCurrentUser = () => {
   try {

@@ -1,77 +1,156 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle, faTicketAlt, faCalendarAlt,
+  faMoneyBillWave, faCreditCard, faHome, faClockRotateLeft,
+  faHashtag, faReceipt,
+} from "@fortawesome/free-solid-svg-icons";
+import "./BookingSuccess.css";
 
 const BookingSuccess = ({
   contact, bookingResult, paymentResult,
   paymentOption, totalAmount, payableAmount, formatPrice,
 }) => {
   const navigate = useNavigate();
+  const bookingId = bookingResult?.Id ?? bookingResult?.id;
+
+  const bookingRows = [
+    {
+      icon: faHashtag,
+      label: "Mã đặt chỗ",
+      value: bookingId ? `#${bookingId}` : "—",
+      highlight: true,
+    },
+    {
+      icon: faCalendarAlt,
+      label: "Tour",
+      value: bookingResult?.tourTitle || "—",
+    },
+    {
+      icon: faMoneyBillWave,
+      label: "Tổng tiền",
+      value: bookingResult?.totalPrice != null
+        ? formatPrice(bookingResult.totalPrice)
+        : formatPrice(totalAmount),
+    },
+    ...(bookingResult?.status ? [{
+      icon: faTicketAlt,
+      label: "Trạng thái đơn",
+      value: bookingResult.status,
+    }] : []),
+  ];
+
+  const paymentRows = [
+    {
+      icon: faCreditCard,
+      label: paymentOption === "FULL" ? "Đã thanh toán" : "Thanh toán lần 1",
+      value: formatPrice(payableAmount),
+      success: true,
+    },
+    ...(paymentOption !== "FULL" ? [{
+      icon: faMoneyBillWave,
+      label: "Còn lại cần thanh toán",
+      value: formatPrice(totalAmount - payableAmount),
+      warning: true,
+    }] : []),
+    ...(paymentResult?.transactionCode ? [{
+      icon: faHashtag,
+      label: "Mã giao dịch",
+      value: paymentResult.transactionCode,
+    }] : []),
+    ...(paymentResult?.paymentDate ? [{
+      icon: faCalendarAlt,
+      label: "Ngày thanh toán",
+      value: new Date(paymentResult.paymentDate).toLocaleString("vi-VN"),
+    }] : []),
+    ...(paymentResult?.status ? [{
+      icon: faCheckCircle,
+      label: "Trạng thái thanh toán",
+      value: paymentResult.status,
+      success: true,
+    }] : []),
+  ];
 
   return (
-    <section className="booking-section success-section">
-      <div className="success-icon">✅</div>
-      <h2>Đặt tour thành công!</h2>
-      <p>Cảm ơn bạn đã đặt tour. Chúng tôi sẽ liên hệ xác nhận trong thời gian sớm nhất.</p>
-      <p>Thông tin xác nhận sẽ được gửi đến: <strong>{contact.email}</strong></p>
+    <div className="bs-wrapper">
 
-      {bookingResult && (
-        <div className="booking-result-summary">
-          {(bookingResult.Id || bookingResult.id) && (
-            <p><strong>Mã đặt chỗ:</strong> #{bookingResult.Id ?? bookingResult.id}</p>
-          )}
-          {bookingResult.tourTitle && (
-            <p><strong>Tour:</strong> {bookingResult.tourTitle}</p>
-          )}
-          {bookingResult.quantity && (
-            <p><strong>Số khách:</strong> {bookingResult.quantity}</p>
-          )}
-          {bookingResult.totalPrice != null && (
-            <p><strong>Tổng tiền:</strong> {formatPrice(bookingResult.totalPrice)}</p>
-          )}
-          {bookingResult.status && (
-            <p>
-              <strong>Trạng thái booking:</strong>{" "}
-              <span className={`booking-status ${bookingResult.status.toLowerCase()}`}>
-                {bookingResult.status}
-              </span>
-            </p>
-          )}
+      {/* Icon + heading */}
+      <div className="bs-hero">
+        <div className="bs-icon-ring">
+          <FontAwesomeIcon icon={faCheckCircle} className="bs-check-icon" />
         </div>
-      )}
+        <h2 className="bs-heading">Đặt tour thành công!</h2>
+        <p className="bs-subheading">
+          Xác nhận sẽ được gửi đến <strong>{contact.email}</strong>
+        </p>
+      </div>
 
-      {paymentResult && (
-        <div className="payment-result-summary">
-          <h3>Thông tin thanh toán</h3>
-          {paymentResult.transactionCode && (
-            <p><strong>Mã giao dịch:</strong> {paymentResult.transactionCode}</p>
-          )}
-          {paymentResult.amount != null && (
-            <p><strong>Số tiền đã thanh toán:</strong> {formatPrice(paymentResult.amount)}</p>
-          )}
-          {paymentOption === "HALF" && (
-            <p><strong>Số tiền còn lại:</strong> {formatPrice(totalAmount - payableAmount)}</p>
-          )}
-          {paymentResult.status && (
-            <p>
-              <strong>Trạng thái:</strong>{" "}
-              <span className={`booking-status ${paymentResult.status.toLowerCase()}`}>
-                {paymentResult.status}
-              </span>
-            </p>
-          )}
-          {paymentResult.paymentDate && (
-            <p>
-              <strong>Ngày thanh toán:</strong>{" "}
-              {new Date(paymentResult.paymentDate).toLocaleString("vi-VN")}
-            </p>
-          )}
+      {/* Booking info */}
+      <div className="bs-block">
+        <div className="bs-block-title">
+          <FontAwesomeIcon icon={faTicketAlt} />
+          Thông tin đặt tour
         </div>
-      )}
+        <div className="bs-card">
+          {bookingRows.map((row, i) => (
+            <div className="bs-row" key={i}>
+              <div className="bs-row-left">
+                <span className="bs-row-icon">
+                  <FontAwesomeIcon icon={row.icon} />
+                </span>
+                <span className="bs-row-label">{row.label}</span>
+              </div>
+              <span className={`bs-row-value ${row.highlight ? "highlight" : ""}`}>
+                {row.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <button className="btn-primary large" onClick={() => navigate("/")}>
-        Về trang chủ
-      </button>
-    </section>
+      {/* Payment info */}
+      <div className="bs-block">
+        <div className="bs-block-title">
+          <FontAwesomeIcon icon={faReceipt} />
+          Thông tin thanh toán
+        </div>
+        <div className="bs-card">
+          {paymentRows.map((row, i) => (
+            <div className="bs-row" key={i}>
+              <div className="bs-row-left">
+                <span className={`bs-row-icon ${row.success ? "icon-success" : ""} ${row.warning ? "icon-warning" : ""}`}>
+                  <FontAwesomeIcon icon={row.icon} />
+                </span>
+                <span className="bs-row-label">{row.label}</span>
+              </div>
+              <span className={`bs-row-value ${row.success ? "success" : ""} ${row.warning ? "warning" : ""}`}>
+                {row.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Notice */}
+      <div className="bs-notice">
+        Chúng tôi sẽ liên hệ xác nhận trong thời gian sớm nhất.
+        Cảm ơn bạn đã tin tưởng và lựa chọn dịch vụ của chúng tôi!
+      </div>
+
+      {/* Actions */}
+      <div className="bs-actions">
+        <button className="bs-btn-secondary" onClick={() => navigate("/booking-history")}>
+          <FontAwesomeIcon icon={faClockRotateLeft} />
+          Lịch sử đặt tour
+        </button>
+        <button className="bs-btn-primary" onClick={() => navigate("/")}>
+          <FontAwesomeIcon icon={faHome} />
+          Về trang chủ
+        </button>
+      </div>
+
+    </div>
   );
 };
 

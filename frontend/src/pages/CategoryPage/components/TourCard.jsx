@@ -66,7 +66,7 @@ const TourCard = ({ tour, isFavorite, onToggleFavorite }) => {
           <div className="tour-card-footer">
             <div>
               <span className="price-label">Giá từ:</span>
-              <span className="tour-price">{formatPrice(tour.price)} đ</span>
+              <span className="tour-price">{formatPrice(tour.adultPrice)} đ</span>
             </div>
             <button className="detail-btn">Xem chi tiết</button>
           </div>

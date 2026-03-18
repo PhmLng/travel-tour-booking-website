@@ -64,20 +64,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Thông tin */}
-            <div className="footer-column">
-              <h4 className="footer-title">Thông tin</h4>
-              <ul className="footer-links">
-                <li><a href="#">Khảo sát tỷ lệ đạt visa</a></li>
-                <li><a href="#">Tạp chí du lịch</a></li>
-                <li><a href="#">Tin tức</a></li>
-                <li><a href="#">Sitemap</a></li>
-                <li><a href="#">Trợ giúp</a></li>
-                <li><a href="#">Chính sách riêng tư</a></li>
-                <li><a href="#">Thỏa thuận sử dụng</a></li>
-                <li><a href="#">Chính sách bảo vệ dữ liệu cá nhân</a></li>
-              </ul>
-            </div>
 
             {/* Liên hệ */}
             <div className="footer-column">
@@ -101,24 +87,7 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Dòng tour */}
-            <div className="footer-column">
-              <h4 className="footer-title">Dòng tour</h4>
-              <ul className="footer-links">
-                <li><a href="#">Cao cấp</a></li>
-                <li><a href="#">Tiết kiệm</a></li>
-                <li><a href="#">Tiêu chuẩn</a></li>
-                <li><a href="#">Giá tốt</a></li>
-              </ul>
-
-              <h4 className="footer-title" style={{ marginTop: '24px' }}>Dịch vụ lẻ</h4>
-              <ul className="footer-links">
-                <li><a href="#">Vé máy bay</a></li>
-                <li><a href="#">Khách sạn</a></li>
-                <li><a href="#">Combo du lịch</a></li>
-              </ul>
-            </div>
-
+     
             {/* Ứng dụng di động */}
             <div className="footer-column">
               <h4 className="footer-title">Ứng dụng di động</h4>
@@ -129,14 +98,6 @@ const Footer = () => {
                 <a href="#" className="app-btn">
                   <img src="/App-Store.png" alt="App Store" />
                 </a>
-              </div>
-            </div>
-
-            {/* Chấp nhận thanh toán */}
-            <div className="footer-column">
-              <h4 className="footer-title">Chấp nhận thanh toán</h4>
-              <div className="payment-methods">
-                <img src="/Pay-by-Bank.png" alt="Thanh Toán" />
               </div>
             </div>
 

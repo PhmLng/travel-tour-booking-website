@@ -1,6 +1,26 @@
 {
+  "name": "travel-tour-booking-website",
+  "version": "1.0.0",
+  "description": "1. Phạm Đắc Lương - 2221050521\r 2. Vũ Tuấn Anh - 2221050417\r 3. Phạm Quốc Hùng -2221050689\r 4. Nguyến Quốc Huy - 2221050395",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && mvn spring-boot:run",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhmLng/travel-tour-booking-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PhmLng/travel-tour-booking-website/issues"
+  },
+  "homepage": "https://github.com/PhmLng/travel-tour-booking-website#readme",
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "tailwindcss": "^4.1.18"
+    "concurrently": "^9.2.1"
   }
 }

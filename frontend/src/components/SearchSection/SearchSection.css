@@ -1,0 +1,234 @@
+/* ================== Search Section ================== */
+.search-section {
+  background: white;
+  padding: 40px 20px;
+  position: relative;
+  margin-top: -40px;
+  z-index: 10;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Tabs ===== */
+.search-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 12px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+.tab.active {
+  background: white;
+  color: #1976d2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Search Form ===== */
+.search-form {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1976d2;
+}
+
+.search-btn {
+  background: #358de5;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn:hover {
+  background: #1565c0;
+  transform: scale(1.05);
+}
+
+/* ===== Quick Links ===== */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.quick-link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  transition: all 0.3s;
+}
+
+.quick-link:hover {
+  background: #e3f2fd;
+  transform: translateY(-4px);
+}
+
+.quick-link .icon {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #1976d2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.quick-link:hover .icon {
+  transform: scale(1.2);
+  color: #f44336;
+}
+
+.quick-link .text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  line-height: 1.4;
+}
+.input-wrapper {
+  position: relative;
+  width: 100%; /* input chiếm full width */
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.animated-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  max-width: calc(100% - 24px); /* tránh vượt ra ngoài input */
+  display: inline-block;
+  
+  /* Typing effect */
+  animation: typing 3s steps(22) infinite;
+}
+
+/* Chữ chạy xong lại quay lại từ đầu */
+@keyframes typing {
+  0% { width: 0; }
+  50% { width: 220px; } /* chiều dài chữ "Nhập địa điểm muốn đến" */
+  100% { width: 0; }
+}
+
+/* Con trỏ nhấp nháy mờ, nếu muốn */
+.animated-placeholder::after {
+  content: '|';
+  margin-left: 2px;
+  color: #999;
+  animation: blink 0.7s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
+
+/* ===== Responsive ===== */
+/* Medium screen */
+@media (max-width: 1024px) {
+  .search-form {
+    grid-template-columns: 1fr 1fr 1fr auto; /* chia đều, không quá dài */
+  }
+}
+
+/* Small screen */
+@media (max-width: 768px) {
+  .search-form {
+    grid-template-columns: 1fr; /* mới xuống 1 cột */
+    gap: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .quick-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}

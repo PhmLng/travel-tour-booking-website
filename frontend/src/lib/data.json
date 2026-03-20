@@ -1,0 +1,57 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "name": "Nguyễn Văn A",
+      "email": "vana@gmail.com",
+      "phone": "0901234567",
+      "address": "Hà Nội",
+      "status": "Hoạt động"
+    },
+    {
+      "id": 2,
+      "name": "Trần Thị B",
+      "email": "thib@gmail.com",
+      "phone": "0912345678",
+      "address": "Đà Nẵng",
+      "status": "Ngưng"
+    },
+    {
+      "id": 3,
+      "name": "Lê Văn C",
+      "email": "vanc@gmail.com",
+      "phone": "0987654321",
+      "address": "TP HCM",
+      "status": "Hoạt động"
+    }
+  ],
+  "tours": [
+    {
+      "id": 1,
+      "tourName": "Hà Nội - Hạ Long",
+      "location": "Quảng Ninh",
+      "price": 2500000,
+      "duration": "2 ngày 1 đêm",
+      "status": "Còn chỗ",
+      "slots": 20
+    },
+    {
+      "id": 2,
+      "tourName": "Hà Nội - Sapa",
+      "location": "Lào Cai",
+      "price": 3200000,
+      "duration": "3 ngày 2 đêm",
+      "status": "Còn chỗ",
+      "slots": 15
+    },
+    {
+      "id": 3,
+      "tourName": "Đà Nẵng - Hội An",
+      "location": "Đà Nẵng",
+      "price": 2800000,
+      "duration": "2 ngày 1 đêm",
+      "status": "Hết chỗ",
+      "slots": 0
+    }
+  ]
+}

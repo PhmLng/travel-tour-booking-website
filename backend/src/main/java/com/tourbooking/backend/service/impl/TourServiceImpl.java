@@ -169,7 +169,7 @@ public class TourServiceImpl implements TourService {
             throw new RuntimeException("Tour is not exist");
         }
         Tour tour = tourRepository.findById(id).orElseThrow(()->new NotFoundException("Tour is not exist"));
-        tour.setDeleted(true);
+        tour.setIsDeleted(true);
         tourRepository.save(tour);
     }
 }

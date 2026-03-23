@@ -21,11 +21,11 @@ const getCurrentUser = () => {
 };
 
 const STATUS_CONFIG = {
-  PENDING:          { label: "Chờ xác nhận",     icon: faClock,             color: "status-pending"        },
-  PAID:             { label: "Đã thanh toán",     icon: faCheckCircle,       color: "status-paid"           },
-  PARTIALLY_PAID:   { label: "Thanh toán 1 phần", icon: faExclamationCircle, color: "status-partial"        },
-  CANCELLED:        { label: "Đã huỷ",            icon: faTimesCircle,       color: "status-cancelled"      },
-  CANCELED_PENDING: { label: "Chờ xác nhận huỷ",  icon: faHourglassHalf,     color: "status-pending-cancel" },
+  PENDING: { label: "Chờ xác nhận", icon: faClock, color: "status-pending" },
+  PAID: { label: "Đã thanh toán", icon: faCheckCircle, color: "status-paid" },
+  PARTIALLY_PAID: { label: "Thanh toán 1 phần", icon: faExclamationCircle, color: "status-partial" },
+  CANCELED: { label: "Đã huỷ", icon: faTimesCircle, color: "status-cancelled" }, // ← 1 chữ L
+  CANCELED_PENDING: { label: "Chờ xác nhận huỷ", icon: faHourglassHalf, color: "status-pending-cancel" },
 };
 
 const formatPrice = (price) =>
@@ -34,8 +34,8 @@ const formatPrice = (price) =>
 const formatDate = (dateStr) =>
   dateStr
     ? new Date(dateStr).toLocaleDateString("vi-VN", {
-        day: "2-digit", month: "2-digit", year: "numeric",
-      })
+      day: "2-digit", month: "2-digit", year: "numeric",
+    })
     : "—";
 
 // ─── Cancel Modal ─────────────────────────────────────────────────────────────
@@ -44,10 +44,10 @@ const CancelModal = ({ booking, onConfirm, onClose, loading }) => {
 
   const policies = [
     { range: "Trước 15 ngày khởi hành", fee: "Hoàn 90% tổng tiền tour" },
-    { range: "Trước 10–14 ngày",         fee: "Hoàn 70% tổng tiền tour" },
-    { range: "Trước 7–9 ngày",           fee: "Hoàn 50% tổng tiền tour" },
-    { range: "Trước 3–6 ngày",           fee: "Hoàn 30% tổng tiền tour" },
-    { range: "Dưới 3 ngày / không báo",  fee: "Không hoàn tiền"          },
+    { range: "Trước 10–14 ngày", fee: "Hoàn 70% tổng tiền tour" },
+    { range: "Trước 7–9 ngày", fee: "Hoàn 50% tổng tiền tour" },
+    { range: "Trước 3–6 ngày", fee: "Hoàn 30% tổng tiền tour" },
+    { range: "Dưới 3 ngày / không báo", fee: "Không hoàn tiền" },
   ];
 
   return (
@@ -134,7 +134,7 @@ const BookingCard = ({ booking, onStatusChange }) => {
       .then((data) => {
         if (data?.remainingAmount != null) setRemainingAmount(data.remainingAmount);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [bookingId, booking.status]);
 
   const handleConfirmCancel = async (id) => {
@@ -263,6 +263,12 @@ const BookingCard = ({ booking, onStatusChange }) => {
             <button className="bh-btn-cancel" onClick={() => setShowModal(true)}>
               <FontAwesomeIcon icon={faTimesCircle} />
               Huỷ đơn
+            </button>
+          )}
+          {booking.status === "CANCELED" && (
+            <button className="bh-btn-pay bh-btn-pay--cancelled" disabled>
+              <FontAwesomeIcon icon={faTimesCircle} />
+              Đã huỷ
             </button>
           )}
         </div>

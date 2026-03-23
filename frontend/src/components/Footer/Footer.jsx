@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import './Footer.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faInstagram, 
-  faFacebook, 
-  faTwitter, 
-  faYoutube, 
-  faLinkedin 
+import {
+  faInstagram,
+  faFacebook,
+  faTwitter,
+  faYoutube,
+  faLinkedin
 } from '@fortawesome/free-brands-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
@@ -87,7 +87,7 @@ const Footer = () => {
               </div>
             </div>
 
-     
+
             {/* Ứng dụng di động */}
             <div className="footer-column">
               <h4 className="footer-title">Ứng dụng di động</h4>

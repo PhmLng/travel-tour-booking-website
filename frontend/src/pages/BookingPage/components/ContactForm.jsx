@@ -92,17 +92,6 @@ const ContactForm = ({ contact, onChange, errors, currentUser }) => {
             <option value="Nữ">Nữ</option>
           </select>
         </div>
-
-        <div className="form-group form-group-checkbox">
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              checked={!!contact.singleRoom}
-              onChange={(e) => onChange("singleRoom", e.target.checked)}
-            />
-            <span>Yêu cầu phòng đơn</span>
-          </label>
-        </div>
       </div>
     </section>
   );

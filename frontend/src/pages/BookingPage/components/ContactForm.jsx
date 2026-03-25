@@ -92,10 +92,8 @@ const ContactForm = ({ contact, onChange, errors, currentUser }) => {
             <option value="Nữ">Nữ</option>
           </select>
         </div>
-
       </div>
     </section>
   );
 };
-
 export default ContactForm;

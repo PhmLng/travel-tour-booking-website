@@ -11,7 +11,7 @@ import Dashboard from "./pages/DashBoard";
 import { SignInPage } from "./pages/SignInPage";
 import { SignUpPage } from "./pages/SignUpPage";
 import BookingHistoryPage from "./pages/BookingHistoryPage/BookingHistoryPage";
-
+import RemainingPaymentPage from "./pages/RemainingPayment/RemainingPaymentPage";
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
 
           <Route path="/booking-history" element={<BookingHistoryPage />} />
 
+          <Route path="/bookings/:bookingId/payment" element={<RemainingPaymentPage />} />
         </Routes>
       </div>
     </Router>

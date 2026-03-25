@@ -96,5 +96,4 @@ const ContactForm = ({ contact, onChange, errors, currentUser }) => {
     </section>
   );
 };
-
 export default ContactForm;

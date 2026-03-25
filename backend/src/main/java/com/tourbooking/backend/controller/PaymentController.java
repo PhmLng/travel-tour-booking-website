@@ -21,4 +21,8 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.processMockPayment(paymentRequest));
     }
+    @PostMapping("/remaining")
+    public ResponseEntity<PaymentResponse> processRemainingPayment(@RequestBody PaymentRequest paymentRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.processRemainingPayment(paymentRequest));
+    }
 }

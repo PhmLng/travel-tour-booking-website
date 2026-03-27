@@ -43,6 +43,8 @@ export const TourManage = () => {
     try {
       const res = await api.get(`/tours/${id}`);
       setDetailTour(res.data);
+      setEditingTour(null);
+      setOpenAddForm(false);
     } catch (error) {
       toast.error("Không lấy được chi tiết tour");
     }
@@ -52,11 +54,14 @@ export const TourManage = () => {
   const handleAddTour = () => {
     console.log("click add tour");
     setOpenAddForm(true);
+    setEditingTour(null);
+    setDetailTour(null);
   };
 
   // Mở form sửa
   const handleEdit = (tour) => {
     setEditingTour(tour);
+    
     console.log("Tour cần sửa:", tour);
   };
 

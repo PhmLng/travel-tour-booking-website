@@ -110,7 +110,7 @@ export const FormDetailTour = ({ tour,close, setEditingTour }) => {
               <img
                 src={tour.mainImage}
                 alt="Tour"
-                className="object-cover w-40 rounded-lg"
+                className="object-cover border w-55 h-35 rounded-xl"
               />
             ) : (
               <Input value="" disabled />
@@ -120,7 +120,7 @@ export const FormDetailTour = ({ tour,close, setEditingTour }) => {
 
         {/* Buttons */}
         <div className="flex justify-center gap-4 my-6">
-          <Button variant="outline" onClick={close}>
+          <Button variant="outline" onClick={close} className="cursor-pointer">
             Đóng
           </Button>
 
@@ -129,6 +129,7 @@ export const FormDetailTour = ({ tour,close, setEditingTour }) => {
               setEditingTour(tour);
               close();
             }}
+            className="cursor-pointer"
           >
             Sửa
           </Button>

@@ -25,7 +25,7 @@ const InputField = ({
       <input
         type={type}
         placeholder={placeholder}
-        className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-blue-500"
+        className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-primary"
         {...register}
       />
       {error && <p className="text-sm text-red-500">{error}</p>}
@@ -45,7 +45,7 @@ const FormField = () => {
   return (
     <form
       action=""
-      className="flex flex-col justify-between flex-1 p-20"
+      className="flex flex-col justify-between flex-1 gap-5 p-20"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="grid gap-10 lg:grid-cols-2">
@@ -57,13 +57,13 @@ const FormField = () => {
         />
         <InputField
           label="Mã đơn nếu có"
-          placeholder="KJSDKVB099"
+          placeholder=""
           {...register("orderCode")}
           error={errors.orderCode?.message}
         />
       </div>
       <InputField
-        label="email"
+        label="Email"
         placeholder="abckd@gmail.com"
         type="email"
         {...register("email")}
@@ -72,8 +72,8 @@ const FormField = () => {
       <div className="flex flex-col gap-2">
         <label className="font-medium text-gray-500">Tin nhắn</label>
         <textarea
-          rows={6}
-          className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-blue-500"
+          rows={4}
+          className="pb-2 text-lg border-b outline-none border-b-gray-400 placeholder:text-gray-400 focus:border-primary"
           {...register("message")}
         ></textarea>
         {errors.message && (
@@ -82,7 +82,7 @@ const FormField = () => {
       </div>
       <button
         type="submit"
-        className="mt-6 bg-linear-to-r from-slate-800 to-slate-900 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-100 transition-all"
+        className="mt-6 bg-linear-to-r  text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-100 transition-all bg-primary"
       >
         Gửi
       </button>
@@ -92,7 +92,7 @@ const FormField = () => {
 
 export const FromContact = () => {
   return (
-    <div className="w-full max-w-4xl min-h-[75vh] p-16 shadow-xl rounded-2xl  backdrop-blur-md flex flex-col">
+    <div className="w-full max-w-4xl min-h-[75vh] p-16 shadow-xl rounded-2xl  backdrop-blur-md flex flex-col bg-background">
       <h2 className="mb-12 text-4xl font-bold text-center text-slate-700">
         Liên hệ với chúng tôi
       </h2>

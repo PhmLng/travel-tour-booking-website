@@ -1,6 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { officeData } from "../../lib/data";
+import { MapPinHouse } from "lucide-react";
+import { Phone } from "lucide-react";
+import { Printer } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export const Adress = () => {
   const [i, setI] = useState(0);
@@ -9,12 +13,12 @@ export const Adress = () => {
     console.log(r);
   };
   return (
-    <div className="w-full bg-gray-100 shadow-xl rounded-2xl">
-      <div className="flex flex-wrap w-full h-auto gap-5 border-b border-gray-500 p-15 ">
+    <div className="shadow-xl backdrop-blur-mdw-full bg-background rounded-2xl">
+      <div className="flex flex-wrap w-full h-auto gap-5 border-b border-primary/30 p-15 ">
         {officeData.map((r, index) => {
           return (
             <div
-              className={`border rounded-full border-gray-500 w-fit px-5 text-center ${i === index ? "bg-gray-600" : "bg-none"} cursor-pointer`}
+              className={`border rounded border-gray-500 w-fit px-5 text-center ${i === index ? "bg-primary" : "bg-none"} cursor-pointer hover:bg-primary/10`}
               key={index}
             >
               <span
@@ -27,14 +31,26 @@ export const Adress = () => {
           );
         })}
       </div>
-      <div className="flex flex-col w-full gap-1 p-6 overflow-y-auto h-150 custom-scroll">
+      <div className="flex flex-col w-full gap-5 p-6 overflow-y-auto h-150 custom-scroll">
         {officeData[i].offices.map((office, index) => (
-          <div key={index} className="px-4 py-2">
+          <div key={index} className="flex flex-col gap-2 px-4 py-2">
             <h3 className="py-2 text-2xl font-semibold">{office.name}</h3>
-            <p> Địa chỉ: {office.address}</p>
-            <p> Hotline:{office.hotline}</p>
-            <p> Fax: {office.fax}</p>
-            <p> Email: {office.email}</p>
+            <p className="flex flex-row gap-3">
+              {" "}
+              <MapPinHouse /> Địa chỉ: {office.address}
+            </p>
+            <p className="flex flex-row gap-3">
+              {" "}
+              <Phone /> Hotline:{office.hotline}
+            </p>
+            <p className="flex flex-row gap-3">
+              {" "}
+              <Printer /> Fax: {office.fax}
+            </p>
+            <p className="flex flex-row gap-3">
+              {" "}
+              <Mail /> Email: {office.email}
+            </p>
           </div>
         ))}
       </div>

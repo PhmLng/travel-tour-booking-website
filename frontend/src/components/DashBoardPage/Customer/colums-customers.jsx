@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { IconDotsVertical } from "@tabler/icons-react"
 
-export const customersColumns = (handleDetail, handleDelete) => [
+export const customersColumns = (handleDetail) => [
   {
     accessorKey: "fullName",
     header: "Tên khách hàng",
@@ -47,10 +47,6 @@ export const customersColumns = (handleDetail, handleDelete) => [
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => handleDetail(row.original)}>
             Chi tiết
-          </DropdownMenuItem>
-
-          <DropdownMenuItem onClick={() => handleDelete(row.original.id)}>
-            Xóa
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

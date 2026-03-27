@@ -8,14 +8,14 @@ import { Testimonials } from "@/components/ContactPage/Testimonials";
 
 export const ContactPage = () => {
   return (
-    <div className="h-full bg-gray-200">
+    <div className="h-full bg-muted ">
       <div className="relative ">
         <Hero />
         <div className="absolute inset-0 w-3/4 mx-auto">
           <Nav />
         </div>
       </div>
-      <div className="relative flex flex-col px-10 py-1 mx-10 -mt-32 bg-white gap-30 ">
+      <div className="relative flex flex-col gap-20 px-10 py-1 mx-20 bg-popover -mt-25 rounded-2xl ">
         <div className="mt-20">
           <Counter />
         </div>
@@ -25,7 +25,7 @@ export const ContactPage = () => {
         <div className="">
           <FeQuestion />
         </div>
-        <div className="-mb-5 text-5xl font-bold text-center text-slate-700">
+        <div className="-mb-5 text-4xl font-bold text-center text-slate-700">
           Một số văn phòng của chúng tôi
         </div>
         <div className="relative min-h-screen overflow-hidden lg:flex">
@@ -39,7 +39,7 @@ export const ContactPage = () => {
             </div>
           </div>
         </div>
-        <div className="-mb-5 text-5xl font-bold text-center text-slate-700">
+        <div className="text-4xl font-bold text-center -mb15 mt-15 text-slate-710">
           Mọi thắc mắc xin vui lòng điền thông tin bên dưới
         </div>
         <div className="relative min-h-screen overflow-hidden">

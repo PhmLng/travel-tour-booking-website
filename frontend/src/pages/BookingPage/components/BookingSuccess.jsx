@@ -80,7 +80,7 @@ const BookingSuccess = ({
         <div className="bs-icon-ring">
           <FontAwesomeIcon icon={faCheckCircle} className="bs-check-icon" />
         </div>
-        <h2 className="bs-heading">Đặt tour thành công!</h2>
+        <h2 className="bs-heading">Thanh toán thành công!</h2>
         <p className="bs-subheading">
           Xác nhận sẽ được gửi đến <strong>{contact.email}</strong>
         </p>

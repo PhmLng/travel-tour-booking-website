@@ -15,7 +15,7 @@ public interface TourService {
     public TourDetailResponse getTourById(Long id);
     public  List<TourResponse> getAllToursByCategory(Long id);
     public List<TourResponse> SearchTourByTitle(String title);
-    public List<TourResponse> searchTours(String departure, String priceRange, LocalDateTime startDate);
+    public List<TourResponse> searchTours(String title,String departure, String priceRange, LocalDateTime startDate);
     public TourDetailResponse createTour(TourCreationRequest tour);
     public TourDetailResponse updateTour(Long id,TourUpdateRequest tourUpdateRequest );
     public void deleteTour(Long id);

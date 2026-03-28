@@ -22,7 +22,8 @@ public class TourController {
     private final TourService tourService;
 
     @GetMapping("")
-    public ResponseEntity<Page<TourResponse>> getAllTours(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "9") int size) {
+    public ResponseEntity<Page<TourResponse>> getAllTours(@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.getAllTours(page, size));
     }
 
@@ -30,26 +31,35 @@ public class TourController {
     public ResponseEntity<TourDetailResponse> getTourById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.getTourById(id));
     }
+
     @GetMapping(params = "categoryId")
     public ResponseEntity<List<TourResponse>> getToursByCategoryId(@RequestParam("categoryId") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.getAllToursByCategory(id));
     }
+
     @GetMapping("/search")
     public ResponseEntity<List<TourResponse>> searchTourByTitle(@RequestParam String title) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.SearchTourByTitle(title));
     }
+
     @GetMapping("/filter")
-    public ResponseEntity<List<TourResponse>> filterTour(@RequestParam String departure, @RequestParam String priceRange, @RequestParam LocalDateTime startDate) {
+    public ResponseEntity<List<TourResponse>> filterTour(@RequestParam(required = false) String departure,
+            @RequestParam(required = false) String priceRange,
+            @RequestParam(required = false) LocalDateTime startDate) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.searchTours(departure, priceRange, startDate));
     }
+
     @PostMapping("")
     public ResponseEntity<TourDetailResponse> createTour(@RequestBody TourCreationRequest tourCreationRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createTour(tourCreationRequest));
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<TourDetailResponse> updateTour(@PathVariable Long id, @RequestBody TourUpdateRequest tourUpdateRequest) {
+    public ResponseEntity<TourDetailResponse> updateTour(@PathVariable Long id,
+            @RequestBody TourUpdateRequest tourUpdateRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.updateTour(id, tourUpdateRequest));
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
         tourService.deleteTour(id);

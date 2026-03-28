@@ -1,21 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner";
 
+// Pages
 import HomePage from "./pages/HomePage/HomePage";
-import TourDetails from './pages/TourDetails/TourDetails';
-import CategoryPage from './pages/CategoryPage/CategoryPage';
-import BookingPage from './pages/BookingPage/BookingPage';
+import TourDetails from "./pages/TourDetails/TourDetails";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import BookingPage from "./pages/BookingPage/BookingPage";
+import BookingHistoryPage from "./pages/BookingHistoryPage/BookingHistoryPage";
+import RemainingPaymentPage from "./pages/RemainingPayment/RemainingPaymentPage";
 
 import { ContactPage } from "./pages/ContactPage";
 import Dashboard from "./pages/DashBoard";
 import { SignInPage } from "./pages/SignInPage";
 import { SignUpPage } from "./pages/SignUpPage";
-import BookingHistoryPage from "./pages/BookingHistoryPage/BookingHistoryPage";
-import RemainingPaymentPage from "./pages/RemainingPayment/RemainingPaymentPage";
+
+// Dashboard components
+import { BookingManage } from "./components/DashBoardPage/BookingManage/BookingManage";
+import { Customer } from "./components/DashBoardPage/Customer/Customer";
+import { ContentDashBoard } from "./components/DashBoardPage/DashBoardContent/ContentDashBoard";
+import { TourManage } from "./components/DashBoardPage/TourMangager/TourManage";
 
 function App() {
   return (
     <Router>
+      <Toaster richColors />
       <div className="App">
         <Routes>
 
@@ -32,12 +41,18 @@ function App() {
           <Route path="/category/:destination" element={<CategoryPage />} />
           <Route path="/booking/:id" element={<BookingPage />} />
 
-          {/* Dashboard */}
-          <Route path="/dashboard/*" element={<Dashboard />} />
-
+          {/* Booking */}
           <Route path="/booking-history" element={<BookingHistoryPage />} />
-
           <Route path="/bookings/:bookingId/payment" element={<RemainingPaymentPage />} />
+
+          {/* Dashboard */}
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="contentDashboard" element={<ContentDashBoard />} />
+            <Route path="tours" element={<TourManage />} />
+            <Route path="customers" element={<Customer />} />
+            <Route path="bookings" element={<BookingManage />} />
+          </Route>
+
         </Routes>
       </div>
     </Router>

@@ -7,6 +7,7 @@ import { ChartAreaInteractive } from "../../chart-area-interactive";
 import { DataTable } from "../../data-table";
 import { cardData } from "@/lib/data";
 import { customerColumns } from "./customer-colums";
+import { customersColumns } from "../Customer/colums-customers";
 const dataCustomer = data.customers;
 export const ContentDashBoard = () => {
   return (
@@ -19,7 +20,7 @@ export const ContentDashBoard = () => {
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive />
             </div>
-            <DataTable data={dataCustomer} columns={customerColumns()}/>
+            <DataTable data={dataCustomer} columns={customersColumns()}/>
           </div>
         </div>
       </div>

@@ -24,7 +24,9 @@ export const FeQuestion = () => {
               onClick={() => toggleFAQ(index)}
               className="flex items-center justify-between w-full text-left"
             >
-              <span className="text-lg font-semibold text-slate-700">
+              <span
+                className={`text-xl font-semibold ${openIndex === index ? "text-slate-700" : "text-slate-500"} `}
+              >
                 {faq.question}
               </span>
               {openIndex === index ? (

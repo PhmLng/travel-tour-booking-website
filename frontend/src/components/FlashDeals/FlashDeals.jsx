@@ -114,7 +114,7 @@ const FlashDeals = () => {
 
   return (
     <section className="flash-deals" id="flash-deals">
-      <div className="container">
+      <div className="flash-container ">
 
         <div className="section-header">
           <h2 className="section-titlee">ƯU ĐÃI NỔI BẬT</h2>

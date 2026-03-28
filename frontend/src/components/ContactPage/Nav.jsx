@@ -20,7 +20,7 @@ export const Nav = () => {
         </div>
         <Button
           variant="outline"
-          className="text-white bg-blue-500 hover:bg-blue-700 hover:text-white"
+          className="text-white bg-primary hover:bg-chart-3 hover:text-white"
         >
           Đặt lịch ngay
         </Button>

@@ -3,12 +3,11 @@
   background: #f8f9fa;
 }
 
-.container {
+.flash-container {
   max-width: 1200px;
   margin: auto;
   padding: 0 16px;
 }
-
 /* ===== HEADER ===== */
 .section-header {
   margin-top: 40px;

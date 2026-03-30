@@ -20,9 +20,7 @@ export const Customer = () => {
   const getDataCustomer = async () => {
     try {
       const res = await api.get("/passengers");
-      console.log(res.data);
       setDataCustomer(res.data.content);
-      toast.success("Lấy dữ liệu khách hàng thành công");
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu khách hàng:", error);
       toast.error("Lỗi khi lấy dữ liệu khách hàng");

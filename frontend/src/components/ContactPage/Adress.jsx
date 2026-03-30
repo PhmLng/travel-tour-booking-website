@@ -18,7 +18,7 @@ export const Adress = () => {
         {officeData.map((r, index) => {
           return (
             <div
-              className={`border rounded border-gray-500 w-fit px-5 text-center ${i === index ? "bg-primary" : "bg-none"} cursor-pointer hover:bg-primary/10`}
+              className={`border rounded-xl border-gray-500 w-fit px-5 text-center ${i === index ? "bg-primary" : "bg-none"} cursor-pointer hover:bg-primary/10`}
               key={index}
             >
               <span

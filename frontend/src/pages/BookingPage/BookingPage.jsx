@@ -18,7 +18,7 @@ const BASE_URL = "http://localhost:8080/api/v1";
 
 // ─── API helpers ──────────────────────────────────────────────────────────────
 export const bookingApi = {
-  create: (payload) =>
+  create: (payload) => 
     fetch(`${BASE_URL}/bookings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

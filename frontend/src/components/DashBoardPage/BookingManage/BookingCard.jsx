@@ -4,6 +4,14 @@ import { Trash2 } from "lucide-react";
 import { Check } from "lucide-react";
 
 const BookingCard = ({ item, onAction }) => {
+  const statusClasses = {
+    PENDING: "text-yellow-600 ",
+    CONFIRMED: "text-blue-600 ",
+    PAID: "text-green-600 ",
+    PARTIALLY_PAID: "text-teal-600 ",
+    CANCELED: "text-red-600 ",
+    CANCELED_PENDING: "text-gray-600 ",
+  };
   return (
     <div className="flex justify-between gap-4 p-5 border rounded shadow-sm bg-muted">
       <img
@@ -38,7 +46,11 @@ const BookingCard = ({ item, onAction }) => {
         </div>
       </div>
       <div className="flex flex-col items-end justify-between pl-4 min-w-10">
-        <span className="px-3 py-1 text-xs font-medium text-yellow-600 rounded">
+        <span
+          className={`px-3 py-1 text-xs font-medium rounded ${
+            statusClasses[item.status] || "text-gray-600 bg-gray-100"
+          }`}
+        >
           {item.status}
         </span>
 
@@ -49,7 +61,7 @@ const BookingCard = ({ item, onAction }) => {
               variant="none"
               className="w-10 px-3 py-1 text-sm rounded hover:text-primary text-foreground"
             >
-              <Check  className="w-5 h-5 scale-125" />
+              <Check className="w-5 h-5 scale-125" />
             </Button>
           )}
           <Button
@@ -57,7 +69,7 @@ const BookingCard = ({ item, onAction }) => {
             variant="none"
             className="px-3 py-1 text-sm rounded-sm cursor-pointer hover:text-destructive"
           >
-            <Trash2  />
+            <Trash2 />
           </Button>
         </div>
       </div>

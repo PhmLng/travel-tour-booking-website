@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { api } from "@/lib/axios";
 import { FormEdit } from "./FormEdit";
 import { FormDetailTour } from "./FormDetailTour";
+import { BuildTour } from "./BuildTour";
 
 const testTourData = data.tours;
 
@@ -28,10 +29,9 @@ export const TourManage = () => {
   // Lấy dữ liệu tour
   const getToursData = async () => {
     try {
-      const res = await api.get("/tours");
+      const res = await api.get("/tours?size=30");
       setToursData(res.data.content);
-      console.log(res.data);
-      toast.success("Lấy dữ liệu tour thành công");
+      console.log("Chi tiết tour:", res.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu tour:", error);
       toast.error("Lỗi khi lấy dữ liệu tour");
@@ -43,6 +43,7 @@ export const TourManage = () => {
     try {
       const res = await api.get(`/tours/${id}`);
       setDetailTour(res.data);
+
       setEditingTour(null);
       setOpenAddForm(false);
     } catch (error) {
@@ -61,7 +62,7 @@ export const TourManage = () => {
   // Mở form sửa
   const handleEdit = (tour) => {
     setEditingTour(tour);
-    
+
     console.log("Tour cần sửa:", tour);
   };
 
@@ -69,7 +70,7 @@ export const TourManage = () => {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/tours/${id}`);
-      toast.success("Xóa tour thành công");
+      setToursData((prev) => prev.filter((tour) => tour.id !== id));
       getToursData();
     } catch (error) {
       toast.error("Xóa tour thất bại");
@@ -82,7 +83,7 @@ export const TourManage = () => {
       <div className="flex flex-col ">
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards data={tourCardData} />
+            <SectionCards data={BuildTour({ content: toursData })} />
             <DataTable
               data={toursData}
               columns={columnsTour(handleEdit, handleDelete, handleDetail)}

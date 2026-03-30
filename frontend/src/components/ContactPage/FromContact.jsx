@@ -2,6 +2,7 @@ import React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 export const ContactSchema = z.object({
   fullName: z.string().min(2, "Vui lòng nhập họ tên"),
@@ -37,10 +38,22 @@ const FormField = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(ContactSchema) });
   const onSubmit = (data) => {
     console.log("Form data:", data);
+    localStorage.setItem("contactForm", JSON.stringify(data));
+    toast.success(
+      "Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi sớm nhất có thể.",
+    );
+    reset({
+      fullName: "",
+      orderCode: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
   };
   return (
     <form
@@ -68,6 +81,13 @@ const FormField = () => {
         type="email"
         {...register("email")}
         error={errors.email?.message}
+      />
+      <InputField
+        label="Số điện thoại"
+        placeholder="0123456789"
+        type="tel"
+        {...register("phone")}
+        error={errors.phone?.message}
       />
       <div className="flex flex-col gap-2">
         <label className="font-medium text-gray-500">Tin nhắn</label>

@@ -68,7 +68,7 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public List<TourResponse> searchTours(String departure, String priceRange, LocalDateTime startDate) {
+    public List<TourResponse> searchTours(String title,String departure, String priceRange, LocalDateTime startDate) {
         Double min = null;
         Double max = null;
 
@@ -81,7 +81,7 @@ public class TourServiceImpl implements TourService {
             }
         }
 
-        return tourMapper.tourListTourResponses(tourRepository.filterTours(departure, min, max, startDate));
+        return tourMapper.tourListTourResponses(tourRepository.filterTours(title,departure, min, max, startDate));
     }
 
     @Override

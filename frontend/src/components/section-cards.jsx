@@ -16,6 +16,8 @@ return (
       {data.map((item, index) => {
         const TrendIcon =
           item.trend === "up" ? IconTrendingUp : IconTrendingDown;
+          const trendColor =
+         item.trend === "up" ? "text-green-500" : "text-red-500";
 
         return (
           <Card key={index} className="@container/card">
@@ -28,7 +30,7 @@ return (
 
               <CardAction>
                 <Badge variant="outline">
-                  <TrendIcon />
+                  <TrendIcon className={trendColor}/>
                   {item.change}
                 </Badge>
               </CardAction>

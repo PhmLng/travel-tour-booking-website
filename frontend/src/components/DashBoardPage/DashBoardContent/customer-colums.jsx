@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button"
 import { IconDotsVertical } from "@tabler/icons-react"
 
 export const customerColumns = (handleEdit) => [
+   {
+  id: "stt",
+  header: "STT",
+  cell: ({ row }) => <div>{row.index + 1}</div>,
+},
   {
     accessorKey: "name",
     header: "Tên khách hàng",

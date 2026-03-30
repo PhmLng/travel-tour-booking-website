@@ -10,10 +10,10 @@ export const FeQuestion = () => {
   };
   return (
     <div className="max-w-4xl px-6 py-16 mx-auto">
-      <h2 className="mb-4 text-5xl font-bold text-center text-slate-700">
+      <h2 className="mb-3 font-bold text-center md:text-4xl text-primary">
         Câu hỏi thường gặp
       </h2>
-      <p className="mb-12 text-center text-slate-500">
+      <p className="mb-12 text-center text-muted-foreground">
         Nhiều người không trân trọng khoảnh khắc cho đến khi nó trôi qua.
       </p>
 

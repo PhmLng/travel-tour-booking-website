@@ -30,6 +30,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
 
 const data = {
   user: {
@@ -39,7 +40,7 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
+      title: "Tổng quan",
       url: "/dashboard/contentDashboard",
       icon: IconDashboard,
     },
@@ -48,11 +49,7 @@ const data = {
       url: "/dashboard/bookings",
       icon: IconListDetails,
     },
-    {
-      title: "Thống kê",
-      url: "/dashboard/reports",
-      icon: IconChartBar,
-    },
+
     {
       title: "Quản lý tour",
       url: "/dashboard/tours",
@@ -149,6 +146,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
+  const navigate = useNavigate();
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -157,9 +155,14 @@ export function AppSidebar({ ...props }) {
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
+               onClick={() => navigate("/")}
             >
               <a href="#">
-                <IconInnerShadowTop className="size-5!" />
+                <img
+                  src="/Logo1.png"
+                  alt="logo"
+                  className="object-cover w-8 h-8 rounded-full"
+                />
                 <span className="text-base ">Lạc Việt Travel</span>
               </a>
             </SidebarMenuButton>

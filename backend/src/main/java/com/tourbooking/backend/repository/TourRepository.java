@@ -28,12 +28,14 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
     public List<Tour> findByDeleted();
 
     @Query("SELECT t FROM Tour t WHERE " +
+            "(:title IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :title, '%'))) AND " + // Thêm dòng này
             "(:departure IS NULL OR t.departureLocation LIKE %:departure%) AND " +
             "(:minPrice IS NULL OR t.adultPrice >= :minPrice) AND " +
             "(:maxPrice IS NULL OR t.adultPrice <= :maxPrice) AND " +
             "(:startDate IS NULL OR t.startDate >= :startDate) AND " +
             "t.isDeleted = false")
     List<Tour> filterTours(
+            @Param("title") String title, // Thêm tham số này
             @Param("departure") String departure,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,

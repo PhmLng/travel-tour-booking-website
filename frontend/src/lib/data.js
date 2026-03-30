@@ -285,3 +285,42 @@ export const tourCardData = [
     sub: "Không thể đặt thêm",
   },
 ];
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Nguyễn Văn Hà",
+    username: "@nguyenvanha",
+    avatar: "./avata_1.jpg",
+    content:
+      "Đây là lần đầu mình đặt tour online nên ban đầu cũng hơi lo lắng. Tuy nhiên sau khi trải nghiệm thì mình thấy mọi thứ rất chuyên nghiệp, từ khâu tư vấn cho đến lịch trình. Hướng dẫn viên nhiệt tình, thân thiện và hỗ trợ đoàn rất tốt. Các địa điểm tham quan đều đẹp và đúng như mô tả. Mình sẽ tiếp tục ủng hộ trong những chuyến đi tiếp theo.",
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: "Trần Văn Hâ Hâ",
+    username: "@tranvanhaha",
+    avatar: "./avata_2.jpg",
+    content:
+      "Tour nhìn chung rất ổn, lịch trình hợp lý và không quá gấp gáp nên mình có thể tận hưởng chuyến đi một cách thoải mái. Hướng dẫn viên vui tính, tạo không khí rất tốt cho cả đoàn. Tuy nhiên phần ăn uống có thể cải thiện thêm một chút để đa dạng hơn. Tổng thể vẫn rất đáng tiền.",
+    rating: 4,
+  },
+  {
+    id: 3,
+    name: "Lê Thị Bê",
+    username: "@lethib",
+    avatar: "./avata_3.jpg",
+    content:
+      "Mình rất hài lòng với chất lượng dịch vụ. Từ lúc đặt tour cho đến khi kết thúc chuyến đi đều được hỗ trợ rất tận tình. Khách sạn sạch sẽ, di chuyển thuận tiện và lịch trình rõ ràng. Đặc biệt mình rất thích cách tổ chức chuyên nghiệp và đúng giờ. Chắc chắn mình sẽ quay lại và giới thiệu cho bạn bè.",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Phạm Văn Công",
+    username: "@phamc",
+    avatar: "./avata_4.png",
+    content:
+      "Chuyến đi khá ổn, các điểm tham quan đẹp và đúng kế hoạch. Tuy nhiên vẫn còn một vài điểm nhỏ cần cải thiện như thời gian nghỉ chưa hợp lý và một số dịch vụ chưa thực sự nổi bật. Nếu tối ưu thêm các chi tiết này thì trải nghiệm sẽ tốt hơn rất nhiều.",
+    rating: 3,
+  },
+];

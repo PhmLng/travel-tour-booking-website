@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 
 // Pages
@@ -20,6 +20,7 @@ import { BookingManage } from "./components/DashBoardPage/BookingManage/BookingM
 import { Customer } from "./components/DashBoardPage/Customer/Customer";
 import { ContentDashBoard } from "./components/DashBoardPage/DashBoardContent/ContentDashBoard";
 import { TourManage } from "./components/DashBoardPage/TourMangager/TourManage";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
   return (
@@ -27,7 +28,6 @@ function App() {
       <Toaster richColors />
       <div className="App">
         <Routes>
-
           {/* Auth */}
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
@@ -43,16 +43,26 @@ function App() {
 
           {/* Booking */}
           <Route path="/booking-history" element={<BookingHistoryPage />} />
-          <Route path="/bookings/:bookingId/payment" element={<RemainingPaymentPage />} />
+          <Route
+            path="/bookings/:bookingId/payment"
+            element={<RemainingPaymentPage />}
+          />
 
           {/* Dashboard */}
-          <Route path="/dashboard" element={<Dashboard />}>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute requiredRole="ROLE_ADMIN">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="contentDashboard" replace />} />
             <Route path="contentDashboard" element={<ContentDashBoard />} />
             <Route path="tours" element={<TourManage />} />
             <Route path="customers" element={<Customer />} />
             <Route path="bookings" element={<BookingManage />} />
           </Route>
-
         </Routes>
       </div>
     </Router>

@@ -24,28 +24,11 @@ const FlashDeals = () => {
 
   const searchParams = new URLSearchParams(location.search);
   const titleParam = searchParams.get("title") || "";
-  const dateParam = searchParams.get("date") || "";
-  const priceParam = searchParams.get("price") || "";
+  const dateParam = searchParams.get("startDate") || "";
+  const priceParam = searchParams.get("priceRange") || "";
 
   const isFiltering = titleParam || dateParam || priceParam;
 
-  // 🔥 Convert price
-  const convertPrice = (range) => {
-    switch (range) {
-      case "under-5m":
-        return 5000000;
-      case "5m-10m":
-        return 10000000;
-      case "10m-20m":
-        return 20000000;
-      case "over-20m":
-        return 999999999;
-      default:
-        return null;
-    }
-  };
-
-  // ─── Fetch data ───────────────────────────────────────────────
   useEffect(() => {
     const fetchDeals = async () => {
       setLoading(true);
@@ -53,13 +36,14 @@ const FlashDeals = () => {
         const params = new URLSearchParams();
 
         if (titleParam) params.append("title", titleParam);
-        if (dateParam) params.append("date", dateParam);
 
-        const price = convertPrice(priceParam);
-        if (price) params.append("price", price);
+        // ✅ Đảm bảo startDate luôn có T00:00:00 vì backend expect $date-time
+        if (dateParam) params.append("startDate", dateParam.includes("T") ? dateParam : `${dateParam}T00:00:00`);
 
-        let url = `${BASE_URL}/tours`;
+        // ✅ priceParam đã là số (vd: 10000000) do SearchSection đã convert
+        if (priceParam) params.append("priceRange", priceParam);
 
+        let url;
         if (params.toString()) {
           url = `${BASE_URL}/tours/search?${params.toString()}`;
         } else {
@@ -70,14 +54,10 @@ const FlashDeals = () => {
         if (!res.ok) throw new Error("Fetch thất bại");
 
         const data = await res.json();
-
-        const list = Array.isArray(data)
-          ? data
-          : data.content ?? data.data ?? [];
+        const list = Array.isArray(data) ? data : data.content ?? data.data ?? [];
 
         setDeals(list);
 
-        // chỉ set pagination khi không search
         if (!params.toString()) {
           setTotalPages(data.page?.totalPages ?? data.totalPages ?? 1);
         }
@@ -134,10 +114,7 @@ const FlashDeals = () => {
                   className="deal-item-link"
                 >
                   <div className="deal-item">
-                    <div
-                      className="deal-image"
-                      style={{ position: "relative" }}
-                    >
+                    <div className="deal-image" style={{ position: "relative" }}>
                       <img
                         src={deal.mainImage || "/no-image.jpg"}
                         alt={deal.title}
@@ -152,17 +129,11 @@ const FlashDeals = () => {
 
                       <div className="deal-info">
                         <div className="info-item">
-                          <FontAwesomeIcon
-                            icon={faMapMarkerAlt}
-                            className="icon"
-                          />
+                          <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
                           <span>Khởi hành: {deal.departureLocation}</span>
                         </div>
                         <div className="info-item">
-                          <FontAwesomeIcon
-                            icon={faCalendar}
-                            className="icon"
-                          />
+                          <FontAwesomeIcon icon={faCalendar} className="icon" />
                           <span>Ngày đi: {deal.startDate}</span>
                         </div>
                         <div className="info-item">
@@ -174,10 +145,7 @@ const FlashDeals = () => {
                       <div className="deal-footer">
                         <div className="price-box">
                           <span className="current-price">
-                            {(
-                              deal.adultPrice ?? deal.adult_price
-                            )?.toLocaleString("vi-VN")}{" "}
-                            ₫
+                            {(deal.adultPrice ?? deal.adult_price)?.toLocaleString("vi-VN")} ₫
                           </span>
                         </div>
                         <button className="book-btn">Đặt ngay</button>
@@ -188,15 +156,12 @@ const FlashDeals = () => {
               ))}
             </div>
 
-            {/* Pagination (chỉ khi không search) */}
             {!isFiltering && showAll && totalPages > 1 && (
               <div className="pagination">
                 {[...Array(totalPages)].map((_, index) => (
                   <button
                     key={index}
-                    className={`page-btn ${
-                      page === index ? "active" : ""
-                    }`}
+                    className={`page-btn ${page === index ? "active" : ""}`}
                     onClick={() => setPage(index)}
                   >
                     {index + 1}

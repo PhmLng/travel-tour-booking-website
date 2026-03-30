@@ -264,7 +264,7 @@ const Header = () => {
                   <div className="destination-column">
                     <h3>CHÂU Á</h3>
                     <ul>
-                      {["Thái Lan", "Singapore", "Nhật Bản"].map((dest) => (
+                      {["Trung Quốc", "Singapore", "Nhật Bản"].map((dest) => (
                         <li key={dest}>
                           <button onClick={() => handleDestinationClick(dest)}>{dest}</button>
                         </li>
@@ -274,7 +274,7 @@ const Header = () => {
                   <div className="destination-column">
                     <h3>CHÂU ÂU</h3>
                     <ul>
-                      {["Pháp", "Ý", "Thụy Sĩ"].map((dest) => (
+                      {["Pháp", "Anh", "Nga"].map((dest) => (
                         <li key={dest}>
                           <button onClick={() => handleDestinationClick(dest)}>{dest}</button>
                         </li>

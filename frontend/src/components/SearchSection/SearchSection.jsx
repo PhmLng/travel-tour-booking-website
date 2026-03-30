@@ -16,13 +16,13 @@ const SearchSection = () => {
 
     if (destination) params.set('title', destination);
 
-    if (date) params.set('startDate', `${date}T00:00:00`);
+    // ✅ Thêm date vào params
+    if (date) params.set('startDate', date);
 
-    // ✅ Backend expect số, không phải string
     const priceMap = {
       'under-5m': 'Dưới 5 triệu',
       '5m-10m': 'Từ 5 - 10 triệu',
-      '10m-20m': 'Từ 10 -20 triệu',  
+      '10m-20m': 'Từ 10 -20 triệu',
       'over-20m': 'Trên 20 triệu',
     };
     if (priceRange !== 'all') params.set('priceRange', priceMap[priceRange]);

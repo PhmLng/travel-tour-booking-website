@@ -36,11 +36,8 @@ const FlashDeals = () => {
         const params = new URLSearchParams();
 
         if (titleParam) params.append("title", titleParam);
-
-        // ✅ Đảm bảo startDate luôn có T00:00:00 vì backend expect $date-time
-        if (dateParam) params.append("startDate", dateParam.includes("T") ? dateParam : `${dateParam}T00:00:00`);
-
-        // ✅ priceParam đã là số (vd: 10000000) do SearchSection đã convert
+        // ❌ Không gửi startDate lên API vì backend lỗi 500 với LocalDateTime
+        // ✅ Sẽ filter ngày ở frontend sau khi nhận data
         if (priceParam) params.append("priceRange", priceParam);
 
         let url;
@@ -56,7 +53,12 @@ const FlashDeals = () => {
         const data = await res.json();
         const list = Array.isArray(data) ? data : data.content ?? data.data ?? [];
 
-        setDeals(list);
+        // ✅ Filter ngày ở frontend: chỉ lấy tour có startDate >= ngày người dùng chọn
+        const filtered = dateParam
+          ? list.filter(tour => tour.startDate && tour.startDate >= dateParam)
+          : list;
+
+        setDeals(filtered); // ✅ setDeals(filtered) thay vì setDeals(list)
 
         if (!params.toString()) {
           setTotalPages(data.page?.totalPages ?? data.totalPages ?? 1);

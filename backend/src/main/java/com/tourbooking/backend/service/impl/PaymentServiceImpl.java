@@ -63,7 +63,25 @@ public class PaymentServiceImpl implements PaymentService {
 
         return paymentMapper.toPaymentResponse(payment);
     }
+    public PaymentResponse processRemainingPayment(PaymentRequest paymentRequest) {
+        Booking booking = bookingRepository.findById(paymentRequest.getBookingId()).orElseThrow(() -> new NotFoundException("Booking not found"));
 
+        BigDecimal totalAmount =paymentRepository.sumPaidAmountByBookingId(booking.getId());
+        BigDecimal remainingAmount =booking.getTotalPrice().subtract(totalAmount);
+        Payment payment = new Payment();
+        payment.setBooking(booking);
+        payment.setAmount(remainingAmount);
+        payment.setTransactionCode("MOCK_PAYMENT"+ System.currentTimeMillis());
+        payment.setPaymentDate(LocalDateTime.now());
+        payment.setStatus(PaymentStatus.SUCCESS);
+        if(paymentRequest.getPaymentMethod()!=null) {
+            payment.setPaymentMethod(paymentRequest.getPaymentMethod());
+        }
+        paymentRepository.save(payment);
+        booking.setStatus(BookingStatus.PAID);
+        bookingRepository.save(booking);
+        return paymentMapper.toPaymentResponse(payment);
+    }
     @Override
     public RemainingAmountResponse getRemainingAmount(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new NotFoundException("Booking not found"));

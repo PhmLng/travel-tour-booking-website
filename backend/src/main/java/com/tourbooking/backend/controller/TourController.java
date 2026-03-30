@@ -43,9 +43,8 @@ public class TourController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<TourResponse>> filterTour(@RequestParam(required = false) String departure,
-            @RequestParam(required = false) String priceRange,
-            @RequestParam(required = false) LocalDateTime startDate) {
+
+    public ResponseEntity<List<TourResponse>> filterTour(@RequestParam(required = false) String departure, @RequestParam(required = false) String priceRange, @RequestParam(required = false) LocalDateTime startDate) {
         return ResponseEntity.status(HttpStatus.OK).body(tourService.searchTours(departure, priceRange, startDate));
     }
 

@@ -9,4 +9,5 @@ import java.math.BigDecimal;
 public interface PaymentService {
     public PaymentResponse processMockPayment(PaymentRequest paymentRequest);
     public RemainingAmountResponse getRemainingAmount(Long bookingId);
+    public PaymentResponse processRemainingPayment(PaymentRequest paymentRequest);
 }

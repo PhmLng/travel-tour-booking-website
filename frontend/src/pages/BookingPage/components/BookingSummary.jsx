@@ -104,10 +104,10 @@ const BookingSummary = ({
 
       {/* Discount input */}
       <div className="discount-row">
-        <div className="discount-label">
+        {/* <div className="discount-label">
           <FontAwesomeIcon icon={faTag} /> MÃ GIẢM GIÁ
-        </div>
-        <div className="discount-input-row">
+        </div> */}
+        {/* <div className="discount-input-row">
           <input
             type="text"
             placeholder="Nhập mã giảm giá"
@@ -125,7 +125,7 @@ const BookingSummary = ({
           >
             {discountValidating ? "..." : "Áp dụng"}
           </button>
-        </div>
+        </div> */}
         {discountStatus === "valid" && (
           <p className="discount-feedback valid">✓ Mã hợp lệ — giảm {formatPrice(discountAmount)}</p>
         )}

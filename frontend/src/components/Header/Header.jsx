@@ -44,7 +44,8 @@ const Header = () => {
   const [showNotif, setShowNotif] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
   const destinationTabs = ["NƯỚC NGOÀI", "TRONG NƯỚC"];
 
   // ── Load notifications ──
@@ -73,19 +74,31 @@ const Header = () => {
 
   // ── Đóng destination menu khi click ra ngoài ──
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    const handleClickOutside = (e) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
         setShowDestinationMenu(false);
       }
     };
+
     if (showDestinationMenu) {
       document.addEventListener("mousedown", handleClickOutside);
     }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showDestinationMenu]);
-
   // ── Sync user từ localStorage ──
   useEffect(() => {
     const handleStorageChange = () => {
@@ -116,7 +129,7 @@ const Header = () => {
 
   const handleUserClick = () => {
     if (user) {
-      handleLogout();
+      setShowUserMenu((prev) => !prev);
     } else {
       navigate("/signin");
     }
@@ -175,14 +188,24 @@ const Header = () => {
 
               <div className="currency">VND</div>
 
-              <button className="user-btn" onClick={handleUserClick}>
-                <FontAwesomeIcon icon={faUser} />
-                <span className="user-text">
-                  {user
-                    ? user.fullname || user.username || user.name || "Tài khoản"
-                    : "Đăng nhập"}
-                </span>
-              </button>
+              <div className="user-wrapper" ref={userMenuRef}>
+                <button className="user-btn" onClick={handleUserClick}>
+                  <FontAwesomeIcon icon={faUser} />
+                  <span className="user-text">
+                    {user
+                      ? user.fullname || user.username || user.name || "Tài khoản"
+                      : "Đăng nhập"}
+                  </span>
+                </button>
+
+                {user && showUserMenu && (
+                  <div className="user-dropdown">
+                    <button className="dropdown-item logout" onClick={handleLogout}>
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

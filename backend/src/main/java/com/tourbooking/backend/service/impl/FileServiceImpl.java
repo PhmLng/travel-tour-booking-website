@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             // 5. Trả về đường dẫn để FE dùng (chỉ là String thôi)
-            return "/uploads/" + fileName;
+            return "http://localhost:8080/uploads/" + fileName;
         } catch (IOException ex) {
             throw new RuntimeException("Không thể lưu file. Vui lòng thử lại!", ex);
         }

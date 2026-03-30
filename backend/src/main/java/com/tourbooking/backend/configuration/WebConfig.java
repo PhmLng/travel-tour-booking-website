@@ -20,7 +20,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String userDir = System.getProperty("user.dir");
+
+        // Cấu hình ánh xạ: /uploads/** -> đường dẫn vật lý trên ổ cứng
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:uploads/");
+                .addResourceLocations("file:" + userDir + "/uploads/");
     }
 }

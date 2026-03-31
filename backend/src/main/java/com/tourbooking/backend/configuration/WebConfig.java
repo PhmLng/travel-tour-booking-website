@@ -10,10 +10,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")  // hoặc cụ thể: "http://localhost:3000"
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(false)  // phải là false nếu allowedOrigins là "*"
+                .allowCredentials(false)
                 .maxAge(3600);
 
     }
@@ -22,7 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String userDir = System.getProperty("user.dir");
 
-        // Cấu hình ánh xạ: /uploads/** -> đường dẫn vật lý trên ổ cứng
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + userDir + "/uploads/");
     }

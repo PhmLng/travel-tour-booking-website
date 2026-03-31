@@ -8,14 +8,24 @@ const SearchSection = () => {
   const today = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
   const [destination, setDestination] = useState('');
-  const [date, setDate] = useState(''); // ✅ Mặc định rỗng
+  const [date, setDate] = useState('');
   const [priceRange, setPriceRange] = useState('all');
 
   const handleSearch = () => {
     const params = new URLSearchParams();
+
     if (destination) params.set('title', destination);
-    if (date) params.set('date', date);
-    if (priceRange !== 'all') params.set('price', priceRange);
+
+    // ✅ Thêm date vào params
+    if (date) params.set('startDate', date);
+
+    const priceMap = {
+      'under-5m': 'Dưới 5 triệu',
+      '5m-10m': 'Từ 5 - 10 triệu',
+      '10m-20m': 'Từ 10 -20 triệu',
+      'over-20m': 'Trên 20 triệu',
+    };
+    if (priceRange !== 'all') params.set('priceRange', priceMap[priceRange]);
 
     navigate(`/?${params.toString()}`);
     setTimeout(() => {
@@ -52,7 +62,6 @@ const SearchSection = () => {
               value={date}
               min={today}
               onChange={(e) => setDate(e.target.value)}
-              placeholder="Chọn ngày khởi hành"
             />
           </div>
 

@@ -44,7 +44,6 @@ const CategoryPage = () => {
   const decodedDest = decodeURIComponent(destination);
   const info = getDestinationInfo(decodedDest);
 
-  const [favorites, setFavorites] = useState([]);
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
 
@@ -59,11 +58,7 @@ const CategoryPage = () => {
     resetFilters,
   } = useCategoryTours(decodedDest);
 
-  const toggleFavorite = (id) =>
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
-    );
-
+ 
   // Props shared by both desktop sidebar and mobile drawer
   const filterProps = {
     selectedPrice, setSelectedPrice,
@@ -113,8 +108,7 @@ const CategoryPage = () => {
                   <TourCard
                     key={tour.id}
                     tour={tour}
-                    isFavorite={favorites.includes(tour.id)}
-                    onToggleFavorite={toggleFavorite}
+
                   />
                 ))}
               </div>

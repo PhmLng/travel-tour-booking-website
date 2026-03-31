@@ -2,7 +2,6 @@ package com.tourbooking.backend.dto.passenger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tourbooking.backend.entity.Booking;
 import lombok.Data;
-
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.tourbooking.backend.entity.Booking;
 import lombok.Data;

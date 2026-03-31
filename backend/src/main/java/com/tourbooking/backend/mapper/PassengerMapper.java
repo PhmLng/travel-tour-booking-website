@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 
 @Mapper(componentModel = "spring")
 public interface PassengerMapper {
+
     public Passenger toPassenger (PassengerRequest passengerRequest);
     @Mapping(target = "bookingId", source = "booking.id")
     public PassengerResponse toPassengerResponse (Passenger passenger);

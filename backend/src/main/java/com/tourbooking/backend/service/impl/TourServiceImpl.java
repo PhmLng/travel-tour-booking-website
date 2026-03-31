@@ -10,6 +10,7 @@ import com.tourbooking.backend.dto.tour_image.TourImageRequest;
 import com.tourbooking.backend.entity.Category;
 import com.tourbooking.backend.entity.Tour;
 import com.tourbooking.backend.entity.TourImage;
+import com.tourbooking.backend.enums.TourStatus;
 import com.tourbooking.backend.exception.NotFoundException;
 import com.tourbooking.backend.mapper.TourMapper;
 import com.tourbooking.backend.repository.CategoryRepository;
@@ -170,6 +171,7 @@ public class TourServiceImpl implements TourService {
         }
         Tour tour = tourRepository.findById(id).orElseThrow(()->new NotFoundException("Tour is not exist"));
         tour.setIsDeleted(true);
+        tour.setStatus(TourStatus.CANCELED);
         tourRepository.save(tour);
     }
 }

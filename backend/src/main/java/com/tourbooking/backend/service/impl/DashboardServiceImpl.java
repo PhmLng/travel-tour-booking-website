@@ -3,6 +3,8 @@ package com.tourbooking.backend.service.impl;
 import com.tourbooking.backend.dto.dashboard.DashboardResponse;
 import com.tourbooking.backend.dto.dashboard.MonthlyRevenueProjection;
 import com.tourbooking.backend.dto.dashboard.MonthlyRevenueResponse;
+import com.tourbooking.backend.enums.TourStatus;
+import com.tourbooking.backend.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DashboardServiceImpl {
+public class DashboardServiceImpl implements DashboardService {
 
     private final PaymentRepository paymentRepository;
 
@@ -30,7 +32,7 @@ public class DashboardServiceImpl {
         dashboardResponse.setTotalBookings(bookingRepository.count());
         dashboardResponse.setTotalUsers(userRepository.count());
         dashboardResponse.setTotalRevenue(paymentRepository.getTotalRevenue());
-        dashboardResponse.setActiveTours(tourRepository.countByStatus("AVAILABLE"));
+        dashboardResponse.setActiveTours(tourRepository.countByStatus(TourStatus.AVAILABLE));
 
         List<MonthlyRevenueProjection> projections = paymentRepository.getMonthlyRevenue();
         List<MonthlyRevenueResponse> revenueResponses = projections.stream()

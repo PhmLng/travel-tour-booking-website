@@ -2,6 +2,7 @@ package com.tourbooking.backend.repository;
 
 import com.tourbooking.backend.dto.tour.TourResponse;
 import com.tourbooking.backend.entity.Tour;
+import com.tourbooking.backend.enums.TourStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,5 +42,5 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
             @Param("maxPrice") Double maxPrice,
             @Param("startDate") LocalDateTime startDate
     );
-    public int countByStatus(String status);
+    public int countByStatus(TourStatus tourStatus);
 }

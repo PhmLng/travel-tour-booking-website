@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -271,21 +272,29 @@ export const FormEdit = ({ tour, getTourData, setEditingTour, setAddForm }) => {
               </select>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <Label className="block text-sm">Lịch trình</Label>
-              <Input {...register("itinerary")} />
-            </div>
+           <div className="flex flex-col gap-3">
+            <Label className="block text-sm">Lịch trình</Label>
+              <Textarea
+                {...register("itinerary")}
+                className="overflow-y-auto resize-none h-50"
+              />
+           </div>
 
-            <div className="flex flex-col gap-3">
-              <Label className="block text-sm">Chính sách</Label>
-              <Input {...register("policy")} />
-            </div>
+           <div className="flex flex-col gap-3">
+            <Label className="block text-sm">Chính sách</Label>
+              <Textarea
+                {...register("policy")}
+                className="overflow-y-auto resize-none h-50"
+              />
+           </div>
 
             <div className="flex flex-col gap-3">
               <Label className="block text-sm">Hướng dẫn đăng ký</Label>
-              <Input {...register("registrationGuide")} />
+              <Textarea
+                {...register("registrationGuide")}
+                className="overflow-y-auto resize-none h-50"
+              />
             </div>
-
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
                 <Label className="block text-sm">Ảnh chính</Label>

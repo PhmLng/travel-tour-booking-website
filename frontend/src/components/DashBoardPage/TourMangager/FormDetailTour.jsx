@@ -1,10 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import React from "react";
 
-export const FormDetailTour = ({ tour,close, setEditingTour }) => {
+export const FormDetailTour = ({ tour, close, setEditingTour }) => {
   if (!tour) return null;
 
   return (
@@ -16,9 +17,7 @@ export const FormDetailTour = ({ tour,close, setEditingTour }) => {
         value="outline"
         className="relative flex flex-col gap-4 px-4 overflow-auto lg:px-6"
       >
-        <h2 className="m-5 text-2xl font-bold text-center">
-          Chi tiết Tour
-        </h2>
+        <h2 className="m-5 text-2xl font-bold text-center">Chi tiết Tour</h2>
 
         <div className="grid grid-cols-2 gap-6">
           {/* Tên tour */}
@@ -88,19 +87,31 @@ export const FormDetailTour = ({ tour,close, setEditingTour }) => {
           {/* Lịch trình */}
           <div className="flex flex-col gap-3">
             <Label>Lịch trình</Label>
-            <Input value={tour.itinerary || ""} disabled />
+            <Textarea
+              value={tour?.itinerary || ""}
+              disabled
+              className="overflow-y-auto resize-none h-50"
+            />
           </div>
 
           {/* Chính sách */}
           <div className="flex flex-col gap-3">
             <Label>Chính sách</Label>
-            <Input value={tour.policy || ""} disabled />
+            <Textarea
+              value={tour?.policy || ""}
+              disabled
+              className="overflow-y-auto resize-none h-50"
+            />
           </div>
 
           {/* Hướng dẫn đăng ký */}
           <div className="flex flex-col gap-3">
             <Label>Hướng dẫn đăng ký</Label>
-            <Input value={tour.registrationGuide || ""} disabled />
+            <Textarea
+              value={tour?.registrationGuide || ""}
+              disabled
+              className="overflow-y-auto resize-none h-50"
+            />
           </div>
 
           {/* Ảnh chính */}

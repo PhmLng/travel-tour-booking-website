@@ -10,8 +10,71 @@ import { customerColumns } from "./customer-colums";
 import { customersColumns } from "../Customer/colums-customers";
 import { ChartAreaLinear } from "@/components/ChartAreaLinear";
 import { ChartAreaDefault } from "@/components/ChartAreaDefault";
-const dataCustomer = data.customers;
+import { api } from "@/lib/axios";
+import { useEffect, useState } from "react";
 export const ContentDashBoard = () => {
+  const mapDashboardData = (data) => {
+    return [
+      {
+        description: "Tour đã đặt",
+        value: data.totalBookings.toString(),
+        change: "+0",
+        trend: "up",
+        note: "So với tuần trước",
+        sub: "Số tour khách đã đặt",
+      },
+      {
+        description: "Khách hàng mới",
+        value: data.totalUsers.toString(),
+        change: "+0",
+        trend: "up",
+        note: "Người dùng đăng ký",
+        sub: "Tổng số khách hàng",
+      },
+      {
+        description: "Tour đang hoạt động",
+        value: (data.activeTours-2).toString(),
+        change: "+0",
+        trend: "up",
+        note: "Tour đang mở bán",
+        sub: "Tour còn nhận khách",
+      },
+      {
+        description: "Doanh thu",
+        value: formatCurrency(data.totalRevenue),
+        change: "+0%",
+        trend: "up",
+        note: "Tổng doanh thu",
+        sub: "Từ các tour đã đặt",
+      },
+    ];
+  };
+  const formatCurrency = (number) => {
+    if (!number) return "0";
+
+    if (number >= 1_000_000_000) {
+      return (number / 1_000_000_000).toFixed(1) + "B";
+    }
+    if (number >= 1_000_000) {
+      return (number / 1_000_000).toFixed(1) + "M";
+    }
+    return number.toString();
+  };
+  const [cardData, setCardData] = useState([]);
+
+  useEffect(() => {
+    fetchDashboard();
+  }, []);
+
+  const fetchDashboard = async () => {
+    try {
+      const res = await api.get("/dashboards");
+      const mapped = mapDashboardData(res.data);
+      setCardData(mapped);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <SidebarInset>
       <SiteHeader />

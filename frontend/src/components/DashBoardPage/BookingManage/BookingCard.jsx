@@ -64,13 +64,6 @@ const BookingCard = ({ item, onAction }) => {
               <Check className="w-5 h-5 scale-125" />
             </Button>
           )}
-          <Button
-            onClick={() => onAction(item, "DELETE")}
-            variant="none"
-            className="px-3 py-1 text-sm rounded-sm cursor-pointer hover:text-destructive"
-          >
-            <Trash2 />
-          </Button>
         </div>
       </div>
     </div>

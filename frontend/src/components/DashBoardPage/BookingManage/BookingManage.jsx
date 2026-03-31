@@ -23,10 +23,6 @@ export const BookingManage = () => {
   useEffect(() => {
   getAllBookings();
 }, []);
-
-  // useEffect(() => {
-  //   getDataBooking(status);
-  // }, [status]);
   const getAllBookings = async () => {
   const res = await api.get("/bookings");
   setAllBookings(res.data);
@@ -71,14 +67,6 @@ const counts = {
       if (action === "APPROVE_CANCEL") {
         await api.post(`/bookings/${item.Id}/approval-cancel`);
         toast.success("Đã duyệt huỷ booking");
-      }
-
-      if (action === "DELETE") {
-        const ok = confirm("Bạn có chắc muốn xóa booking này?");
-        if (!ok) return;
-
-        await api.delete(`/bookings/${item.Id}`);
-        toast.success("Xóa booking thành công");
       }
       getDataBooking(status);
     } catch (error) {
